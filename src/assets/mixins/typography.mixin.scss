@@ -1,0 +1,21 @@
+@import 'styles/variables';
+
+@mixin h1 {
+    @apply prose-2xl font-bold;
+}
+
+@mixin h2 {
+    @apply prose-xl font-medium;
+}
+
+@mixin h3 {
+    @apply prose-lg font-normal;
+}
+
+@mixin paragraph {
+    @apply text-base font-normal;
+}
+
+@mixin paragraph-small {
+    @apply text-sm font-normal;
+}

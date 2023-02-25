@@ -5,15 +5,28 @@
 /*TAILWIND*/
 
 @import 'styles/variables';
+@import 'mixins/typography.mixin';
 
 html {
     margin: 0;
 }
 
 h1 {
-    @apply text-lg font-bold;
+    @include h1;
 }
 
 h2 {
-    @apply text-base font-semibold;
+    @include h2;
+}
+
+h3 {
+    @include h3;
+}
+
+.paragraph {
+    @include paragraph;
+}
+
+.paragraph-small {
+    @include paragraph-small;
 }
