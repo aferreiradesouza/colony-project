@@ -1,3 +1,10 @@
-<button type="button" class="">
-    Button text
+<button
+    type="button"
+    [class.disabled:opacity-75]="disabled || loading"
+    [attr.disabled]="disabled || loading || null"
+    class="btn"
+    [ngClass]="getClass()"
+    (click)="handlerEvent()"
+>
+    {{ loading ? 'Carregando...' : label }}
 </button>

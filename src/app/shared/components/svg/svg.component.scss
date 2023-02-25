@@ -1,0 +1,16 @@
+:host {
+    --fill: #fff;
+    --stroke: #000;
+    --width: 20px;
+    --height: 20px;
+}
+
+svg {
+    width: var(--width);
+    height: var(--height);
+}
+
+use {
+    fill: var(--fill);
+    stroke: var(--stroke);
+}

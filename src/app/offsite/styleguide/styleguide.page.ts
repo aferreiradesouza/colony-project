@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-styleguide',
     templateUrl: 'styleguide.page.html'
 })
 
-export class StyleguidePage implements OnInit {
+export class StyleguidePage {
     constructor() { }
-
-    ngOnInit() { }
 }

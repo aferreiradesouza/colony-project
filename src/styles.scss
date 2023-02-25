@@ -7,3 +7,11 @@
 html {
     margin: 0;
 }
+
+h1 {
+    @apply text-lg font-bold;
+}
+
+h2 {
+    @apply text-base font-semibold;
+}
