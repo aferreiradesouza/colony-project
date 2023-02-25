@@ -8,7 +8,6 @@ export enum ButtonSizeEnum {
 
 export enum ButtonTypeEnum {
     default,
-    secondary,
     outline,
 }
 

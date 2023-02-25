@@ -1,0 +1,37 @@
+$primary: theme('colors.blue.500');
+$primaryShade: theme('colors.blue.700');
+$primaryTint: theme('colors.blue.300');
+$primaryContrast: theme('colors.white');
+
+$secondary: theme('colors.blue.200');
+$secondaryShade: theme('colors.blue.300');
+$secondaryTint: theme('colors.blue.100');
+$secondaryContrast: theme('colors.blue.600');
+
+$terciary: theme('colors.gray.300');
+$terciaryShade: theme('colors.gray.500');
+$terciaryTint: theme('colors.gray.100');
+$terciaryContrast: theme('colors.gray.700');
+
+$danger: theme('colors.red.500');
+$dangerShade: theme('colors.red.700');
+$dangerTint: theme('colors.red.300');
+$dangerContrast: theme('colors.white');
+
+$success: theme('colors.green.500');
+$successShade: theme('colors.green.700');
+$successTint: theme('colors.green.400');
+$successContrast: theme('colors.white');
+
+$warning: theme('colors.yellow.500');
+$warningShade: theme('colors.yellow.700');
+$warningTint: theme('colors.yellow.400');
+$warningContrast: theme('colors.white');
+
+$info: theme('colors.cyan.500');
+$infoShade: theme('colors.cyan.700');
+$infoTint: theme('colors.cyan.400');
+$infoContrast: theme('colors.white');
+
+$neutralWhite: theme('colors.white');
+$neutralGray: theme('colors.gray.700');

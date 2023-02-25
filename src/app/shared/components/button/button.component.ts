@@ -34,10 +34,10 @@ export class ButtonComponent {
         switch (ButtonTypeEnum[this.type]) {
             case ButtonTypeEnum.default:
                 return 'default';
+
             case ButtonTypeEnum.outline:
-                return 'outline';
-            case ButtonTypeEnum.secondary:
-                return 'secondary';
+                return 'simple-outline';
+
             default:
                 return '';
         }
@@ -46,25 +46,25 @@ export class ButtonComponent {
     get themeClass(): string {
         switch (ButtonThemeEnum[this.theme]) {
             case ButtonThemeEnum.primary:
-                return 'border-transparent bg-blue-500 text-white enabled:hover:bg-blue-700 focus:ring-blue-500';
+                return 'primary';
 
             case ButtonThemeEnum.secondary:
-                return 'border-transparent bg-blue-100 text-blue-700 enabled:hover:bg-blue-200 focus:ring-blue-100';
+                return 'secondary';
 
             case ButtonThemeEnum.terciary:
-                return 'border-gray-300 bg-white text-gray-700 focus:ring-gray-100';
+                return 'terciary';
 
             case ButtonThemeEnum.danger:
-                return 'border-transparent bg-red-600 text-white enabled:hover:bg-red-700 focus:ring-red-600';
+                return 'danger';
 
             case ButtonThemeEnum.warning:
-                return 'border-transparent bg-yellow-500 text-white enabled:hover:bg-yellow-600 focus:ring-yellow-500';
+                return 'warning';
 
             case ButtonThemeEnum.info:
-                return 'border-transparent bg-cyan-500 text-white enabled:hover:bg-cyan-600 focus:ring-cyan-500';
+                return 'info';
 
             case ButtonThemeEnum.success:
-                return 'border-transparent bg-green-500 text-white enabled:hover:bg-green-600 focus:ring-green-500';
+                return 'success';
 
             default:
                 return '';
@@ -75,14 +75,19 @@ export class ButtonComponent {
         switch (ButtonSizeEnum[this.size]) {
             case ButtonSizeEnum.tiny:
                 return 'px-2.5 py-1.5 text-xs';
+
             case ButtonSizeEnum.small:
                 return 'px-3 py-2 text-sm';
+
             case ButtonSizeEnum.medium:
                 return 'px-4 py-2 text-sm';
+
             case ButtonSizeEnum.big:
                 return 'px-4 py-2 text-base';
+
             case ButtonSizeEnum.giant:
                 return 'px-6 py-3 text-base';
+
             default:
                 return '';
         }

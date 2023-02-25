@@ -1,0 +1,150 @@
+@import 'styles/variables';
+
+@mixin primaryButton {
+    color: $primaryContrast;
+    background-color: $primary;
+    border-color: transparent;
+
+    &:active:enabled {
+        background-color: $primaryShade;
+    }
+
+    &.simple-outline {
+        border-color: $primary;
+        background-color: transparent;
+        color: $primary;
+        border-width: 1px;
+
+        &:hover:enabled {
+            background-color: $primary;
+            color: $neutralWhite;
+        }
+
+        &:active:enabled {
+            background-color: $primaryShade;
+        }
+    }
+}
+
+@mixin secondaryButton {
+    color: $secondaryContrast;
+    background-color: $secondary;
+    border-color: transparent;
+
+    &:active:enabled {
+        background-color: $secondaryShade;
+    }
+}
+
+@mixin terciaryButton {
+    color: $terciaryContrast;
+    background-color: $neutralWhite;
+
+    &:active:enabled {
+        background-color: $terciaryTint;
+    }
+}
+
+@mixin dangerButton {
+    color: $dangerContrast;
+    background-color: $danger;
+    border-color: transparent;
+
+    &:active:enabled {
+        background-color: $dangerShade;
+    }
+
+    &.simple-outline {
+        border-color: $danger;
+        background-color: transparent;
+        color: $danger;
+        border-width: 1px;
+
+        &:hover:enabled {
+            background-color: $danger;
+            color: $neutralWhite;
+        }
+
+        &:active:enabled {
+            background-color: $dangerShade;
+        }
+    }
+}
+
+@mixin successButton {
+    color: $successContrast;
+    background-color: $success;
+    border-color: transparent;
+
+    &:active:enabled {
+        background-color: $successShade;
+    }
+
+    &.simple-outline {
+        border-color: $success;
+        background-color: transparent;
+        color: $success;
+        border-width: 1px;
+
+        &:hover:enabled {
+            background-color: $success;
+            color: $neutralWhite;
+        }
+
+        &:active:enabled {
+            background-color: $successShade;
+        }
+    }
+}
+
+@mixin warningButton {
+    color: $warningContrast;
+    background-color: $warning;
+    border-color: transparent;
+
+    &:active:enabled {
+        background-color: $warningShade;
+    }
+
+    &.simple-outline {
+        border-color: $warning;
+        background-color: transparent;
+        color: $warning;
+        border-width: 1px;
+
+        &:hover:enabled {
+            background-color: $warning;
+            color: $neutralWhite;
+        }
+
+        &:active:enabled {
+            background-color: $warningShade;
+        }
+    }
+}
+
+@mixin infoButton {
+    color: $infoContrast;
+    background-color: $info;
+    border-color: transparent;
+
+    &:active:enabled {
+        background-color: $infoShade;
+    }
+
+    &.simple-outline {
+        border-color: $info;
+        background-color: transparent;
+        color: $info;
+        border-width: 1px;
+
+        &:hover:enabled {
+            background-color: $info;
+            color: $neutralWhite;
+        }
+
+        &:active:enabled {
+            background-color: $infoShade;
+        }
+    }
+}

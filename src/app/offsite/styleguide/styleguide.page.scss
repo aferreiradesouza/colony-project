@@ -1,0 +1,103 @@
+@import 'styles/variables';
+
+.color {
+    @apply flex items-center justify-center rounded-lg p-3 shadow-lg;
+
+    &.primary {
+        background-color: $primary;
+
+        &.shade {
+            background-color: $primaryShade;
+        }
+        &.tint {
+            background-color: $primaryTint;
+        }
+        &.contrast {
+            background-color: $primaryContrast;
+        }
+    }
+
+    &.secondary {
+        background-color: $secondary;
+
+        &.shade {
+            background-color: $secondaryShade;
+        }
+        &.tint {
+            background-color: $secondaryTint;
+        }
+        &.contrast {
+            background-color: $secondaryContrast;
+        }
+    }
+
+    &.terciary {
+        background-color: $terciary;
+
+        &.shade {
+            background-color: $terciaryShade;
+        }
+        &.tint {
+            background-color: $terciaryTint;
+        }
+        &.contrast {
+            background-color: $terciaryContrast;
+        }
+    }
+
+    &.danger {
+        background-color: $danger;
+
+        &.shade {
+            background-color: $dangerShade;
+        }
+        &.tint {
+            background-color: $dangerTint;
+        }
+        &.contrast {
+            background-color: $dangerContrast;
+        }
+    }
+
+    &.success {
+        background-color: $success;
+
+        &.shade {
+            background-color: $successShade;
+        }
+        &.tint {
+            background-color: $successTint;
+        }
+        &.contrast {
+            background-color: $successContrast;
+        }
+    }
+
+    &.warning {
+        background-color: $warning;
+
+        &.shade {
+            background-color: $warningShade;
+        }
+        &.tint {
+            background-color: $warningTint;
+        }
+        &.contrast {
+            background-color: $warningContrast;
+        }
+    }
+
+    &.info {
+        background-color: $info;
+
+        &.shade {
+            background-color: $infoShade;
+        }
+        &.tint {
+            background-color: $infoTint;
+        }
+        &.contrast {
+            background-color: $infoContrast;
+        }
+    }
+}
