@@ -20,3 +20,11 @@ export enum ButtonThemeEnum {
     info,
     success,
 }
+
+export enum TextTypesEnum {
+    h1,
+    h2,
+    h3,
+    paragraph,
+    paragraphSmall
+}

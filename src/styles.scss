@@ -11,15 +11,15 @@ html {
     margin: 0;
 }
 
-h1 {
+.h1 {
     @include h1;
 }
 
-h2 {
+.h2 {
     @include h2;
 }
 
-h3 {
+.h3 {
     @include h3;
 }
 

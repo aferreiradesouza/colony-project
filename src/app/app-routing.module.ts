@@ -7,7 +7,11 @@ const routes: Routes = [
         path: 'offsite',
         loadChildren: () =>
             import('./offsite/offsite.module').then((m) => m.OffsiteModule),
-        data: { title: 'Admin' },
+    },
+    {
+        path: 'summary',
+        loadChildren: () =>
+            import('./summary/summary.module').then((m) => m.SummaryModule),
     },
 ];
 @NgModule({
