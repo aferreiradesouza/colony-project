@@ -2,16 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-    { path: '', redirectTo: 'offsite', pathMatch: 'full' },
+    {
+        path: '',
+        loadChildren: () =>
+            import('./admin/admin.module').then((m) => m.AdminModule),
+    },
     {
         path: 'offsite',
         loadChildren: () =>
             import('./offsite/offsite.module').then((m) => m.OffsiteModule),
-    },
-    {
-        path: 'summary',
-        loadChildren: () =>
-            import('./summary/summary.module').then((m) => m.SummaryModule),
     },
 ];
 @NgModule({

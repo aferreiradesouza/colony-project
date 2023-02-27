@@ -5,6 +5,7 @@
 
     &.primary {
         background-color: $primary;
+        color: $primaryContrast;
 
         &.shade {
             background-color: $primaryShade;
@@ -14,11 +15,13 @@
         }
         &.contrast {
             background-color: $primaryContrast;
+            color: $primary;
         }
     }
 
     &.secondary {
         background-color: $secondary;
+        color: $secondaryContrast;
 
         &.shade {
             background-color: $secondaryShade;
@@ -28,11 +31,13 @@
         }
         &.contrast {
             background-color: $secondaryContrast;
+            color: $secondary;
         }
     }
 
     &.terciary {
         background-color: $terciary;
+        color: $terciaryContrast;
 
         &.shade {
             background-color: $terciaryShade;
@@ -42,11 +47,13 @@
         }
         &.contrast {
             background-color: $terciaryContrast;
+            color: $terciary;
         }
     }
 
     &.danger {
         background-color: $danger;
+        color: $dangerContrast;
 
         &.shade {
             background-color: $dangerShade;
@@ -56,11 +63,13 @@
         }
         &.contrast {
             background-color: $dangerContrast;
+            color: $danger;
         }
     }
 
     &.success {
         background-color: $success;
+        color: $successContrast;
 
         &.shade {
             background-color: $successShade;
@@ -70,11 +79,13 @@
         }
         &.contrast {
             background-color: $successContrast;
+            color: $success;
         }
     }
 
     &.warning {
         background-color: $warning;
+        color: $warningContrast;
 
         &.shade {
             background-color: $warningShade;
@@ -84,11 +95,13 @@
         }
         &.contrast {
             background-color: $warningContrast;
+            color: $warning;
         }
     }
 
     &.info {
         background-color: $info;
+        color: $infoContrast;
 
         &.shade {
             background-color: $infoShade;
@@ -98,6 +111,7 @@
         }
         &.contrast {
             background-color: $infoContrast;
+            color: $info;
         }
     }
 }

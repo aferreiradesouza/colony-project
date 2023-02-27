@@ -1,0 +1,11 @@
+<div class="menu-area">
+    <div class="logo flex items-center justify-center shadow">LOGO</div>
+    <div class="menu-items">
+        <div class="item flex items-center gap-1 p-2" *ngFor="let item of menu">
+            <div class="icon mr-2 rounded-lg p-1 shadow shadow-white">
+                <app-svg [symbol]="item.icon"></app-svg>
+            </div>
+            {{ item.label }}
+        </div>
+    </div>
+</div>

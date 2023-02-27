@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { SummaryRoutingModule } from './summary-routing.module';
 import { SummaryPage } from './summary.page';
 
@@ -11,4 +11,4 @@ const PAGES = [SummaryPage];
     declarations: [...PAGES],
     providers: [],
 })
-export class SummaryModule { }
+export class SummaryModule {}
