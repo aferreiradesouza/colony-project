@@ -3,8 +3,8 @@ import {
     ButtonSizeEnum,
     ButtonThemeEnum,
     ButtonTypeEnum,
-} from '../../types/enum';
-import { ButtonSize, ButtonTheme, ButtonType } from '../../types/type';
+} from '../../interface/enum';
+import { ButtonSize, ButtonTheme, ButtonType } from '../../interface/type';
 
 @Component({
     selector: 'app-button',

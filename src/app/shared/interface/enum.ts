@@ -26,5 +26,11 @@ export enum TextTypesEnum {
     h2,
     h3,
     paragraph,
-    paragraphSmall
+    paragraphSmall,
+}
+
+export enum MenuEnum {
+    settlers,
+    base,
+    summary,
 }

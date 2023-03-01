@@ -13,15 +13,18 @@
     background-color: $primaryShade;
 }
 
+.section {
+    color: $primaryContrast;
+    opacity: 0.4;
+    @include paragraph-small;
+    font-size: 0.75rem;
+}
+
 .item {
     color: $primaryContrast;
     transition: 0.2s background-color;
     @include paragraph-small;
     cursor: pointer;
-
-    &:first-child {
-        @apply mt-2;
-    }
 
     &:hover {
         background-color: $primaryShade;

@@ -1,0 +1,21 @@
+{
+    "MENU": {
+        "GENERAL": {
+            "SECTION": "Geral",
+            "SUMMARY": "Resumo",
+            "BASE": "Base",
+            "SETTLERS": "Colonos"
+        },
+        "WORLD": {
+            "SECTION": "Mundo",
+            "SUMMARY": "Resumo",
+            "BASE": "Base",
+            "SETTLERS": "Colonos"
+        }
+    },
+    "PAGES": {
+        "SUMMARY": {
+            "TITLE": "Resumo 123"
+        }
+    }
+}

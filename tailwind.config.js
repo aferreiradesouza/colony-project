@@ -5,7 +5,6 @@ module.exports = {
     content: ['./src/**/*.{html,ts}'],
     theme: {},
     plugins: [
-        require('tailwind-heropatterns'),
         require('@tailwindcss/typography'),
         require('@tailwindcss/forms'),
         require('@tailwindcss/line-clamp'),

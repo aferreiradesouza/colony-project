@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { TranslateStore } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
 import { SummaryRoutingModule } from './summary-routing.module';
 import { SummaryPage } from './summary.page';

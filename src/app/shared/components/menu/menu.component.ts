@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { MENU } from './menu.constant';
 
 @Component({
     selector: 'app-menu',
@@ -6,11 +8,11 @@ import { Component } from '@angular/core';
     styleUrls: ['menu.component.scss'],
 })
 export class MenuComponent {
-    public menu = [
-        { label: 'Resumo', icon: 'chart-bar-square' },
-        { label: 'Base', icon: 'home' },
-        { label: 'Colonos', icon: 'user-group' },
-    ];
+    public menu = MENU;
 
-    constructor() {}
+    constructor(public router: Router) {}
+
+    clickMenu(url: string): void {
+        this.router.navigateByUrl(url);
+    }
 }
