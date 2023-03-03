@@ -1,7 +1,27 @@
 @import 'styles/variables';
+@import 'mixins/media.mixin';
 
 .router-outlet-area {
     min-height: calc(100% - 66.4px);
     position: relative;
     overflow-y: auto;
+}
+
+.menu-area {
+    z-index: 2;
+}
+
+.overlay-from-menu {
+    background-color: #{$lightContrast}60;
+    filter: blur(100%);
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    @include lg {
+        display: none !important;
+    }
 }

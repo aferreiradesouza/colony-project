@@ -2,7 +2,9 @@
     <div class="menu-area w-fit">
         <app-menu [isOpen]="menuIsOpen"></app-menu>
     </div>
-    <div class="content-page flex w-full flex-col" (click)="contentClick($event)">
+    <div class="content-page flex w-full flex-col">
+        <div class="overlay-from-menu" *ngIf="menuIsOpen" [@fadeInOnEnter] [@fadeOutOnLeave] (click)="contentClick()">
+        </div>
         <div class="header-area">
             <app-header (clickMenu)="toggle()"></app-header>
         </div>
