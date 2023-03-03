@@ -1,12 +1,13 @@
-<div class="header flex justify-between">
-    <div class="title-area flex-1 border-b shadow-sm">
-        <div
-            class="title m-4 flex w-fit rounded-lg border py-1 px-1 pr-3 shadow"
-        >
-            <div class="icon mr-2 rounded-lg border border-gray-500 p-1 shadow">
+<div class="header">
+    <div class="title-area">
+        <div class="title ml-4 flex w-fit rounded-lg py-1 px-1 pr-3">
+            <div class="icon mr-2 rounded-md p-1 shadow">
                 <app-svg [symbol]="icon"></app-svg>
             </div>
             {{ title | translate }}
         </div>
+    </div>
+    <div class="settings-area p-4">
+        settings
     </div>
 </div>

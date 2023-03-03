@@ -1,0 +1,58 @@
+@import 'styles/variables';
+@import 'mixins/media.mixin';
+@import 'mixins/typography.mixin';
+
+.action-tabs {
+    width: 307px;
+    background-color: $light;
+    border-left: 1px solid $lightShade;
+    height: 100%;
+    position: fixed;
+    right: 10px;
+    top: 66.4px;
+}
+
+.tabs {
+    height: calc(100% - 66.4px);
+
+    .tab {
+        min-height: 41px;
+
+        > .header {
+            height: 41px;
+            display: flex;
+            align-items: center;
+            background-color: $lightdarken;
+            border-top: 1px solid $lightShade;
+            @include paragraph-small;
+            cursor: pointer;
+
+            > .icon {
+                background-color: $light;
+                border: 1px solid $lightShade;
+            }
+        }
+
+        > .content {
+            height: 0;
+            transition: 0.4s height;
+            overflow: hidden;
+            width: 100%;
+            background-color: $light;
+            border-top: 1px solid $lightShade;
+        }
+
+        &:first-child {
+            > .header {
+                border-top: none;
+            }
+        }
+    }
+}
+
+app-svg {
+    --height: 15px;
+    --width: 15px;
+    --fill: #{$light};
+    --stroke: #{$lightContrast};
+}

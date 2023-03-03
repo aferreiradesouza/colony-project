@@ -6,8 +6,13 @@
         <div class="header-area">
             <app-header></app-header>
         </div>
-        <div class="router-outlet-area">
-            <router-outlet></router-outlet>
+        <div class="router-outlet-area flex justify-between bg-hero-topography">
+            <div class="content-route w-full">
+                <router-outlet></router-outlet>
+            </div>
+            <div class="action-tabs">
+                <app-shortcut-tabs></app-shortcut-tabs>
+            </div>
         </div>
     </div>
 </div>

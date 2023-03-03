@@ -1,7 +1,7 @@
-$primary: theme('colors.slate.700');
-$primaryShade: theme('colors.slate.800');
-$primaryTint: theme('colors.slate.500');
-$primaryContrast: theme('colors.white');
+$primary: #334155;
+$primaryShade: #1e293b;
+$primaryTint: #64748b;
+$primaryContrast: #fff;
 
 $secondary: theme('colors.blue.200');
 $secondaryShade: theme('colors.blue.300');
@@ -35,3 +35,9 @@ $infoContrast: theme('colors.white');
 
 $neutralWhite: theme('colors.white');
 $neutralGray: theme('colors.gray.700');
+
+$light: #f4f5f8;
+$lightdarken: darken($light, 4%);
+$lightShade: #d7d8da;
+$lightTint: #f5f6f9;
+$lightContrast: #000;

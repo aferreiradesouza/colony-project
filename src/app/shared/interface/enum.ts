@@ -33,4 +33,20 @@ export enum MenuEnum {
     settlers,
     base,
     summary,
+    policies,
+    works,
+    routine,
+    construction,
+    storage,
+    wildLife,
+    biomes,
+}
+
+export enum IconEnum {
+    chat,
+    arrowDown,
+    chartBarSquare,
+    userGroup,
+    home,
+    queueList,
 }

@@ -11,8 +11,4 @@ export class MenuComponent {
     public menu = MENU;
 
     constructor(public router: Router) {}
-
-    clickMenu(url: string): void {
-        this.router.navigateByUrl(url);
-    }
 }

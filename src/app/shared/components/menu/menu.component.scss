@@ -2,7 +2,7 @@
 @import 'mixins/typography.mixin';
 
 .menu-area {
-    background-color: $primary;
+    background-color: $light;
     width: 200px;
     height: 100%;
 }
@@ -10,32 +10,39 @@
 .logo {
     height: 66.4px;
     width: 100%;
-    background-color: $primaryShade;
+    background-color: $lightShade;
 }
 
 .section {
-    color: $primaryContrast;
+    color: $lightContrast;
     opacity: 0.4;
     @include paragraph-small;
     font-size: 0.75rem;
 }
 
-.item {
-    color: $primaryContrast;
+.sub-item {
+    color: $lightContrast;
     transition: 0.2s background-color;
     @include paragraph-small;
     cursor: pointer;
 
     &:hover {
-        background-color: $primaryShade;
+        background-color: $lightdarken;
     }
 
     > .icon {
-        background-color: $primaryContrast;
+        background-color: $light;
+        border: 1px solid $lightShade;
+    }
+
+    &.active {
+        background-color: $lightdarken;
     }
 }
 
 app-svg {
     --height: 15px;
     --width: 15px;
+    --fill: #{$light};
+    --stroke: #{$lightContrast};
 }

@@ -3,12 +3,12 @@ import { Menu, MenuItem } from '../../interface/interface';
 
 export const MENU: Menu[] = [
     {
-        label: 'MENU.GENERAL.SECTION',
+        label: 'MENU.GENERAL.TITLE',
         children: [
             {
                 id: MenuEnum.summary,
                 label: 'MENU.GENERAL.SUMMARY',
-                icon: 'chart-bar-square',
+                icon: 'chartBarSquare',
                 url: '/summary',
             },
             {
@@ -20,31 +20,65 @@ export const MENU: Menu[] = [
             {
                 id: MenuEnum.settlers,
                 label: 'MENU.GENERAL.SETTLERS',
-                icon: 'user-group',
+                icon: 'userGroup',
                 url: '/settlers',
             },
         ],
     },
     {
-        label: 'MENU.WORLD.SECTION',
+        label: 'MENU.SETTLERS.TITLE',
         children: [
             {
-                id: MenuEnum.summary,
-                label: 'MENU.WORLD.SUMMARY',
-                icon: 'chart-bar-square',
-                url: '/summary',
+                id: MenuEnum.policies,
+                label: 'MENU.SETTLERS.POLICIES',
+                icon: 'chartBarSquare',
+                url: '/settlers/policies',
             },
             {
-                id: MenuEnum.base,
-                label: 'MENU.WORLD.BASE',
+                id: MenuEnum.works,
+                label: 'MENU.SETTLERS.WORKS',
                 icon: 'home',
-                url: '/base',
+                url: '/settlers/works',
             },
             {
-                id: MenuEnum.settlers,
-                label: 'MENU.WORLD.SETTLERS',
-                icon: 'user-group',
-                url: '/settlers',
+                id: MenuEnum.routine,
+                label: 'MENU.SETTLERS.ROUTINE',
+                icon: 'userGroup',
+                url: '/settlers/routine',
+            },
+        ],
+    },
+    {
+        label: 'MENU.BASE.TITLE',
+        children: [
+            {
+                id: MenuEnum.construction,
+                label: 'MENU.BASE.CONSTRUCTION',
+                icon: 'chartBarSquare',
+                url: '/base/construction',
+            },
+            {
+                id: MenuEnum.storage,
+                label: 'MENU.BASE.STORAGE',
+                icon: 'home',
+                url: '/base/storage',
+            },
+        ],
+    },
+    {
+        label: 'MENU.WORLD.TITLE',
+        children: [
+            {
+                id: MenuEnum.wildLife,
+                label: 'MENU.WORLD.WILD_LIFE',
+                icon: 'chartBarSquare',
+                url: '/world/wild-life',
+            },
+            {
+                id: MenuEnum.biomes,
+                label: 'MENU.WORLD.BIOMES',
+                icon: 'home',
+                url: '/world/biomes',
             },
         ],
     },

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
+import { Icon } from '../../interface/type';
 
 @Component({
     selector: 'app-header',
@@ -7,16 +8,18 @@ import { ActivationEnd, Router } from '@angular/router';
     styleUrls: ['header.component.scss'],
 })
 export class HeaderComponent {
-    public title = '';
-    public icon = '';
+    public title: string;
+    public icon: Icon;
 
     constructor(public router: Router) {
+        this.title = '';
+        this.icon = 'home';
         this.router.events.subscribe((event) => {
             if (event instanceof ActivationEnd) {
                 if (event.snapshot.data['context']) {
                     const data = event.snapshot.data['context'];
                     this.title = data.label;
-                    this.icon = data.icon;
+                    this.icon = data.icon as Icon;
                 }
             }
         });

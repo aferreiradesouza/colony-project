@@ -9,5 +9,15 @@ module.exports = {
         require('@tailwindcss/forms'),
         require('@tailwindcss/line-clamp'),
         require('@tailwindcss/aspect-ratio'),
+        require('tailwind-heropatterns')({
+            variants: [],
+            patterns: ['topography'],
+            colors: {
+                default: '#d7d8da',
+            },
+            opacity: {
+                default: '0.4',
+            },
+        }),
     ],
 };

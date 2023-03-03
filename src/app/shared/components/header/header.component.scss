@@ -1,19 +1,54 @@
 @import 'styles/variables';
+@import 'mixins/media.mixin';
 
 .header {
-    background-color: $primary;
+    display: flex;
+    justify-content: space-between;
+    background-color: $light;
     height: 66.4px;
+    border-bottom: 1px solid $lightShade;
 }
 
 .title-area {
-    border-color: $primary;
+    border-color: $light;
+    display: flex;
+    align-items: center;
 }
 
 .title {
-    background-color: $primaryContrast;
+    border-color: $lightShade;
+    background-color: $light;
+    color: $lightContrast;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    background-color: $light;
+    border: 1px solid $lightShade;
+
+    > app-svg {
+        --height: 22px;
+        --width: 22px;
+        // fill: $light !important;
+    }
 }
 
 app-svg {
     --height: 15px;
     --width: 15px;
+    --fill: #{$light};
+    --stroke: #{$lightContrast};
+}
+
+.settings-area {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: $lightShade;
+
+    @include md {
+        display: block;
+        width: 317px;
+    }
 }

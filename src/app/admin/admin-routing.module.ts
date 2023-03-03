@@ -34,6 +34,14 @@ const routes: Routes = [
                         (m) => m.SummaryModule
                     ),
             },
+            {
+                path: 'settlers/policies',
+                data: { context: GET_MENU(MenuEnum.policies) },
+                loadChildren: () =>
+                    import('./summary/summary.module').then(
+                        (m) => m.SummaryModule
+                    ),
+            },
         ],
     },
 ];

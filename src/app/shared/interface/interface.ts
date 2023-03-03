@@ -1,4 +1,5 @@
 import { MenuEnum } from './enum';
+import { Icon } from './type';
 
 export interface Menu {
     label: string;
@@ -8,6 +9,6 @@ export interface Menu {
 export interface MenuItem {
     id: MenuEnum;
     label: string;
-    icon: string;
+    icon: Icon;
     url: string;
 }

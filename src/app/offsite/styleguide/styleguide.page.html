@@ -1,294 +1,99 @@
 <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
     <!-- BUTTONS -->
-    <div
-        class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
-    >
+    <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
         <div class="px-4 py-5 sm:px-6">
             <h1>Buttons</h1>
         </div>
         <div class="px-4 py-5 sm:p-6">
-            <div
-                class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between"
-            >
-                <app-button
-                    label="Button text"
-                    theme="primary"
-                    size="tiny"
-                ></app-button>
-                <app-button
-                    label="Button text"
-                    theme="primary"
-                    size="small"
-                ></app-button>
-                <app-button
-                    label="Button text"
-                    theme="primary"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    label="Button text"
-                    theme="primary"
-                    size="big"
-                ></app-button>
-                <app-button
-                    label="Button text"
-                    theme="primary"
-                    size="giant"
-                ></app-button>
+            <div class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between">
+                <app-button label="Button text" theme="primary" size="tiny"></app-button>
+                <app-button label="Button text" theme="primary" size="small"></app-button>
+                <app-button label="Button text" theme="primary" size="medium"></app-button>
+                <app-button label="Button text" theme="primary" size="big"></app-button>
+                <app-button label="Button text" theme="primary" size="giant"></app-button>
             </div>
         </div>
         <div class="px-4 py-5 sm:px-6">
             <h3>Full Width</h3>
         </div>
         <div class="grid grid-cols-1 gap-4 px-4 py-5 sm:p-6">
-            <app-button
-                label="Button text"
-                theme="primary"
-                size="tiny"
-                [fullWidth]="true"
-            ></app-button>
-            <app-button
-                label="Button text"
-                theme="primary"
-                size="small"
-                [fullWidth]="true"
-            ></app-button>
-            <app-button
-                label="Button text"
-                theme="primary"
-                size="medium"
-                [fullWidth]="true"
-            ></app-button>
-            <app-button
-                label="Button text"
-                theme="primary"
-                size="big"
-                [fullWidth]="true"
-            ></app-button>
-            <app-button
-                label="Button text"
-                theme="primary"
-                size="giant"
-                [fullWidth]="true"
-            ></app-button>
+            <app-button label="Button text" theme="primary" size="tiny" [fullWidth]="true"></app-button>
+            <app-button label="Button text" theme="primary" size="small" [fullWidth]="true"></app-button>
+            <app-button label="Button text" theme="primary" size="medium" [fullWidth]="true"></app-button>
+            <app-button label="Button text" theme="primary" size="big" [fullWidth]="true"></app-button>
+            <app-button label="Button text" theme="primary" size="giant" [fullWidth]="true"></app-button>
         </div>
         <div class="px-4 py-5 sm:px-6">
             <h3>Themes</h3>
         </div>
         <div class="px-4 py-5 sm:p-6">
-            <div
-                class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between"
-            >
-                <app-button
-                    label="Primary"
-                    theme="primary"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    label="Secondary"
-                    theme="secondary"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    label="Terciary"
-                    theme="terciary"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    label="Danger"
-                    theme="danger"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    label="Success"
-                    theme="success"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    label="Warning"
-                    theme="warning"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    label="Info"
-                    theme="info"
-                    size="medium"
-                ></app-button>
+            <div class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between">
+                <app-button label="Primary" theme="primary" size="medium"></app-button>
+                <app-button label="Secondary" theme="secondary" size="medium"></app-button>
+                <app-button label="Terciary" theme="terciary" size="medium"></app-button>
+                <app-button label="Danger" theme="danger" size="medium"></app-button>
+                <app-button label="Success" theme="success" size="medium"></app-button>
+                <app-button label="Warning" theme="warning" size="medium"></app-button>
+                <app-button label="Info" theme="info" size="medium"></app-button>
             </div>
         </div>
         <div class="px-4 py-5 sm:px-6">
             <h3>Outline</h3>
         </div>
         <div class="px-4 py-5 sm:p-6">
-            <div
-                class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between"
-            >
-                <app-button
-                    type="outline"
-                    label="Primary"
-                    theme="primary"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    type="outline"
-                    label="Secondary"
-                    theme="secondary"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    type="outline"
-                    label="Terciary"
-                    theme="terciary"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    type="outline"
-                    label="Danger"
-                    theme="danger"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    type="outline"
-                    label="Success"
-                    theme="success"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    type="outline"
-                    label="Warning"
-                    theme="warning"
-                    size="medium"
-                ></app-button>
-                <app-button
-                    type="outline"
-                    label="Info"
-                    theme="info"
-                    size="medium"
-                ></app-button>
+            <div class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between">
+                <app-button type="outline" label="Primary" theme="primary" size="medium"></app-button>
+                <app-button type="outline" label="Secondary" theme="secondary" size="medium"></app-button>
+                <app-button type="outline" label="Terciary" theme="terciary" size="medium"></app-button>
+                <app-button type="outline" label="Danger" theme="danger" size="medium"></app-button>
+                <app-button type="outline" label="Success" theme="success" size="medium"></app-button>
+                <app-button type="outline" label="Warning" theme="warning" size="medium"></app-button>
+                <app-button type="outline" label="Info" theme="info" size="medium"></app-button>
             </div>
         </div>
         <div class="px-4 py-5 sm:px-6">
             <h3>Disabled</h3>
         </div>
         <div class="px-4 py-5 sm:p-6">
-            <div
-                class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between"
-            >
-                <app-button
-                    label="Primary"
-                    theme="primary"
-                    size="medium"
-                    [disabled]="true"
-                ></app-button>
-                <app-button
-                    label="Secondary"
-                    theme="secondary"
-                    size="medium"
-                    [disabled]="true"
-                ></app-button>
-                <app-button
-                    label="Terciary"
-                    theme="terciary"
-                    size="medium"
-                    [disabled]="true"
-                ></app-button>
-                <app-button
-                    label="Danger"
-                    theme="danger"
-                    size="medium"
-                    [disabled]="true"
-                ></app-button>
-                <app-button
-                    label="Success"
-                    theme="success"
-                    size="medium"
-                    [disabled]="true"
-                ></app-button>
-                <app-button
-                    label="Warning"
-                    theme="warning"
-                    size="medium"
-                    [disabled]="true"
-                ></app-button>
-                <app-button
-                    label="Info"
-                    theme="info"
-                    size="medium"
-                    [disabled]="true"
-                ></app-button>
+            <div class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between">
+                <app-button label="Primary" theme="primary" size="medium" [disabled]="true"></app-button>
+                <app-button label="Secondary" theme="secondary" size="medium" [disabled]="true"></app-button>
+                <app-button label="Terciary" theme="terciary" size="medium" [disabled]="true"></app-button>
+                <app-button label="Danger" theme="danger" size="medium" [disabled]="true"></app-button>
+                <app-button label="Success" theme="success" size="medium" [disabled]="true"></app-button>
+                <app-button label="Warning" theme="warning" size="medium" [disabled]="true"></app-button>
+                <app-button label="Info" theme="info" size="medium" [disabled]="true"></app-button>
             </div>
         </div>
         <div class="px-4 py-5 sm:px-6">
             <h3>Loading</h3>
         </div>
         <div class="px-4 py-5 sm:p-6">
-            <div
-                class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between"
-            >
-                <app-button
-                    label="Primary"
-                    theme="primary"
-                    size="tiny"
-                    [loading]="true"
-                ></app-button>
-                <app-button
-                    label="Secondary"
-                    theme="secondary"
-                    size="tiny"
-                    [loading]="true"
-                ></app-button>
-                <app-button
-                    label="Terciary"
-                    theme="terciary"
-                    size="tiny"
-                    [loading]="true"
-                ></app-button>
-                <app-button
-                    label="Danger"
-                    theme="danger"
-                    size="tiny"
-                    [loading]="true"
-                ></app-button>
-                <app-button
-                    label="Success"
-                    theme="success"
-                    size="tiny"
-                    [loading]="true"
-                ></app-button>
-                <app-button
-                    label="Warning"
-                    theme="warning"
-                    size="tiny"
-                    [loading]="true"
-                ></app-button>
-                <app-button
-                    label="Info"
-                    theme="info"
-                    size="tiny"
-                    [loading]="true"
-                ></app-button>
+            <div class="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:justify-between">
+                <app-button label="Primary" theme="primary" size="tiny" [loading]="true"></app-button>
+                <app-button label="Secondary" theme="secondary" size="tiny" [loading]="true"></app-button>
+                <app-button label="Terciary" theme="terciary" size="tiny" [loading]="true"></app-button>
+                <app-button label="Danger" theme="danger" size="tiny" [loading]="true"></app-button>
+                <app-button label="Success" theme="success" size="tiny" [loading]="true"></app-button>
+                <app-button label="Warning" theme="warning" size="tiny" [loading]="true"></app-button>
+                <app-button label="Info" theme="info" size="tiny" [loading]="true"></app-button>
             </div>
         </div>
     </div>
     <!-- ICONS -->
-    <div
-        class="mt-5 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
-    >
+    <div class="mt-5 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
         <div class="px-4 py-5 sm:px-6">
             <h1>Icons</h1>
         </div>
         <div class="px-4 py-5 sm:p-6">
             <div class="grid grid-cols-3 gap-4 sm:flex sm:items-center">
                 <app-svg symbol="chat"></app-svg>
-                <app-svg symbol="arrow-down"></app-svg>
-                <app-svg symbol="teste"></app-svg>
+                <app-svg symbol="arrowDown"></app-svg>
             </div>
         </div>
     </div>
     <!-- COLORS -->
-    <div
-        class="mt-5 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
-    >
+    <div class="mt-5 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
         <div class="px-4 py-5 sm:px-6">
             <h1>Colors</h1>
         </div>
@@ -332,9 +137,7 @@
         </div>
     </div>
     <!-- TYPOGRAPHY -->
-    <div
-        class="mt-5 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow"
-    >
+    <div class="mt-5 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
         <div class="px-4 py-5 sm:px-6">
             <h1>Typography</h1>
         </div>

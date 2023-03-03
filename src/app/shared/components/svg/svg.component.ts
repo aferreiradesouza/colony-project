@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Icon } from '../../interface/type';
 
 @Component({
     selector: 'app-svg',
@@ -6,7 +7,7 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['svg.component.scss'],
 })
 export class SvgComponent {
-    @Input() symbol!: string;
+    @Input() symbol!: Icon;
 
     constructor() {}
 }

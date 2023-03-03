@@ -1,21 +1,37 @@
 {
     "MENU": {
         "GENERAL": {
-            "SECTION": "Geral",
+            "TITLE": "Geral",
             "SUMMARY": "Resumo",
             "BASE": "Base",
-            "SETTLERS": "Colonos"
+            "SETTLERS": "Colonos",
+            "ORDER": "Ordens"
+        },
+        "SETTLERS": {
+            "TITLE": "Colonos",
+            "POLICIES": "Políticas",
+            "WORKS": "Trabalho",
+            "ROUTINE": "Rotina"
+        },
+        "BASE": {
+            "TITLE": "Base",
+            "CONSTRUCTION": "Construção",
+            "STORAGE": "Armazém"
         },
         "WORLD": {
-            "SECTION": "Mundo",
-            "SUMMARY": "Resumo",
-            "BASE": "Base",
-            "SETTLERS": "Colonos"
+            "TITLE": "Mundo",
+            "WILD_LIFE": "Vida selvagem",
+            "BIOMES": "Biomas"
         }
     },
     "PAGES": {
         "SUMMARY": {
             "TITLE": "Resumo 123"
         }
+    },
+    "SHORTCUT_TABS": {
+        "NOTIFICATIONS": "Notificações",
+        "SETTLERS": "Colonos",
+        "TO_DO_LIST": "Lista pendente"
     }
 }

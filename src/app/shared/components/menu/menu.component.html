@@ -1,20 +1,17 @@
-<div class="menu-area">
-    <div class="logo flex items-center justify-center shadow">LOGO</div>
-    <div class="menu-items">
-        <div *ngFor="let item of menu">
-            <div class="section p-2">
+<div class="menu-area hidden md:block">
+    <div class="logo flex items-center justify-center">LOGO</div>
+    <a class="item">
+        <ng-container *ngFor="let item of menu">
+            <div class="section p-2 mt-2">
                 {{ item.label | translate | uppercase }}
             </div>
-            <div
-                class="item flex items-center gap-1 p-2"
-                *ngFor="let subItem of item.children"
-                (click)="clickMenu(subItem.url)"
-            >
-                <div class="icon mr-2 rounded-lg p-1 shadow shadow-white">
+            <a class="sub-item flex items-center gap-1 p-2 " *ngFor="let subItem of item.children"
+                [routerLink]="subItem.url" [routerLinkActive]="'active'" [skipLocationChange]="true">
+                <div class="icon mr-2 rounded-md p-1 shadow">
                     <app-svg [symbol]="subItem.icon"></app-svg>
                 </div>
                 {{ subItem.label | translate }}
-            </div>
-        </div>
-    </div>
+            </a>
+        </ng-container>
+    </a>
 </div>
