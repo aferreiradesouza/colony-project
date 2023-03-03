@@ -26,6 +26,7 @@
             border-top: 1px solid $lightShade;
             @include paragraph-small;
             cursor: pointer;
+            user-select: none;
 
             > .icon {
                 background-color: $light;

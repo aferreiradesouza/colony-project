@@ -1,0 +1,5 @@
+<ng-container [ngSwitch]="context">
+    <div class="badges notification" *ngSwitchCase="'notification'">
+        {{isNumber ? '+' + value : value}}
+    </div>
+</ng-container>

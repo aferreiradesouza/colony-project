@@ -49,4 +49,6 @@ export enum IconEnum {
     userGroup,
     home,
     queueList,
+    bell,
+    bars3,
 }

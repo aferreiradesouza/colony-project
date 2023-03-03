@@ -1,13 +1,14 @@
 <div class="content h-100vh flex w-full">
     <div class="menu-area w-fit">
-        <app-menu></app-menu>
+        <app-menu [isOpen]="menuIsOpen"></app-menu>
     </div>
-    <div class="content-page flex w-full flex-col">
+    <div class="content-page flex w-full flex-col" (click)="contentClick($event)">
         <div class="header-area">
-            <app-header></app-header>
+            <app-header (clickMenu)="toggle()"></app-header>
         </div>
         <div class="router-outlet-area flex justify-between bg-hero-topography">
             <div class="content-route w-full">
+                {{menuIsOpen}}
                 <router-outlet></router-outlet>
             </div>
             <div class="action-tabs">

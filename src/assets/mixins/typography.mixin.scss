@@ -19,3 +19,8 @@
 @mixin paragraph-small {
     @apply text-sm font-normal;
 }
+
+@mixin text-small {
+    @apply font-normal;
+    font-size: 10px;
+}

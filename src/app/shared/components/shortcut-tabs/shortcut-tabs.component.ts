@@ -22,12 +22,14 @@ export class ShortcutTabsComponent implements AfterViewInit {
         {
             label: 'SHORTCUT_TABS.NOTIFICATIONS',
             value: 'notifications',
-            icon: 'home',
+            icon: 'bell',
+            notifications: 2,
         },
         {
             label: 'SHORTCUT_TABS.SETTLERS',
             value: 'settlers',
             icon: 'userGroup',
+            notifications: '!',
         },
         {
             label: 'SHORTCUT_TABS.TO_DO_LIST',

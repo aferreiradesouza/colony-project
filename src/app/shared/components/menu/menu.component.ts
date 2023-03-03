@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MENU } from './menu.constant';
 
@@ -9,6 +9,8 @@ import { MENU } from './menu.constant';
 })
 export class MenuComponent {
     public menu = MENU;
+
+    @Input() isOpen = false;
 
     constructor(public router: Router) {}
 }

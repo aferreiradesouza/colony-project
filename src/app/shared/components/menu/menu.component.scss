@@ -1,10 +1,30 @@
 @import 'styles/variables';
 @import 'mixins/typography.mixin';
+@import 'mixins/media.mixin';
 
 .menu-area {
+    position: absolute;
+    z-index: 2;
+    transform: translateX(-100%);
+    top: 0;
+    left: 0;
+    border-right: 1px solid $lightShade;
     background-color: $light;
-    width: 200px;
+    width: 100%;
     height: 100%;
+    max-width: 425px;
+    transition: 0.5s all;
+
+    &.isOpen {
+        transform: translateX(0);
+    }
+
+    @include lg {
+        position: relative;
+        transform: translateX(0);
+        width: 200px;
+        height: 100%;
+    }
 }
 
 .logo {

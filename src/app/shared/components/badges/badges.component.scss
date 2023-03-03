@@ -1,0 +1,17 @@
+@import 'mixins/typography.mixin';
+@import 'styles/variables';
+
+.notification {
+    font-size: 8px;
+}
+
+.badges {
+    @apply rounded-xl pr-1 pl-1;
+    background-color: $danger;
+    color: $dangerContrast;
+    height: 14px;
+    min-width: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

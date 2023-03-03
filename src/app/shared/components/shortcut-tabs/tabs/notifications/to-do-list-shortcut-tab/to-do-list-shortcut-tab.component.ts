@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
     templateUrl: './to-do-list-shortcut-tab.component.html',
     styleUrls: ['./to-do-list-shortcut-tab.component.scss'],
 })
-export class ToDoListShortcutTabComponent {}
+export class ToDoListShortcutTabComponent {
+    constructor() {}
+}

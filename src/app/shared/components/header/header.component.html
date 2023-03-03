@@ -1,5 +1,8 @@
 <div class="header">
     <div class="title-area">
+        <div class="menu-icon" (click)="clickMenu.emit()">
+            <app-svg symbol="bars3"></app-svg>
+        </div>
         <div class="title ml-4 flex w-fit rounded-lg py-1 px-1 pr-3">
             <div class="icon mr-2 rounded-md p-1 shadow">
                 <app-svg [symbol]="icon"></app-svg>

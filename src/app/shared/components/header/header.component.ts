@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
 import { Icon } from '../../interface/type';
 
@@ -10,6 +10,8 @@ import { Icon } from '../../interface/type';
 export class HeaderComponent {
     public title: string;
     public icon: Icon;
+
+    @Output() clickMenu = new EventEmitter();
 
     constructor(public router: Router) {
         this.title = '';

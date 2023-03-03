@@ -13,6 +13,18 @@
     border-color: $light;
     display: flex;
     align-items: center;
+
+    > .menu-icon {
+        @apply flex items-center justify-center px-5 lg:hidden;
+        background-color: $lightdarken;
+        height: 100%;
+        border-right: 1px solid $lightShade;
+
+        > app-svg {
+            --height: 1.5rem;
+            --width: 1.5rem;
+        }
+    }
 }
 
 .title {
@@ -30,15 +42,9 @@
     > app-svg {
         --height: 22px;
         --width: 22px;
-        // fill: $light !important;
+        --fill: #{$light};
+        --stroke: #{$lightContrast};
     }
-}
-
-app-svg {
-    --height: 15px;
-    --width: 15px;
-    --fill: #{$light};
-    --stroke: #{$lightContrast};
 }
 
 .settings-area {
@@ -47,7 +53,7 @@ app-svg {
     height: 100%;
     background-color: $lightShade;
 
-    @include md {
+    @include lg {
         display: block;
         width: 317px;
     }

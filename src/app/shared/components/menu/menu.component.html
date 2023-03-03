@@ -1,4 +1,4 @@
-<div class="menu-area hidden md:block">
+<div class="menu-area" [class.isOpen]="isOpen">
     <div class="logo flex items-center justify-center">LOGO</div>
     <a class="item">
         <ng-container *ngFor="let item of menu">
