@@ -1,6 +1,6 @@
 <div class="content h-100vh flex w-full">
     <div class="menu-area w-fit">
-        <app-menu [isOpen]="menuIsOpen"></app-menu>
+        <app-menu [isOpen]="menuIsOpen" (closeMenu)="toggle()"></app-menu>
     </div>
     <div class="content-page flex w-full flex-col">
         <div class="overlay-from-menu" *ngIf="menuIsOpen" [@fadeInOnEnter] [@fadeOutOnLeave] (click)="contentClick()">

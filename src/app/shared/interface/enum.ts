@@ -51,4 +51,6 @@ export enum IconEnum {
     queueList,
     bell,
     bars3,
+    xMark,
+    checkCircle,
 }

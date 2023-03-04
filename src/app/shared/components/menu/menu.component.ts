@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { MENU } from './menu.constant';
 
@@ -11,6 +11,8 @@ export class MenuComponent {
     public menu = MENU;
 
     @Input() isOpen = false;
+
+    @Output() closeMenu = new EventEmitter();
 
     constructor(public router: Router) {}
 }

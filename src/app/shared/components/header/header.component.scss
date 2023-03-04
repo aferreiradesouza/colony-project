@@ -36,13 +36,13 @@
 }
 
 .icon {
-    background-color: $light;
+    background-color: $neutralWhite;
     border: 1px solid $lightShade;
 
     > app-svg {
         --height: 22px;
         --width: 22px;
-        --fill: #{$light};
+        --fill: #{$neutralWhite};
         --stroke: #{$lightContrast};
     }
 }

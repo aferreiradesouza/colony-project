@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: ['./notifications-shortcut-tab.component.scss'],
 })
 export class NotificationsShortcutTabComponent {
+    public mock = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     constructor() {}
 }

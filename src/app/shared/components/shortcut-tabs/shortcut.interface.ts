@@ -8,3 +8,9 @@ export interface ShortcutData {
 }
 
 export type ShortcutTab = 'settlers' | 'notifications' | 'to-do-list';
+
+export interface ToDoListShortcut {
+    work: string;
+    id: string;
+    progress: number;
+}

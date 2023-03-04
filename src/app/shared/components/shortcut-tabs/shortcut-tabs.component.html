@@ -1,12 +1,12 @@
-<div class="action-tabs hidden lg:block">
+<div class="action-tabs" [class.open-mobile]="openForMobile">
     <div class="tabs" #tabsArea>
         <div class="tab" [attr.data-shortcut-id]="tab.value" *ngFor="let tab of tabs">
             <div class="header pl-2" (click)="selectTab(tab.value)">
                 <div class="icon mr-2 rounded-lg p-1 shadow">
                     <app-svg [symbol]="tab.icon"></app-svg>
                 </div>
-                {{tab.label | translate}}
-                <app-badges *ngIf="tab.notifications" class="ml-2" context="notification"
+                <span class="hidden lg:block">{{tab.label | translate}}</span>
+                <app-badges *ngIf="tab.notifications" class="ml-2 hidden lg:block" context="notification"
                     [value]="tab.notifications"></app-badges>
             </div>
             <div class="content" [attr.data-shortcut-id]="tab.value" #tabElement [ngSwitch]="tab.value">

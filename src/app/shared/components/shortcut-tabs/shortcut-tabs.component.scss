@@ -3,13 +3,28 @@
 @import 'mixins/typography.mixin';
 
 .action-tabs {
-    width: 307px;
+    width: 40px;
     background-color: $light;
     border-left: 1px solid $lightShade;
     height: 100%;
     position: fixed;
     right: 10px;
     top: 66.4px;
+    transition: 0.3s width;
+
+    @include lg {
+        width: 307px;
+    }
+
+    &.open-mobile {
+        max-width: 307px;
+        width: 100%;
+
+        > .tabs .tab .header span,
+        .tabs .tab .header app-badges {
+            display: block !important;
+        }
+    }
 }
 
 .tabs {
@@ -41,6 +56,10 @@
             width: 100%;
             background-color: $light;
             border-top: 1px solid $lightShade;
+
+            @include lg {
+                height: 0;
+            }
         }
 
         &:first-child {

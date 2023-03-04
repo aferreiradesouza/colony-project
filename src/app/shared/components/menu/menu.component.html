@@ -1,12 +1,23 @@
 <div class="menu-area" [class.isOpen]="isOpen">
-    <div class="logo flex items-center justify-center">LOGO</div>
+    <div class="header flex items-center justify-between">
+        <div class="logo-area">
+            <div class="close-menu" (click)="closeMenu.emit()">
+                <app-svg symbol="xMark"></app-svg>
+            </div>
+            LOGO
+        </div>
+        <div class="notification-area">
+            <app-svg symbol="bell"></app-svg>
+        </div>
+    </div>
     <a class="item">
         <ng-container *ngFor="let item of menu">
             <div class="section p-2 mt-2">
                 {{ item.label | translate | uppercase }}
             </div>
             <a class="sub-item flex items-center gap-1 p-2 " *ngFor="let subItem of item.children"
-                [routerLink]="subItem.url" [routerLinkActive]="'active'" [skipLocationChange]="true">
+                [routerLink]="subItem.url" [routerLinkActive]="'active'" [skipLocationChange]="true"
+                (click)="closeMenu.emit()">
                 <div class="icon mr-2 rounded-md p-1 shadow">
                     <app-svg [symbol]="subItem.icon"></app-svg>
                 </div>

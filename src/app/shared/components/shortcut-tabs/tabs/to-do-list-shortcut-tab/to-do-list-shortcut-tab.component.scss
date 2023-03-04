@@ -1,0 +1,62 @@
+@import 'styles/variables';
+@import 'mixins/scroll.mixin';
+@import 'mixins/align.mixin';
+@import 'mixins/typography.mixin';
+
+.content {
+    overflow-y: auto;
+    max-height: 100%;
+    @include transparentScroll;
+}
+
+.item {
+    @include alignVertically;
+    justify-content: space-between;
+    border-bottom: 1px solid $lightShade;
+
+    > .work {
+        @include paragraph-small;
+        @apply p-2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    > .progress {
+        @include paragraph-small;
+        @include alignToCenter;
+        // border-left: 1px solid $lightShade;
+        min-width: 40px;
+        height: 40px;
+
+        &.success {
+            background-color: #{$success}50;
+        }
+
+        &.danger {
+            background-color: #{$danger}50;
+        }
+
+        &.warning {
+            background-color: #{$warning}50;
+        }
+    }
+}
+
+.header {
+    @include alignVertically;
+    @include text-small;
+    justify-content: space-between;
+    border-bottom: 1px solid $lightShade;
+    background-color: $lightShade;
+    color: $lightContrast;
+
+    > .work {
+        @apply p-2;
+    }
+
+    > .progress {
+        @include alignToCenter;
+        min-width: 40px;
+    }
+}

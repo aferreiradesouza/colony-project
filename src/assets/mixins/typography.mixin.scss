@@ -20,6 +20,10 @@
     @apply text-sm font-normal;
 }
 
+@mixin paragraph-tiny {
+    @apply text-xs font-normal;
+}
+
 @mixin text-small {
     @apply font-normal;
     font-size: 10px;

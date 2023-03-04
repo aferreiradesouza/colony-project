@@ -39,5 +39,6 @@ $neutralGray: theme('colors.gray.700');
 $light: #f4f5f8;
 $lightdarken: darken($light, 4%);
 $lightShade: #d7d8da;
+$lightShadeDarken: darken($lightShade, 4%);
 $lightTint: #f5f6f9;
 $lightContrast: #000000;

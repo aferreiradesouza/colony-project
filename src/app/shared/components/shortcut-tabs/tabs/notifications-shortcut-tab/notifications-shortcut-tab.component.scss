@@ -1,0 +1,49 @@
+@import 'styles/variables';
+@import 'mixins/scroll.mixin';
+@import 'mixins/align.mixin';
+@import 'mixins/typography.mixin';
+
+.content {
+    overflow-y: auto;
+    max-height: 100%;
+    @include transparentScroll;
+}
+
+.simple-notification {
+    @apply m-2 rounded-lg p-4 shadow;
+
+    display: flex;
+    background-color: $neutralWhite;
+
+    > .icon {
+        width: 24px;
+
+        > app-svg {
+            --height: 24px;
+            --width: 24px;
+            --fill: #{$successContrast};
+            --stroke: #{$success};
+        }
+    }
+
+    > .content-notification {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+        padding-left: 10px;
+
+        > .title {
+            @include paragraph;
+        }
+
+        > .description {
+            @include paragraph-tiny;
+            color: $terciaryShade;
+        }
+    }
+
+    > .close-icon {
+        margin-left: 10px;
+    }
+}

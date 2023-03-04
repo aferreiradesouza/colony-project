@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import {
     fadeInOnEnterAnimation,
     fadeOutOnLeaveAnimation,
 } from 'angular-animations';
+import { MediaService } from '../shared/services/media.service';
 
 @Component({
     selector: 'app-admin',
@@ -15,12 +16,15 @@ import {
 })
 export class AdminPage {
     menuIsOpen = false;
-    title = 'colony-project';
+    @HostListener('window:resize', ['$event'])
+    onResize(event: Event) {
+        this.mediaService.onResize.emit(event);
+    }
+
+    constructor(private mediaService: MediaService) {}
 
     toggle(): void {
-        setTimeout(() => {
-            this.menuIsOpen ? this.close() : this.open();
-        }, 0);
+        this.menuIsOpen ? this.close() : this.open();
     }
 
     open(): void {

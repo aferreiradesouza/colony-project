@@ -1,8 +1,0 @@
-@import 'styles/variables';
-@import 'mixins/scroll.mixin';
-
-.content {
-    overflow-y: auto;
-    max-height: 100%;
-    @include transparentScroll;
-}

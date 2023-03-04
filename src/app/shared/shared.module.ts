@@ -11,10 +11,11 @@ import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ShortcutTabsComponent } from './components/shortcut-tabs/shortcut-tabs.component';
 import { HelperService } from './services/helpers.service';
-import { NotificationsShortcutTabComponent } from './components/shortcut-tabs/tabs/notifications/notifications-shortcut-tab/notifications-shortcut-tab.component';
-import { SettlersShortcutTabComponent } from './components/shortcut-tabs/tabs/notifications/settlers-shortcut-tab/settlers-shortcut-tab.component';
-import { ToDoListShortcutTabComponent } from './components/shortcut-tabs/tabs/notifications/to-do-list-shortcut-tab/to-do-list-shortcut-tab.component';
+import { NotificationsShortcutTabComponent } from './components/shortcut-tabs/tabs/notifications-shortcut-tab/notifications-shortcut-tab.component';
+import { SettlersShortcutTabComponent } from './components/shortcut-tabs/tabs/settlers-shortcut-tab/settlers-shortcut-tab.component';
+import { ToDoListShortcutTabComponent } from './components/shortcut-tabs/tabs/to-do-list-shortcut-tab/to-do-list-shortcut-tab.component';
 import { BadgesComponent } from './components/badges/badges.component';
+import { MediaService } from './services/media.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -53,6 +54,6 @@ const COMPONENTS = [
     ],
     exports: [...COMPONENTS, TranslateModule],
     declarations: [...COMPONENTS],
-    providers: [HelperService],
+    providers: [HelperService, MediaService],
 })
 export class SharedModule {}
