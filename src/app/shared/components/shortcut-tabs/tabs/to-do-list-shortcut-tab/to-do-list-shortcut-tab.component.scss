@@ -9,54 +9,14 @@
     @include transparentScroll;
 }
 
-.item {
+.to-do-card {
+    @apply m-2 flex rounded-lg p-4 shadow;
+    background-color: $neutralWhite;
     @include alignVertically;
-    justify-content: space-between;
-    border-bottom: 1px solid $lightShade;
 
-    > .work {
+    > .title {
+        @apply ml-2;
+        width: 100%;
         @include paragraph-small;
-        @apply p-2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    > .progress {
-        @include paragraph-small;
-        @include alignToCenter;
-        // border-left: 1px solid $lightShade;
-        min-width: 40px;
-        height: 40px;
-
-        &.success {
-            background-color: #{$success}50;
-        }
-
-        &.danger {
-            background-color: #{$danger}50;
-        }
-
-        &.warning {
-            background-color: #{$warning}50;
-        }
-    }
-}
-
-.header {
-    @include alignVertically;
-    @include text-small;
-    justify-content: space-between;
-    border-bottom: 1px solid $lightShade;
-    background-color: $lightShade;
-    color: $lightContrast;
-
-    > .work {
-        @apply p-2;
-    }
-
-    > .progress {
-        @include alignToCenter;
-        min-width: 40px;
     }
 }

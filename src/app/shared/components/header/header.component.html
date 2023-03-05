@@ -13,4 +13,7 @@
     <div class="settings-area p-4">
         settings
     </div>
+    <div class="close-shortcut-area lg:hidden" (click)="clickMenuShortcut.emit()">
+        <app-svg [symbol]="shortcutIsOpen ? 'chevronRight' : 'chevronLeft'"></app-svg>
+    </div>
 </div>

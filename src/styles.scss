@@ -4,8 +4,12 @@
 @import 'tailwindcss/utilities';
 /*TAILWIND*/
 
-@import 'styles/variables';
+// mixins
 @import 'mixins/typography.mixin';
+
+@import 'styles/variables';
+@import 'styles/typography';
+@import 'styles/icon';
 
 html {
     margin: 0;

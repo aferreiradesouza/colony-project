@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GET_MENU } from '../shared/components/menu/menu.constant';
-import { MenuEnum } from '../shared/interface/enum';
+import { MenuEnum } from '../shared/interface/enums/menu.enum';
 import { AdminPage } from './admin.page';
 
 const routes: Routes = [

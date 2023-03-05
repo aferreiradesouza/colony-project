@@ -1,0 +1,12 @@
+.icon-square {
+    @apply rounded-md p-1 shadow;
+    background-color: $neutralWhite;
+    border: 1px solid $lightShade;
+
+    // > app-svg {
+    //     --height: 22px;
+    //     --width: 22px;
+    //     --fill: #{$neutralWhite};
+    //     --stroke: #{$lightContrast};
+    // }
+}

@@ -92,25 +92,4 @@
             }
         }
     }
-
-    > .notification-area {
-        @apply mr-2 rounded-lg px-2 shadow;
-        @include alignToCenter;
-        border-left: 1px solid $lightShade;
-        height: 30px;
-        width: 30px;
-        background-color: $neutralWhite;
-        border: 1px solid $lightShade;
-
-        > app-svg {
-            --height: 1.5rem;
-            --width: 1.5rem;
-            --fill: #{$neutralWhite};
-            --stroke: #{$lightContrast};
-        }
-
-        @include lg {
-            display: none;
-        }
-    }
 }

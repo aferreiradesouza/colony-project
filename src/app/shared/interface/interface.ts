@@ -1,4 +1,4 @@
-import { MenuEnum } from './enum';
+import { MenuEnum } from './enums/menu.enum';
 import { Icon } from './type';
 
 export interface Menu {

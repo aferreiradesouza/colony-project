@@ -6,15 +6,15 @@
         <div class="overlay-from-menu" *ngIf="menuIsOpen" [@fadeInOnEnter] [@fadeOutOnLeave] (click)="contentClick()">
         </div>
         <div class="header-area">
-            <app-header (clickMenu)="toggle()"></app-header>
+            <app-header (clickMenu)="toggle()" (clickMenuShortcut)="toggleShortcut()"
+                [shortcutIsOpen]="shortcutIsOpen"></app-header>
         </div>
         <div class="router-outlet-area flex justify-between bg-hero-topography">
             <div class="content-route w-full">
-                {{menuIsOpen}}
                 <router-outlet></router-outlet>
             </div>
             <div class="action-tabs">
-                <app-shortcut-tabs></app-shortcut-tabs>
+                <app-shortcut-tabs [(hasOpenMobile)]="shortcutIsOpen"></app-shortcut-tabs>
             </div>
         </div>
     </div>

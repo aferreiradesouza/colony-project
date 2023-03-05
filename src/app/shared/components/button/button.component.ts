@@ -3,7 +3,7 @@ import {
     ButtonSizeEnum,
     ButtonThemeEnum,
     ButtonTypeEnum,
-} from '../../interface/enum';
+} from '../../interface/enums/button.enum';
 import { ButtonSize, ButtonTheme, ButtonType } from '../../interface/type';
 
 @Component({

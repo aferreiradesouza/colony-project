@@ -1,5 +1,6 @@
 @import 'styles/variables';
 @import 'mixins/media.mixin';
+@import 'mixins/align.mixin';
 
 .header {
     display: flex;
@@ -56,5 +57,20 @@
     @include lg {
         display: block;
         width: 317px;
+    }
+}
+
+.close-shortcut-area {
+    @include alignToCenter;
+    width: 50px;
+    background-color: $lightdarken;
+    border-left: 1px solid $lightShade;
+
+    @include lg {
+        display: none !important;
+    }
+
+    > app-svg {
+        --fill: #{$lightdarken};
     }
 }

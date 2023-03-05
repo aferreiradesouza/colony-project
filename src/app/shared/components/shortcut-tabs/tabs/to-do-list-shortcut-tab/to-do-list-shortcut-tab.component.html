@@ -1,12 +1,13 @@
 <div class="content">
-    <div class="header">
-        <div class="work">TRABALHO</div>
-        <div class="progress">%</div>
-    </div>
-    <div class="item" *ngFor="let item of mock" [id]="item.id">
-        <div class="work">{{item.work}}</div>
-        <div class="progress" [class.danger]="item.progress >= 0 && item.progress < 50"
-            [class.warning]="item.progress >= 50 && item.progress < 75"
-            [class.success]="item.progress >= 75 && item.progress <= 100">{{item.progress}}</div>
+    <div class="to-do-card" *ngFor="let item of mock">
+        <div class="icon-square">
+            <app-svg symbol="wrench"></app-svg>
+        </div>
+        <div class="title">
+            awd
+        </div>
+        <div class="progress">
+            awdwad
+        </div>
     </div>
 </div>

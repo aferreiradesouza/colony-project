@@ -1,4 +1,4 @@
-import { MenuEnum } from '../../interface/enum';
+import { MenuEnum } from '../../interface/enums/menu.enum';
 import { Menu, MenuItem } from '../../interface/interface';
 
 export const MENU: Menu[] = [

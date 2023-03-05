@@ -2,8 +2,10 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
+    EventEmitter,
     Input,
     OnDestroy,
+    Output,
     QueryList,
     ViewChild,
     ViewChildren,
@@ -22,7 +24,6 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
     public initialTab: ShortcutTab = 'notifications';
     public selectedTab: ShortcutTab;
     public mode: 'desktop' | 'mobile' = 'desktop';
-    public isOpenMobile = false;
 
     public tabs: ShortcutData[] = [
         {
@@ -44,7 +45,8 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
         },
     ];
 
-    @Input() isOpenShortcutTabs = true;
+    @Input() hasOpenMobile = false;
+    @Output() hasOpenMobileChange = new EventEmitter<boolean>();
 
     @ViewChild('tabsArea') tabsArea!: ElementRef<HTMLDivElement>;
     @ViewChildren('tabElement') tabElement!: QueryList<
@@ -56,7 +58,6 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
         this.selectedTab = this.initialTab;
         this.mode =
             window.innerWidth >= this.mediaService.lg ? 'desktop' : 'mobile';
-        this.isOpenMobile = false;
     }
 
     ngOnDestroy(): void {
@@ -71,24 +72,36 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
     initMediaSubscription(): void {
         this.mediaSubscription = this.mediaService.onResize.subscribe(
             (event) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const width = (event.target as any)['innerWidth'];
                 if (width >= this.mediaService.lg) this.mode = 'desktop';
                 else this.mode = 'mobile';
-                console.log(event);
+                this.updateRenderTabs();
             }
         );
     }
 
-    selectTab(tab: ShortcutTab, toggle = true): void {
+    selectTab(tab: ShortcutTab, canBeOpened = true): void {
         this.selectedTab = tab;
-        if (toggle && this.mode === 'mobile') this.toggle();
-        console.log(this.mode === 'mobile' && !this.isOpenMobile);
-        if (this.mode === 'mobile' && !this.isOpenMobile) return;
+        if (canBeOpened && this.mode === 'mobile') this.open();
+        this.updateRenderTabs();
+    }
+
+    get openForMobile(): boolean {
+        return this.mode === 'mobile' && this.hasOpenMobile;
+    }
+
+    updateRenderTabs(): void {
         this.tabElement.toArray().forEach((e) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const dataset = (e.nativeElement.dataset as any)
                 .shortcutId as ShortcutTab;
-            if (dataset === this.selectedTab)
+            if (
+                (this.mode === 'mobile' &&
+                    dataset === this.selectedTab &&
+                    this.hasOpenMobile) ||
+                (this.mode === 'desktop' && dataset === this.selectedTab)
+            )
                 e.nativeElement.style.height = `${
                     this.tabsArea.nativeElement.offsetHeight -
                     this.tabs.length * 41
@@ -97,19 +110,18 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    get openForMobile(): boolean {
-        return this.mode === 'mobile' && this.isOpenMobile;
-    }
-
     toggle(): void {
-        this.isOpenMobile ? this.close() : this.open();
+        this.hasOpenMobile ? this.close() : this.open();
+        this.updateRenderTabs();
     }
 
     open(): void {
-        this.isOpenMobile = true;
+        this.hasOpenMobile = true;
+        this.hasOpenMobileChange.emit(this.hasOpenMobile);
     }
 
     close(): void {
-        this.isOpenMobile = true;
+        this.hasOpenMobile = false;
+        this.hasOpenMobileChange.emit(this.hasOpenMobile);
     }
 }

@@ -1,8 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import {
     fadeInOnEnterAnimation,
     fadeOutOnLeaveAnimation,
 } from 'angular-animations';
+import { ShortcutTabsComponent } from '../shared/components/shortcut-tabs/shortcut-tabs.component';
 import { MediaService } from '../shared/services/media.service';
 
 @Component({
@@ -15,11 +16,14 @@ import { MediaService } from '../shared/services/media.service';
     ],
 })
 export class AdminPage {
-    menuIsOpen = false;
+    public menuIsOpen = false;
+    public shortcutIsOpen = false;
     @HostListener('window:resize', ['$event'])
     onResize(event: Event) {
         this.mediaService.onResize.emit(event);
     }
+
+    @ViewChild(ShortcutTabsComponent) shortcutComponent!: ShortcutTabsComponent;
 
     constructor(private mediaService: MediaService) {}
 
@@ -37,5 +41,9 @@ export class AdminPage {
 
     contentClick() {
         if (this.menuIsOpen) this.close();
+    }
+
+    toggleShortcut() {
+        this.shortcutComponent.toggle();
     }
 }

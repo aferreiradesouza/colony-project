@@ -2,9 +2,9 @@ import {
     ButtonSizeEnum,
     ButtonThemeEnum,
     ButtonTypeEnum,
-    IconEnum,
-    TextTypesEnum,
-} from './enum';
+} from './enums/button.enum';
+import { IconEnum } from './enums/icon.enum';
+import { TextTypesEnum } from './enums/text.enum';
 
 export type ButtonTheme = keyof typeof ButtonThemeEnum;
 export type ButtonType = keyof typeof ButtonTypeEnum;
