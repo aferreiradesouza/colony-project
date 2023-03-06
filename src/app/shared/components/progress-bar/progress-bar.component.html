@@ -1,0 +1,8 @@
+<ng-container [ngSwitch]="context">
+    <div class="content short" *ngSwitchCase="'short'">
+        <div class="percent">{{percent}}%</div>
+        <div class="progress-area" [ngClass]="theme">
+            <div class="bar" [ngClass]="theme" [style.width.%]="percent"></div>
+        </div>
+    </div>
+</ng-container>

@@ -1,0 +1,44 @@
+@import 'mixins/typography.mixin';
+
+$themeColours: (
+    'primary': $primary,
+    'secondary': $secondary,
+    'terciary': $terciary,
+    'danger': $danger,
+    'success': $success,
+    'warning': $warning,
+    'info': $info,
+    'light': $light,
+);
+
+.short {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    > .percent {
+        @include paragraph-tiny;
+    }
+
+    > .progress-area {
+        @apply rounded-lg;
+
+        background-color: $light;
+        height: 5px;
+        width: 100%;
+        overflow: hidden;
+
+        > .bar {
+            background-color: red;
+            height: 100%;
+
+            @each $themeColour, $i in $themeColours {
+                &.#{$themeColour} {
+                    background-color: $i;
+                }
+            }
+        }
+    }
+}

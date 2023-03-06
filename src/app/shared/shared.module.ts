@@ -16,6 +16,9 @@ import { SettlersShortcutTabComponent } from './components/shortcut-tabs/tabs/se
 import { ToDoListShortcutTabComponent } from './components/shortcut-tabs/tabs/to-do-list-shortcut-tab/to-do-list-shortcut-tab.component';
 import { BadgesComponent } from './components/badges/badges.component';
 import { MediaService } from './services/media.service';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { SettlersService } from './services/settlers.service';
+import { DebugService } from './services/debug.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -36,7 +39,10 @@ const COMPONENTS = [
     SettlersShortcutTabComponent,
     ToDoListShortcutTabComponent,
     BadgesComponent,
+    ProgressBarComponent,
 ];
+
+export const SERVICES_SHARED = [SettlersService, DebugService];
 
 @NgModule({
     imports: [

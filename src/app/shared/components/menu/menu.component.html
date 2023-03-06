@@ -13,8 +13,7 @@
                 {{ item.label | translate | uppercase }}
             </div>
             <a class="sub-item flex items-center gap-1 p-2 " *ngFor="let subItem of item.children"
-                [routerLink]="subItem.url" [routerLinkActive]="'active'" [skipLocationChange]="true"
-                (click)="closeMenu.emit()">
+                [routerLink]="subItem.url" [routerLinkActive]="'active'" (click)="closeMenu.emit()">
                 <div class="icon mr-2 rounded-md p-1 shadow">
                     <app-svg [symbol]="subItem.icon"></app-svg>
                 </div>

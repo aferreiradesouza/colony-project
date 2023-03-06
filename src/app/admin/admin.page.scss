@@ -5,6 +5,7 @@
     min-height: calc(100% - 66.4px);
     position: relative;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .menu-area {
@@ -24,4 +25,9 @@
     @include lg {
         display: none !important;
     }
+}
+
+.action-tabs {
+    position: sticky;
+    top: 0;
 }

@@ -3,11 +3,12 @@
         <div class="icon-square">
             <app-svg symbol="wrench"></app-svg>
         </div>
-        <div class="title">
-            awd
+        <div class="title-area">
+            <div class="title">{{item.work}}</div>
+            <div class="time">05:00</div>
         </div>
         <div class="progress">
-            awdwad
+            <app-progress-bar [percent]="item.progress"></app-progress-bar>
         </div>
     </div>
 </div>

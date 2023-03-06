@@ -13,4 +13,5 @@ export interface ToDoListShortcut {
     work: string;
     id: string;
     progress: number;
+    timeLeft: number;
 }

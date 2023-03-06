@@ -30,8 +30,8 @@ const routes: Routes = [
                 path: 'settlers',
                 data: { context: GET_MENU(MenuEnum.settlers) },
                 loadChildren: () =>
-                    import('./summary/summary.module').then(
-                        (m) => m.SummaryModule
+                    import('./settlers/settlers.module').then(
+                        (m) => m.SettlersModule
                     ),
             },
             {

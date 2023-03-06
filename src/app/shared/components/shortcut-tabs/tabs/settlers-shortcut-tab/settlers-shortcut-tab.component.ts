@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Settler } from 'src/app/shared/model/settler/settler.model';
+import { SettlersService } from 'src/app/shared/services/settlers.service';
 
 @Component({
     selector: 'app-settlers-shortcut-tab',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
     styleUrls: ['./settlers-shortcut-tab.component.scss'],
 })
 export class SettlersShortcutTabComponent {
-    constructor() {}
+    constructor(private settlerService: SettlersService) {}
+
+    get settlers(): Settler[] {
+        return this.settlerService.settlers;
+    }
 }

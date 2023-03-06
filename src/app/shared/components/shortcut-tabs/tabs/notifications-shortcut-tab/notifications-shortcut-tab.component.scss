@@ -3,6 +3,10 @@
 @import 'mixins/align.mixin';
 @import 'mixins/typography.mixin';
 
+* {
+    user-select: none;
+}
+
 .content {
     overflow-y: auto;
     max-height: 100%;

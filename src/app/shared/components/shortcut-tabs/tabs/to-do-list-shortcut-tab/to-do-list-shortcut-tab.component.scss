@@ -3,6 +3,10 @@
 @import 'mixins/align.mixin';
 @import 'mixins/typography.mixin';
 
+* {
+    user-select: none;
+}
+
 .content {
     overflow-y: auto;
     max-height: 100%;
@@ -14,9 +18,29 @@
     background-color: $neutralWhite;
     @include alignVertically;
 
-    > .title {
+    > .title-area {
         @apply ml-2;
+        padding-right: 15px;
         width: 100%;
-        @include paragraph-small;
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap;
+        overflow: hidden;
+
+        > .title {
+            @include paragraph-tiny;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        > .time {
+            @include text-small;
+            color: $lightShadeDarken;
+        }
+    }
+
+    > .progress {
+        min-width: 30px;
+        width: 30px;
     }
 }

@@ -1,0 +1,25 @@
+<app-button label="Adc. Settler" (clickEvent)="addSettler()"></app-button>
+<table>
+    <thead>
+        <th>Nome</th>
+        <th>Idade</th>
+        <th>Habilidade</th>
+        <th>Necessidades</th>
+        <th>Work</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let settler of settlers">
+            <td>{{settler.completeName}}</td>
+            <td>{{settler.age}}</td>
+            <td>skill</td>
+            <td>
+                Fome: {{settler.necessity.hungry}}<br>
+                Diversão: {{settler.necessity.fun}}<br>
+                Descanso: {{settler.necessity.rest}}<br>
+            </td>
+            <td>
+                {{settler.work.name}}
+            </td>
+        </tr>
+    </tbody>
+</table>

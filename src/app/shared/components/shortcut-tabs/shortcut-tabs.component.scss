@@ -7,9 +7,6 @@
     background-color: $light;
     border-left: 1px solid $lightShade;
     height: 100%;
-    position: fixed;
-    right: 10px;
-    top: 66.4px;
     transition: 0.3s width;
 
     @include lg {
@@ -27,7 +24,7 @@
 }
 
 .tabs {
-    height: calc(100% - 66.4px);
+    height: 100%;
 
     .tab {
         min-height: 41px;
