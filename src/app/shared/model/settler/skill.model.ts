@@ -1,8 +1,31 @@
-export class Skills {
-    public skills: Array<{ name: Skill; level: number }>;
+import { HelperService } from '../../services/helpers.service';
 
-    constructor(skills: Array<{ name: Skill; level: number }>) {
-        this.skills = skills;
+interface ISkills {
+    habilities: Array<Habilities>;
+}
+
+interface Habilities {
+    id: Skill;
+    level: number | null;
+}
+
+export class Skills {
+    public habilities: Array<Habilities>;
+
+    constructor(skills: ISkills) {
+        this.habilities = this._createSkillList(skills.habilities);
+    }
+
+    _createSkillList(habilities: Array<Habilities>): Array<Habilities> {
+        return HelperService.enumToArray(Skill).map((e) => {
+            const level = habilities.find(
+                (hability) => hability.id === Skill[e]
+            )?.level;
+            return {
+                id: Skill[e],
+                level: level === undefined ? 1 : level,
+            };
+        });
     }
 }
 

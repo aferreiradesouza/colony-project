@@ -37,6 +37,6 @@ const NAMES: Name[] = [
 ];
 
 export const GET_ALEATORY_NAME = (): Name => {
-    const random = Math.floor(Math.random() * 30);
+    const random = Math.floor(Math.random() * NAMES.length);
     return NAMES[random];
 };

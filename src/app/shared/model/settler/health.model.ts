@@ -1,8 +1,12 @@
+interface IHealth {
+    health: number;
+}
+
 export class Health {
     health: number;
 
-    constructor(health: number) {
-        this.health = health;
+    constructor(params: IHealth) {
+        this.health = params.health;
     }
 
     setHealth(num: number): void {

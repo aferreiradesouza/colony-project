@@ -4,6 +4,7 @@ import {
     fadeOutOnLeaveAnimation,
 } from 'angular-animations';
 import { ShortcutTabsComponent } from '../shared/components/shortcut-tabs/shortcut-tabs.component';
+import { GameService } from '../shared/services/game.service';
 import { MediaService } from '../shared/services/media.service';
 
 @Component({

@@ -27,6 +27,6 @@ const PROFESSION: Profession[] = [
 ];
 
 export const GET_ALEATORY_PROFESSION = (): Profession => {
-    const random = Math.floor(Math.random() * 19);
+    const random = Math.floor(Math.random() * PROFESSION.length);
     return PROFESSION[random];
 };

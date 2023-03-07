@@ -32,25 +32,35 @@ export class Settler {
     constructor(settler: ISettler) {
         const profession = GET_ALEATORY_PROFESSION();
 
-        this.id = settler.id ?? HelperService.createGuid();
+        this.id = settler.id ?? HelperService.guid;
         this.age = settler.age;
         this.firstName = settler.firstName;
         this.lastName = settler.lastName;
-        this.skills = settler.skills ?? [];
-        this.health = settler.health ?? new Health(100);
-        this.necessity = settler.necessity ?? new Necessity(100, 100, 100);
-        this.profession =
-            settler.profession ??
-            new Profession({
-                name: profession.profession,
-                title: profession.title,
-            });
-        this.work =
-            settler.work ??
-            new Work({
-                id: Job.None,
-                name: 'Nenhum',
-            });
+        this.skills = settler.skills
+            ? new Skills(settler.skills)
+            : new Skills({ habilities: [] });
+        this.health = settler.health
+            ? new Health(settler.health)
+            : new Health({ health: 100 });
+        this.necessity = settler.necessity
+            ? new Necessity(settler.necessity)
+            : new Necessity({
+                  fun: 100,
+                  hungry: 100,
+                  rest: 100,
+              });
+        this.profession = settler.profession
+            ? new Profession(settler.profession)
+            : new Profession({
+                  name: profession.profession,
+                  title: profession.title,
+              });
+        this.work = settler.work
+            ? new Work(settler.work)
+            : new Work({
+                  id: Job.None,
+                  priorities: [],
+              });
     }
 
     get completeName() {

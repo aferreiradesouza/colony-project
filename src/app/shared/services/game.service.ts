@@ -1,29 +1,45 @@
 import { Injectable } from '@angular/core';
-import { Settler } from '../model/settler/settler.model';
+import { Base } from '../model/base/base.model';
+import { Construction, Constructions } from '../model/base/construction.model';
+import { Game } from '../model/game/game.model';
 import { CryptHandlerService } from './crypt-handler.service';
-import { SettlersService } from './settlers.service';
+import { HelperService } from './helpers.service';
 import { StorageHandler } from './storage-handler.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
-    constructor(
-        private settlerService: SettlersService,
-        private cryptService: CryptHandlerService
-    ) {}
+    private _game: Game;
 
-    save(): void {
-        const settlers = JSON.stringify(this.settlerService.settlers);
-        const crypt = this.cryptService.encrypt(settlers);
+    constructor(private cryptService: CryptHandlerService) {
+        this._game = new Game({
+            id: HelperService.guid,
+            settlers: [],
+            base: new Base({
+                constructions: [
+                    new Construction({ id: Constructions.Storage }),
+                ],
+            }),
+        });
+    }
+
+    public save(): void {
+        const game = JSON.stringify(this.game);
+        const crypt = this.cryptService.encrypt(game);
         StorageHandler.set('save', crypt);
     }
 
-    load(): void {
+    public load(): void {
         if (!StorageHandler.has('save')) return;
         const save = StorageHandler.get('save')!;
-        const settlers = JSON.parse(
-            this.cryptService.decrypt(save)
-        ) as Settler[];
-        console.log(settlers);
-        this.settlerService.replace(settlers.map((e) => new Settler(e)));
+        const game = JSON.parse(this.cryptService.decrypt(save)) as Game;
+        this._setGame(new Game(game));
+    }
+
+    private _setGame(game: Game): void {
+        this._game = game;
+    }
+
+    public get game(): Game {
+        return this._game;
     }
 }

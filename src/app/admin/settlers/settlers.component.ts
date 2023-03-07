@@ -25,10 +25,14 @@ export class SettlersComponent {
     }
 
     save() {
-        this.gameService.save();
+        -this.gameService.save();
     }
 
     load() {
         this.gameService.load();
+    }
+
+    log() {
+        this.debugService.log();
     }
 }

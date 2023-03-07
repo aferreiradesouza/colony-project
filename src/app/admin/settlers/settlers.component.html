@@ -1,7 +1,78 @@
 <app-button label="Add. Settler" (clickEvent)="addSettler()"></app-button>
 <app-button label="Save" class="ml-2" theme="secondary" (clickEvent)="save()"></app-button>
 <app-button label="Load" class="ml-2" theme="terciary" (clickEvent)="load()"></app-button>
-<table>
+<app-button label="Log Settlers" class="ml-2" theme="info" (clickEvent)="log()"></app-button>
+
+<div class="my-2 mx-4">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300 bg-white">
+                <thead>
+                    <tr>
+                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                            Nome</th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Idade</th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Habilidade
+                        </th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Necessidades
+                        </th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Profissão</th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Work</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr *ngFor="let settler of settlers">
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                            {{settler.completeName}}</td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{settler.age}}</td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
+                            <table>
+                                <thead>
+                                    <th>Nome</th>
+                                    <th>level</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let skill of settler.skills.habilities">
+                                        <td>{{skill.id | skill}}</td>
+                                        <td align="center">{{skill.level ?? 'None'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
+                            Fome: {{settler.necessity.hungry}}<br>
+                            Diversão: {{settler.necessity.fun}}<br>
+                            Descanso: {{settler.necessity.rest}}<br>
+                        </td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
+                            {{settler.profession.title}}
+                        </td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
+                            Work in progress: {{settler.work.id | work}}<br>
+                            <table>
+                                <thead>
+                                    <th>Nome</th>
+                                    <th>Prioridade</th>
+                                    <th>Peso</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let work of settler.work.priorities">
+                                        <td>{{work.id | work}}</td>
+                                        <td align="center">{{work.value}}</td>
+                                        <td align="center">{{work.weight}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- More people... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- <table>
     <thead>
         <th>Nome</th>
         <th>Idade</th>
@@ -24,8 +95,11 @@
                 {{settler.profession.title}}
             </td>
             <td>
-                {{settler.work.name}}
+                Work in progress: {{settler.work.name}}<br>
+                <ng-container *ngFor="let work of settler.work.priority">
+                    {{work.id}} - {{work.value}}<br>
+                </ng-container>
             </td>
         </tr>
     </tbody>
-</table>
+</table> -->
