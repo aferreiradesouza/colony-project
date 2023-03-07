@@ -21,6 +21,6 @@ export class DebugService {
                     skills: new Skills([{ name: Skill.Shot, level: 9 }]),
                 });
             })
-            .forEach((settler) => this.settlerService.addSettler(settler));
+            .forEach((settler) => this.settlerService.add(settler));
     }
 }

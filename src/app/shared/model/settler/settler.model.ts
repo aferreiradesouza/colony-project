@@ -6,6 +6,18 @@ import { Profession } from './profession.model';
 import { Skills } from './skill.model';
 import { Job, Work } from './work.model';
 
+interface ISettler {
+    id?: string;
+    age: number;
+    firstName: string;
+    lastName: string;
+    skills: Skills;
+    health?: Health;
+    necessity?: Necessity;
+    profession?: Profession;
+    work?: Work;
+}
+
 export class Settler {
     public id: string;
     public firstName: string;
@@ -17,17 +29,7 @@ export class Settler {
     public profession: Profession;
     public work: Work;
 
-    constructor(settler: {
-        id?: string;
-        age: number;
-        firstName: string;
-        lastName: string;
-        skills: Skills;
-        health?: Health;
-        necessity?: Necessity;
-        profession?: Profession;
-        work?: Work;
-    }) {
+    constructor(settler: ISettler) {
         const profession = GET_ALEATORY_PROFESSION();
 
         this.id = settler.id ?? HelperService.createGuid();
@@ -40,8 +42,8 @@ export class Settler {
         this.profession =
             settler.profession ??
             new Profession({
-                name: profession.profissao,
-                title: profession.titulo,
+                name: profession.profession,
+                title: profession.title,
             });
         this.work =
             settler.work ??

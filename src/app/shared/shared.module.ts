@@ -19,6 +19,8 @@ import { MediaService } from './services/media.service';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { SettlersService } from './services/settlers.service';
 import { DebugService } from './services/debug.service';
+import { GameService } from './services/game.service';
+import { CryptHandlerService } from './services/crypt-handler.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -42,7 +44,7 @@ const COMPONENTS = [
     ProgressBarComponent,
 ];
 
-export const SERVICES_SHARED = [SettlersService, DebugService];
+export const SERVICES_SHARED = [SettlersService, DebugService, GameService];
 
 @NgModule({
     imports: [
@@ -60,6 +62,6 @@ export const SERVICES_SHARED = [SettlersService, DebugService];
     ],
     exports: [...COMPONENTS, TranslateModule],
     declarations: [...COMPONENTS],
-    providers: [HelperService, MediaService],
+    providers: [HelperService, MediaService, CryptHandlerService],
 })
 export class SharedModule {}

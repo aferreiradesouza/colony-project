@@ -4,6 +4,7 @@
 
 export const environment = {
     production: false,
+    key_crypt: '123',
 };
 
 /*

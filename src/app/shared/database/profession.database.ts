@@ -1,29 +1,29 @@
 interface Profession {
-    titulo: string;
-    profissao: string;
+    title: string;
+    profession: string;
 }
 
 const PROFESSION: Profession[] = [
-    { titulo: 'Médico', profissao: 'Clínico geral' },
-    { titulo: 'Engenheiro', profissao: 'Civil' },
-    { titulo: 'Advogado', profissao: 'Criminalista' },
-    { titulo: 'Professor', profissao: 'Ensino Fundamental' },
-    { titulo: 'Enfermeiro', profissao: 'Pediátrico' },
-    { titulo: 'Veterinário', profissao: 'Cirurgião' },
-    { titulo: 'Psicólogo', profissao: 'Clínico' },
-    { titulo: 'Dentista', profissao: 'Ortodontista' },
-    { titulo: 'Arquiteto', profissao: 'Urbanista' },
-    { titulo: 'Jornalista', profissao: 'Repórter' },
-    { titulo: 'Programador', profissao: 'Web' },
-    { titulo: 'Analista de sistemas', profissao: 'Sistemas' },
-    { titulo: 'Designer gráfico', profissao: 'UI/UX' },
-    { titulo: 'Administrador', profissao: 'Financeiro' },
-    { titulo: 'Contador', profissao: 'Fiscal' },
-    { titulo: 'Consultor', profissao: 'Empresarial' },
-    { titulo: 'Chef de cozinha', profissao: 'Gourmet' },
-    { titulo: 'Cientista', profissao: 'Pesquisa' },
-    { titulo: 'Economista', profissao: 'Financeiro' },
-    { titulo: 'Farmacêutico', profissao: 'Hospitalar' },
+    { title: 'Médico', profession: 'Clínico geral' },
+    { title: 'Engenheiro', profession: 'Civil' },
+    { title: 'Advogado', profession: 'Criminalista' },
+    { title: 'Professor', profession: 'Ensino Fundamental' },
+    { title: 'Enfermeiro', profession: 'Pediátrico' },
+    { title: 'Veterinário', profession: 'Cirurgião' },
+    { title: 'Psicólogo', profession: 'Clínico' },
+    { title: 'Dentista', profession: 'Ortodontista' },
+    { title: 'Arquiteto', profession: 'Urbanista' },
+    { title: 'Jornalista', profession: 'Repórter' },
+    { title: 'Programador', profession: 'Web' },
+    { title: 'Analista de sistemas', profession: 'Sistemas' },
+    { title: 'Designer gráfico', profession: 'UI/UX' },
+    { title: 'Administrador', profession: 'Financeiro' },
+    { title: 'Contador', profession: 'Fiscal' },
+    { title: 'Consultor', profession: 'Empresarial' },
+    { title: 'Chef de cozinha', profession: 'Gourmet' },
+    { title: 'Cientista', profession: 'Pesquisa' },
+    { title: 'Economista', profession: 'Financeiro' },
+    { title: 'Farmacêutico', profession: 'Hospitalar' },
 ];
 
 export const GET_ALEATORY_PROFESSION = (): Profession => {

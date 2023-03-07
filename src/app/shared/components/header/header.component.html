@@ -10,8 +10,18 @@
             {{ title | translate }}
         </div>
     </div>
-    <div class="settings-area p-4">
-        settings
+    <div class="settings-area">
+        <div class="game-info">
+            <app-svg symbol="sun"></app-svg>
+            <div class="celsius">35º</div>
+            <div class="season">Verão</div>
+            <div class="time">10:00</div>
+        </div>
+        <div class="settings">
+            <div class="icon-square">
+                <app-svg symbol="cog"></app-svg>
+            </div>
+        </div>
     </div>
     <div class="close-shortcut-area lg:hidden" (click)="clickMenuShortcut.emit()">
         <app-svg [symbol]="shortcutIsOpen ? 'chevronRight' : 'chevronLeft'"></app-svg>

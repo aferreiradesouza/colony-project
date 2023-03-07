@@ -1,6 +1,7 @@
 @import 'styles/variables';
 @import 'mixins/media.mixin';
 @import 'mixins/align.mixin';
+@import 'mixins/typography.mixin';
 
 .header {
     display: flex;
@@ -55,8 +56,24 @@
     background-color: $primary;
 
     @include lg {
-        display: block;
+        @apply px-4;
+
+        @include alignVertically;
         width: 317px;
+        justify-content: space-between;
+    }
+
+    > .game-info {
+        @apply rounded-lg py-1 px-3 shadow;
+
+        width: fit-content;
+        background-color: $neutralWhite;
+        border: 1px solid $lightShade;
+        @include paragraph-tiny;
+        @include alignVertically;
+        gap: 10px;
+        font-weight: bold;
+        user-select: none;
     }
 }
 

@@ -13,3 +13,4 @@ export type ButtonSize = keyof typeof ButtonSizeEnum;
 export type Icon = keyof typeof IconEnum;
 export type TextTypes = keyof typeof TextTypesEnum;
 export type Theme = keyof typeof ThemeEnum;
+export type KeyStorage = 'save';

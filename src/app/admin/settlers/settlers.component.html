@@ -1,10 +1,13 @@
-<app-button label="Adc. Settler" (clickEvent)="addSettler()"></app-button>
+<app-button label="Add. Settler" (clickEvent)="addSettler()"></app-button>
+<app-button label="Save" class="ml-2" theme="secondary" (clickEvent)="save()"></app-button>
+<app-button label="Load" class="ml-2" theme="terciary" (clickEvent)="load()"></app-button>
 <table>
     <thead>
         <th>Nome</th>
         <th>Idade</th>
         <th>Habilidade</th>
         <th>Necessidades</th>
+        <th>Profissão</th>
         <th>Work</th>
     </thead>
     <tbody>
@@ -16,6 +19,9 @@
                 Fome: {{settler.necessity.hungry}}<br>
                 Diversão: {{settler.necessity.fun}}<br>
                 Descanso: {{settler.necessity.rest}}<br>
+            </td>
+            <td>
+                {{settler.profession.title}}
             </td>
             <td>
                 {{settler.work.name}}

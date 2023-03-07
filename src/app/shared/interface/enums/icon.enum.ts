@@ -12,4 +12,6 @@ export enum IconEnum {
     chevronRight,
     chevronLeft,
     wrench,
+    cog,
+    sun,
 }
