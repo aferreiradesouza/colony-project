@@ -7,11 +7,11 @@ export class SettlersService {
     constructor(private gameService: GameService) {}
 
     public add(settler: Settler, game = this.gameService.game): void {
-        game.settlers.push(settler);
+        game.addSettler(settler);
     }
 
     public replace(settler: Settler[], game = this.gameService.game): void {
-        game.settlers = settler;
+        game.replaceSettler(settler);
     }
 
     get settlers(): Settler[] {

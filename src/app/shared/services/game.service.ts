@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Base } from '../model/base/base.model';
 import { Construction, Constructions } from '../model/base/construction.model';
 import { Game } from '../model/game/game.model';
+import { Settler } from '../model/settler/settler.model';
+import { Skill, Skills } from '../model/settler/skill.model';
+import { Job, Work } from '../model/settler/work.model';
 import { CryptHandlerService } from './crypt-handler.service';
 import { HelperService } from './helpers.service';
 import { StorageHandler } from './storage-handler.service';
@@ -16,7 +19,26 @@ export class GameService {
             settlers: [],
             base: new Base({
                 constructions: [
-                    new Construction({ id: Constructions.Storage }),
+                    new Construction({
+                        id: Constructions.Storage,
+                        status: 'not-started',
+                    }),
+                    new Construction({
+                        id: Constructions.House,
+                        status: 'not-started',
+                    }),
+                    new Construction({
+                        id: Constructions.Kitchen,
+                        status: 'not-started',
+                    }),
+                    new Construction({
+                        id: Constructions.Farm,
+                        status: 'not-started',
+                    }),
+                    new Construction({
+                        id: Constructions.Factory,
+                        status: 'not-started',
+                    }),
                 ],
             }),
         });

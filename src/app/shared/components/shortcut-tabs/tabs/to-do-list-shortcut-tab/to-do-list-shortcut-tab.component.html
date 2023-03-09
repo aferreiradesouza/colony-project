@@ -1,14 +1,14 @@
 <div class="content">
-    <div class="to-do-card" *ngFor="let item of mock">
+    <div class="to-do-card" *ngFor="let item of contructions">
         <div class="icon-square">
             <app-svg symbol="wrench"></app-svg>
         </div>
         <div class="title-area">
-            <div class="title">{{item.work}}</div>
-            <div class="time">05:00</div>
+            <div class="title">{{item.id | structure}}</div>
+            <div class="time">{{item.timeMs}}</div>
         </div>
         <div class="progress">
-            <app-progress-bar [percent]="item.progress"></app-progress-bar>
+            <app-progress-bar [percent]="90"></app-progress-bar>
         </div>
     </div>
 </div>

@@ -24,6 +24,8 @@ import { CryptHandlerService } from './services/crypt-handler.service';
 import { SkillPipe } from './pipe/skill.pipe';
 import { WorkPipe } from './pipe/work.pipe';
 import { BaseService } from './services/base.service';
+import { IAService } from './services/IA.service';
+import { StructurePipe } from './pipe/structures.pipe';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -47,13 +49,14 @@ const COMPONENTS = [
     ProgressBarComponent,
 ];
 
-const PIPES = [SkillPipe, WorkPipe];
+const PIPES = [SkillPipe, WorkPipe, StructurePipe];
 
 export const SERVICES_SHARED = [
     SettlersService,
     DebugService,
     GameService,
     BaseService,
+    IAService,
 ];
 
 @NgModule({

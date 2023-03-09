@@ -1,19 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-    ConstructionDatabase,
-    CONSTRUCTIONS,
-} from '../database/constructions.database';
-import { Constructions } from '../model/base/construction.model';
+import { Construction } from '../model/base/construction.model';
+import { GameService } from './game.service';
 
 @Injectable({ providedIn: 'root' })
 export class BaseService {
-    constructor() {}
+    constructor(private gameService: GameService) {}
 
-    get constructionsList(): ConstructionDatabase[] {
-        return Object.values(CONSTRUCTIONS);
-    }
-
-    getConstruction(id: Constructions): ConstructionDatabase {
-        return CONSTRUCTIONS[id];
+    get contructions(): Construction[] {
+        return this.gameService.game.base.constructions;
     }
 }

@@ -1,22 +1,56 @@
 import { Constructions } from '../model/base/construction.model';
 import { Job } from '../model/settler/work.model';
 
-export interface ConstructionDatabase {
+export interface IConstructionDatabase {
     id: Constructions;
-    job: Job;
+    jobToCreateStructure: Job;
+    timeMs: number;
+    jobNecessary: Job | null;
 }
 
-export const CONSTRUCTIONS: { [key in Constructions]: ConstructionDatabase } = {
-    [Constructions.Redidence]: {
-        id: Constructions.Redidence,
-        job: Job.Construction,
-    },
-    [Constructions.Storage]: {
-        id: Constructions.Storage,
-        job: Job.Construction,
-    },
-    [Constructions.Kitchen]: {
-        id: Constructions.Kitchen,
-        job: Job.Construction,
-    },
-};
+export class ConstructionDatabase {
+    constructor() {}
+
+    static get structures(): { [key in Constructions]: IConstructionDatabase } {
+        return {
+            [Constructions?.Storage]: {
+                id: Constructions?.Storage,
+                jobToCreateStructure: Job.Construction,
+                timeMs: 2000,
+                jobNecessary: null,
+            },
+            [Constructions?.House]: {
+                id: Constructions?.House,
+                jobToCreateStructure: Job.Construction,
+                timeMs: 500000,
+                jobNecessary: null,
+            },
+            [Constructions?.Kitchen]: {
+                id: Constructions?.Kitchen,
+                jobToCreateStructure: Job.Construction,
+                timeMs: 8000,
+                jobNecessary: Job.Kitchen,
+            },
+            [Constructions?.Farm]: {
+                id: Constructions?.Farm,
+                jobToCreateStructure: Job.Construction,
+                timeMs: 2000,
+                jobNecessary: Job.Agriculture,
+            },
+            [Constructions?.Factory]: {
+                id: Constructions?.Factory,
+                jobToCreateStructure: Job.Construction,
+                timeMs: 35000,
+                jobNecessary: Job.Construction,
+            },
+        };
+    }
+
+    static get constructionsList(): IConstructionDatabase[] {
+        return Object.values(ConstructionDatabase.structures);
+    }
+
+    static getConstruction(id: Constructions): IConstructionDatabase {
+        return ConstructionDatabase.structures[id];
+    }
+}

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GET_ALEATORY_NAME } from 'src/app/shared/database/names.database';
 import { Settler } from '../model/settler/settler.model';
 import { Skill, Skills } from '../model/settler/skill.model';
+import { Job, Work } from '../model/settler/work.model';
 import { GameService } from './game.service';
 import { SettlersService } from './settlers.service';
 
@@ -26,6 +27,16 @@ export class DebugService {
                         habilities: [
                             { id: Skill.Shot, level: 9 },
                             { id: Skill.Animals, level: null },
+                        ],
+                    }),
+                    work: new Work({
+                        workInProgressId: Job.None,
+                        priorities: [
+                            {
+                                id: Job.Construction,
+                                value: 1,
+                                weight: 9,
+                            },
                         ],
                     }),
                 });

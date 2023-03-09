@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Construction } from 'src/app/shared/model/base/construction.model';
+import { BaseService } from 'src/app/shared/services/base.service';
 import { ToDoListShortcut } from '../../shortcut.interface';
 
 @Component({
@@ -70,5 +72,11 @@ export class ToDoListShortcutTabComponent {
         },
     ];
 
-    constructor() {}
+    constructor(private baseService: BaseService) {}
+
+    get contructions(): Construction[] {
+        return this.baseService.contructions.filter(
+            (e) => e.status === 'not-started' || e.status === 'pending'
+        );
+    }
 }

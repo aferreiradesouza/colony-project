@@ -1,22 +1,22 @@
 import { HelperService } from 'src/app/shared/services/helpers.service';
 
 interface IWork {
-    id: Job;
+    workInProgressId?: Job;
     priorities: Priority[];
 }
 
 interface Priority {
     id: Job;
-    weight: number;
+    weight?: number;
     value: number;
 }
 
 export class Work {
-    id: Job;
+    workInProgressId: Job;
     priorities: Priority[];
 
     constructor(work: IWork) {
-        this.id = work.id;
+        this.workInProgressId = work.workInProgressId ?? Job.None;
         this.priorities = this._createPriorityList(work.priorities);
     }
 
@@ -25,8 +25,8 @@ export class Work {
             const prioryObject = priority.find((f) => f.id === Job[e]);
             return {
                 id: Job[e],
-                weight: 1,
-                value: prioryObject?.value ?? 1,
+                weight: JobWeight[e],
+                value: prioryObject?.value ?? 5,
             };
         });
     }
@@ -38,4 +38,12 @@ export enum Job {
     Agriculture,
     Kitchen,
     Clean,
+}
+
+export enum JobWeight {
+    None = 0,
+    Construction = 9,
+    Agriculture = 8,
+    Kitchen = 7,
+    Clean = 6,
 }

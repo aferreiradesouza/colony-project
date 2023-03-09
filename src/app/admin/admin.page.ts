@@ -5,6 +5,7 @@ import {
 } from 'angular-animations';
 import { ShortcutTabsComponent } from '../shared/components/shortcut-tabs/shortcut-tabs.component';
 import { GameService } from '../shared/services/game.service';
+import { IAService } from '../shared/services/IA.service';
 import { MediaService } from '../shared/services/media.service';
 
 @Component({
@@ -26,7 +27,12 @@ export class AdminPage {
 
     @ViewChild(ShortcutTabsComponent) shortcutComponent!: ShortcutTabsComponent;
 
-    constructor(private mediaService: MediaService) {}
+    constructor(
+        private mediaService: MediaService,
+        private IAService: IAService
+    ) {
+        this.IAService.start();
+    }
 
     toggle(): void {
         this.menuIsOpen ? this.close() : this.open();

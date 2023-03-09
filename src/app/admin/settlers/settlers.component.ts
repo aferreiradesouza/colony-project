@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import {
+    Construction,
+    Constructions,
+} from 'src/app/shared/model/base/construction.model';
 import { Settler } from 'src/app/shared/model/settler/settler.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
 import { GameService } from 'src/app/shared/services/game.service';
@@ -25,7 +29,7 @@ export class SettlersComponent {
     }
 
     save() {
-        -this.gameService.save();
+        this.gameService.save();
     }
 
     load() {

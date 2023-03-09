@@ -22,9 +22,7 @@ const routes: Routes = [
                 path: 'base',
                 data: { context: GET_MENU(MenuEnum.base) },
                 loadChildren: () =>
-                    import('./summary/summary.module').then(
-                        (m) => m.SummaryModule
-                    ),
+                    import('./base/base.module').then((m) => m.BaseModule),
             },
             {
                 path: 'settlers',

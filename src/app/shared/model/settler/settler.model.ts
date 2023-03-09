@@ -58,7 +58,7 @@ export class Settler {
         this.work = settler.work
             ? new Work(settler.work)
             : new Work({
-                  id: Job.None,
+                  workInProgressId: Job.None,
                   priorities: [],
               });
     }
@@ -69,5 +69,17 @@ export class Settler {
 
     get completeNameWithProfession() {
         return `${this.firstName} "${this.profession.title}" ${this.lastName}`;
+    }
+
+    assignWork(job: Job | null): void {
+        this.work.workInProgressId = job ?? Job.None;
+    }
+
+    getWorkValue(job: Job): number {
+        return this.work.priorities.filter((e) => e.id === job)[0].value;
+    }
+
+    getWorkWeight(job: Job): number {
+        return this.work.priorities.filter((e) => e.id === job)[0].weight!;
     }
 }
