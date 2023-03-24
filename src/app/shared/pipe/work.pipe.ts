@@ -12,7 +12,7 @@ export class WorkPipe implements PipeTransform {
     private _getJob(job: Job): string {
         const jobs: { [key in Job]: string } = {
             [Job.Agriculture]: 'Agricultura',
-            [Job.Construction]: 'Construção',
+            [Job.Builder]: 'Construção',
             [Job.None]: 'Nenhuma',
             [Job.Kitchen]: 'Cozinha',
             [Job.Clean]: 'Limpar',

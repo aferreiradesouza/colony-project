@@ -18,7 +18,7 @@ export class DebugService {
         private gameService: GameService
     ) {}
 
-    createSettlers(num = 1): void {
+    createSettlers(num = 1, work: Work = this.default): void {
         Array(num)
             .fill('')
             .map(() => {
@@ -32,22 +32,58 @@ export class DebugService {
                             { id: Skill.Animals, level: null },
                         ],
                     }),
-                    work: new Work({
-                        workInProgressId: Job.None,
-                        priorities: [
-                            {
-                                id: Job.Construction,
-                                value: 1,
-                            },
-                            {
-                                id: Job.Kitchen,
-                                value: 1,
-                            },
-                        ],
-                    }),
+                    work,
                 });
             })
             .forEach((settler) => this.settlerService.add(settler));
+    }
+
+    get default(): Work {
+        return new Work({
+            workInProgressId: Job.None,
+            priorities: [
+                {
+                    id: Job.Builder,
+                    value: 1,
+                },
+                {
+                    id: Job.Kitchen,
+                    value: 1,
+                },
+            ],
+        });
+    }
+
+    get cook(): Work {
+        return new Work({
+            workInProgressId: Job.None,
+            priorities: [
+                {
+                    id: Job.Builder,
+                    value: 0,
+                },
+                {
+                    id: Job.Kitchen,
+                    value: 1,
+                },
+            ],
+        });
+    }
+
+    get builder(): Work {
+        return new Work({
+            workInProgressId: Job.None,
+            priorities: [
+                {
+                    id: Job.Builder,
+                    value: 1,
+                },
+                {
+                    id: Job.Kitchen,
+                    value: 0,
+                },
+            ],
+        });
     }
 
     createConstruction(id: Constructions): void {

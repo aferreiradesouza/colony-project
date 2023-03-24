@@ -2,11 +2,13 @@
     <thead>
         <th>Nome</th>
         <th>Idade</th>
+        <th>Work</th>
     </thead>
     <tbody>
         <tr *ngFor="let settler of settlers">
             <td>{{settler.completeName}}</td>
             <td>{{settler.age}}</td>
+            <td>{{settler.work.workInProgressId | work}}</td>
         </tr>
     </tbody>
 </table>

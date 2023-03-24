@@ -20,6 +20,14 @@ export class SettlersComponent {
         this.debugService.createSettlers(1);
     }
 
+    addCook(): void {
+        this.debugService.createSettlers(1, this.debugService.builder);
+    }
+
+    addBuilder(): void {
+        this.debugService.createSettlers(1, this.debugService.cook);
+    }
+
     get settlers(): Settler[] {
         return this.settlerService.settlers;
     }

@@ -36,7 +36,7 @@ export class Work {
 
 export enum Job {
     None,
-    Construction,
+    Builder,
     Agriculture,
     Kitchen,
     Clean,
@@ -44,7 +44,7 @@ export enum Job {
 
 export enum JobWeight {
     None = 0,
-    Construction = 4,
+    Builder = 4,
     Agriculture = 3,
     Kitchen = 2,
     Clean = 1,

@@ -34,14 +34,13 @@ export class IAService {
                 const job = priority.id;
                 if (job === settler.work.workInProgressId) break;
                 if (
-                    job === Job.Construction &&
+                    job === Job.Builder &&
                     !!this._checkStructuresWaitingConstruction()
                 ) {
                     if (settler.work.workInProgressId)
                         this.gameService.game.base
                             .getConstructionAssignedTo(settler)
                             ?.unassignSettler(settler);
-                    //     settler.work.workInProgress.unassignSettler(settler);
                     this._jobConstruction(settler);
                     break;
                 }
@@ -53,7 +52,6 @@ export class IAService {
                         this.gameService.game.base
                             .getConstructionAssignedTo(settler)
                             ?.unassignSettler(settler);
-                    //     settler.work.workInProgress.unassignSettler(settler);
                     this._jobKitchen(settler);
                     break;
                 }
@@ -67,7 +65,7 @@ export class IAService {
                 (e) =>
                     e.status !== 'done' &&
                     !e.assignTo &&
-                    e.jobToCreateStructure === Job.Construction
+                    e.jobToCreateStructure === Job.Builder
             ) ?? null
         );
     }
@@ -77,7 +75,7 @@ export class IAService {
         this.gameService.game.base.assingSettler(
             settler,
             construction!,
-            Job.Construction
+            Job.Builder
         );
         construction?.create();
     }

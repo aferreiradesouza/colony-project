@@ -15,33 +15,33 @@ export class ConstructionDatabase {
         return {
             [Constructions?.Storage]: {
                 id: Constructions?.Storage,
-                jobToCreateStructure: Job.Construction,
+                jobToCreateStructure: Job.Builder,
                 timeMs: 15000,
                 jobNecessary: null,
             },
             [Constructions?.House]: {
                 id: Constructions?.House,
-                jobToCreateStructure: Job.Construction,
+                jobToCreateStructure: Job.Builder,
                 timeMs: 10000,
                 jobNecessary: null,
             },
             [Constructions?.Kitchen]: {
                 id: Constructions?.Kitchen,
-                jobToCreateStructure: Job.Construction,
+                jobToCreateStructure: Job.Builder,
                 timeMs: 2000,
                 jobNecessary: Job.Kitchen,
             },
             [Constructions?.Farm]: {
                 id: Constructions?.Farm,
-                jobToCreateStructure: Job.Construction,
+                jobToCreateStructure: Job.Builder,
                 timeMs: 2000,
                 jobNecessary: Job.Agriculture,
             },
             [Constructions?.Factory]: {
                 id: Constructions?.Factory,
-                jobToCreateStructure: Job.Construction,
+                jobToCreateStructure: Job.Builder,
                 timeMs: 35000,
-                jobNecessary: Job.Construction,
+                jobNecessary: Job.Builder,
             },
         };
     }
