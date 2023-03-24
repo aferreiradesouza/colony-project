@@ -4,11 +4,13 @@
             <app-svg symbol="wrench"></app-svg>
         </div>
         <div class="title-area">
-            <div class="title">{{item.id | structure}}</div>
-            <div class="time">{{item.timeMs}}</div>
+            <div class="title">{{item.type | structure}}</div>
+            <div class="time">
+                <countdown #cd [config]="{leftTime: item.timeMs / 1000}"></countdown>
+            </div>
         </div>
         <div class="progress">
-            <app-progress-bar [percent]="90"></app-progress-bar>
+            <app-progress-bar [percent]="item.percent"></app-progress-bar>
         </div>
     </div>
 </div>

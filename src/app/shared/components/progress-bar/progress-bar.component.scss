@@ -33,6 +33,7 @@ $themeColours: (
         > .bar {
             background-color: red;
             height: 100%;
+            transition: 0.2s width;
 
             @each $themeColour, $i in $themeColours {
                 &.#{$themeColour} {

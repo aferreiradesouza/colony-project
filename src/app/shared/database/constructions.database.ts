@@ -16,19 +16,19 @@ export class ConstructionDatabase {
             [Constructions?.Storage]: {
                 id: Constructions?.Storage,
                 jobToCreateStructure: Job.Construction,
-                timeMs: 2000,
+                timeMs: 15000,
                 jobNecessary: null,
             },
             [Constructions?.House]: {
                 id: Constructions?.House,
                 jobToCreateStructure: Job.Construction,
-                timeMs: 500000,
+                timeMs: 10000,
                 jobNecessary: null,
             },
             [Constructions?.Kitchen]: {
                 id: Constructions?.Kitchen,
                 jobToCreateStructure: Job.Construction,
-                timeMs: 8000,
+                timeMs: 2000,
                 jobNecessary: Job.Kitchen,
             },
             [Constructions?.Farm]: {

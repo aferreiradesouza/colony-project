@@ -4,7 +4,6 @@ import {
     fadeOutOnLeaveAnimation,
 } from 'angular-animations';
 import { ShortcutTabsComponent } from '../shared/components/shortcut-tabs/shortcut-tabs.component';
-import { GameService } from '../shared/services/game.service';
 import { IAService } from '../shared/services/IA.service';
 import { MediaService } from '../shared/services/media.service';
 
@@ -21,7 +20,7 @@ export class AdminPage {
     public menuIsOpen = false;
     public shortcutIsOpen = false;
     @HostListener('window:resize', ['$event'])
-    onResize(event: Event) {
+    onResize(event: Event): void {
         this.mediaService.onResize.emit(event);
     }
 
@@ -46,11 +45,11 @@ export class AdminPage {
         this.menuIsOpen = false;
     }
 
-    contentClick() {
+    contentClick(): void {
         if (this.menuIsOpen) this.close();
     }
 
-    toggleShortcut() {
+    toggleShortcut(): void {
         this.shortcutComponent.toggle();
     }
 }

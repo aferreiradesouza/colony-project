@@ -1,3 +1,7 @@
+<app-button class="" theme="primary" label="Adicionar armazém" (click)="createStorage()"></app-button>
+<app-button class="ml-2" theme="secondary" label="Adicionar casa" (click)="createHouse()"></app-button>
+<app-button class="ml-2" theme="terciary" label="Adicionar cozinha" (click)="createKitchen()"></app-button>
+
 <div class="my-2 mx-4">
     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -16,7 +20,7 @@
                 <tbody class="divide-y divide-gray-200">
                     <tr *ngFor="let contruction of constructions">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                            {{contruction.id | structure}}</td>
+                            {{contruction.type | structure}}</td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
                             {{contruction.timeMs}}
                         </td>

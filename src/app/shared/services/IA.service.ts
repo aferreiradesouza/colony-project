@@ -1,90 +1,104 @@
 import { Injectable } from '@angular/core';
+import { Construction } from '../model/base/construction.model';
 import { Settler } from '../model/settler/settler.model';
 import { Job } from '../model/settler/work.model';
 import { GameService } from './game.service';
+
+interface Structure {
+    structure: Construction;
+    settler: Settler | null;
+    job: Job | null;
+}
 
 @Injectable({ providedIn: 'root' })
 export class IAService {
     constructor(private gameService: GameService) {}
 
-    public start() {
+    public start(): void {
         setInterval(() => {
-            this._checkStructures();
+            // this._checkStructures();
+            this._checkSettlersPriorities();
         }, 500);
     }
 
-    private _checkStructures() {
-        this.gameService.game.base.constructions.forEach((construction) => {
-            if (construction.status === 'not-started') {
-                const settler = this._getAvaibleSettler(
-                    construction.jobToCreateStructure
-                );
-                if (settler) {
-                    construction.assignSettler(
-                        settler,
-                        construction.jobToCreateStructure
-                    );
-                    construction.create();
+    _checkSettlersPriorities(): void {
+        this.gameService.game.settlers.forEach((settler) => {
+            const priorities = settler.work.priorities
+                .filter((priority) => priority.value && priority.id)
+                .sort((a, b) => {
+                    return a.weight! >= b.weight! && a.value <= b.value
+                        ? -1
+                        : 1;
+                });
+            for (const priority of priorities) {
+                const job = priority.id;
+                if (job === settler.work.workInProgressId) break;
+                if (
+                    job === Job.Construction &&
+                    !!this._checkStructuresWaitingConstruction()
+                ) {
+                    if (settler.work.workInProgressId)
+                        this.gameService.game.base
+                            .getConstructionAssignedTo(settler)
+                            ?.unassignSettler(settler);
+                    //     settler.work.workInProgress.unassignSettler(settler);
+                    this._jobConstruction(settler);
+                    break;
+                }
+                if (
+                    job === Job.Kitchen &&
+                    !!this._checkStructuresHasKitchen()
+                ) {
+                    if (settler.work.workInProgressId)
+                        this.gameService.game.base
+                            .getConstructionAssignedTo(settler)
+                            ?.unassignSettler(settler);
+                    //     settler.work.workInProgress.unassignSettler(settler);
+                    this._jobKitchen(settler);
+                    break;
                 }
             }
-            // else if (construction.status === 'done') {
-            //     const settler = this._getAvaibleSettler(
-            //         construction.jobToCreateStructure
-            //     );
-            //     if (settler) {
-            //         construction.assignSettler(
-            //             settler,
-            //             construction.jobNecessary
-            //         );
-            //     }
-            // }
         });
     }
 
-    private _getAvaibleSettler(job: Job): Settler | null {
+    _checkStructuresWaitingConstruction(): Construction | null {
         return (
-            this._getFirtOneAvailble(job) ||
-            this._getSettlerWithWorkInProgress(job) ||
-            null
+            this.gameService.game.base.constructions.find(
+                (e) =>
+                    e.status !== 'done' &&
+                    !e.assignTo &&
+                    e.jobToCreateStructure === Job.Construction
+            ) ?? null
         );
     }
 
-    private _getSettlerWithWorkInProgress(job: Job): Settler | null {
-        const settlersWithFilter = this.gameService.game.settlers
-            .filter((e) => e.work.priorities.filter((f) => f.id === job).length)
-            .filter(
+    _jobConstruction(settler: Settler): void {
+        const construction = this._checkStructuresWaitingConstruction();
+        this.gameService.game.base.assingSettler(
+            settler,
+            construction!,
+            Job.Construction
+        );
+        construction?.create();
+    }
+
+    _checkStructuresHasKitchen(): Construction | null {
+        return (
+            this.gameService.game.base.constructions.find(
                 (e) =>
-                    e.getWorkValue(e.work.workInProgressId) >=
-                        e.getWorkValue(job) &&
-                    e.getWorkWeight(e.work.workInProgressId) <
-                        e.getWorkWeight(job)
-            );
-        if (!settlersWithFilter.length) return null;
-        return this._getFirstPriority(settlersWithFilter, job);
+                    e.status === 'done' &&
+                    !e.assignTo &&
+                    e.jobNecessary === Job.Kitchen
+            ) ?? null
+        );
     }
 
-    private _getFirtOneAvailble(job: Job): Settler | null {
-        const settlersWithFilter = this.gameService.game.settlers
-            .filter((e) => e.work.priorities.filter((f) => f.id === job).length)
-            .filter((e) => e.work.workInProgressId === Job.None);
-
-        if (!settlersWithFilter.length) return null;
-
-        return this._getFirstPriority(settlersWithFilter, job);
-    }
-
-    private _getFirstPriority(settlers: Settler[], job: Job) {
-        return settlers.reduce((accumulator, currentValue) => {
-            if (!accumulator) {
-                return currentValue;
-            } else {
-                if (
-                    currentValue.getWorkValue(job) <
-                    accumulator.getWorkValue(job)
-                )
-                    return currentValue;
-                else return accumulator;
-            }
-        });
+    _jobKitchen(settler: Settler): void {
+        const construction = this._checkStructuresHasKitchen();
+        this.gameService.game.base.assingSettler(
+            settler,
+            construction!,
+            Job.Kitchen
+        );
     }
 }

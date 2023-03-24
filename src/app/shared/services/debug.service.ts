@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { GET_ALEATORY_NAME } from 'src/app/shared/database/names.database';
+import { Construction, Constructions } from '../model/base/construction.model';
 import { Settler } from '../model/settler/settler.model';
 import { Skill, Skills } from '../model/settler/skill.model';
 import { Job, Work } from '../model/settler/work.model';
+import { BaseService } from './base.service';
 import { GameService } from './game.service';
 import { SettlersService } from './settlers.service';
 
@@ -12,6 +14,7 @@ import { SettlersService } from './settlers.service';
 export class DebugService {
     constructor(
         private settlerService: SettlersService,
+        private baseService: BaseService,
         private gameService: GameService
     ) {}
 
@@ -35,13 +38,25 @@ export class DebugService {
                             {
                                 id: Job.Construction,
                                 value: 1,
-                                weight: 9,
+                            },
+                            {
+                                id: Job.Kitchen,
+                                value: 1,
                             },
                         ],
                     }),
                 });
             })
             .forEach((settler) => this.settlerService.add(settler));
+    }
+
+    createConstruction(id: Constructions): void {
+        this.baseService.addContruction(
+            new Construction({
+                type: id,
+                status: 'not-started',
+            })
+        );
     }
 
     log(): void {

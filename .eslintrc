@@ -1,9 +1,7 @@
 {
     "root": true,
     "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint"
-    ],
+    "plugins": ["@typescript-eslint"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
@@ -17,7 +15,11 @@
         "no-extra-parens": 0,
         "quotes": ["error", "single"],
         "no-useless-escape": 0,
-        "@typescript-eslint/no-empty-function": ["error", { "allow": ["constructors"] }],
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/no-empty-function": [
+            "error",
+            { "allow": ["constructors"] }
+        ],
         "@typescript-eslint/no-empty-interface": ["error"],
         "@typescript-eslint/no-non-null-assertion": 0
     }

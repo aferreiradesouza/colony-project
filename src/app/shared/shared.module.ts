@@ -26,9 +26,18 @@ import { WorkPipe } from './pipe/work.pipe';
 import { BaseService } from './services/base.service';
 import { IAService } from './services/IA.service';
 import { StructurePipe } from './pipe/structures.pipe';
+import {
+    CountdownConfig,
+    CountdownGlobalConfig,
+    CountdownModule,
+} from 'ngx-countdown';
+
+function countdownConfigFactory(): CountdownConfig {
+    return { format: 'mm:ss', demand: true };
+}
 
 // AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(
         http,
         './assets/i18n/',
@@ -63,6 +72,7 @@ export const SERVICES_SHARED = [
     imports: [
         RouterModule,
         CommonModule,
+        CountdownModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -75,6 +85,11 @@ export const SERVICES_SHARED = [
     ],
     exports: [...COMPONENTS, ...PIPES, TranslateModule],
     declarations: [...COMPONENTS, ...PIPES],
-    providers: [HelperService, MediaService, CryptHandlerService],
+    providers: [
+        HelperService,
+        MediaService,
+        CryptHandlerService,
+        { provide: CountdownGlobalConfig, useFactory: countdownConfigFactory },
+    ],
 })
 export class SharedModule {}

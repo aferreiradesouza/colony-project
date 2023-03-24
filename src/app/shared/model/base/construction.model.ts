@@ -1,31 +1,40 @@
+import { EventEmitter } from '@angular/core';
 import {
     ConstructionDatabase,
     IConstructionDatabase,
 } from '../../database/constructions.database';
+import { HelperService } from '../../services/helpers.service';
 import { Settler } from '../settler/settler.model';
 import { Job } from '../settler/work.model';
 
-export type ConstructionStatus = 'not-started' | 'pending' | 'done';
+export type ConstructionStatus = 'not-started' | 'building' | 'paused' | 'done';
 
 export class Construction {
-    public id: Constructions;
+    public id: string;
+    public type: Constructions;
     public status: ConstructionStatus;
     public jobNecessary: Job | null;
     public jobToCreateStructure: Job;
     public timeMs: number;
     public assignTo: Settler | null = null;
+    public percent = 0;
+    public onChangeStatus = new EventEmitter<{
+        status: ConstructionStatus;
+        structure: Constructions;
+    }>();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private interval: any;
+    private interval: any = null;
 
     constructor(construction: {
-        id: Constructions;
-        status: ConstructionStatus;
+        id?: string;
+        type: Constructions;
+        status?: ConstructionStatus;
     }) {
-        this.id = construction.id;
-        this.status = construction.status;
-
-        const structure = this._getDatabase(construction.id);
+        this.type = construction.type;
+        this.status = construction.status ?? 'not-started';
+        this.id = construction.id ?? HelperService.guid;
+        const structure = this._getDatabase(construction.type);
         this.jobNecessary = structure.jobNecessary;
         this.jobToCreateStructure = structure.jobToCreateStructure;
         this.timeMs = structure.timeMs;
@@ -36,28 +45,59 @@ export class Construction {
     }
 
     create(): void {
-        this.status = 'pending';
+        this.changeStatus('building');
         this.interval = setInterval(() => {
             this.timeMs -= 1000;
+            this.calculatePercent();
             if (this.timeMs === 0) this.done();
         }, 1000);
     }
 
-    assignSettler(worker: Settler, work: Job | null): void {
-        this.assignTo = work ? worker : null;
-        if (work) worker.assignWork(this.jobToCreateStructure);
-        else worker.assignWork(null);
+    resume(): void {
+        this.interval = setInterval(() => {
+            this.timeMs -= 1000;
+            this.calculatePercent();
+            if (this.timeMs === 0) this.done();
+        }, 1000);
+    }
+
+    private calculatePercent(): void {
+        const fullTime = ConstructionDatabase.getConstruction(this.type).timeMs;
+        this.percent = Number(
+            (100 - (100 * this.timeMs) / fullTime).toFixed(2)
+        );
+    }
+
+    assignSettler(worker: Settler, work: Job): void {
+        this.assignTo = worker;
+        worker.assignWork(work, this);
+    }
+
+    unassignSettler(worker: Settler | null): void {
+        this.assignTo = null;
+        worker?.unassignWork();
     }
 
     stop(): void {
         clearInterval(this.interval);
-        this.assignSettler(this.assignTo!, null);
+        this.unassignSettler(this.assignTo!);
     }
 
     done(): void {
         clearInterval(this.interval);
-        this.status = 'done';
-        this.assignSettler(this.assignTo!, null);
+        this.changeStatus('done');
+        this.unassignSettler(this.assignTo!);
+    }
+
+    private changeStatus(status: ConstructionStatus): void {
+        this.status = status;
+        this.onChangeStatus.emit({ status: this.status, structure: this.type });
+    }
+
+    get job(): Job | null {
+        return this.status === 'done'
+            ? this.jobNecessary
+            : this.jobToCreateStructure;
     }
 }
 

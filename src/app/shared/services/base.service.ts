@@ -9,4 +9,8 @@ export class BaseService {
     get contructions(): Construction[] {
         return this.gameService.game.base.constructions;
     }
+
+    addContruction(construction: Construction): void {
+        this.gameService.game.base.createConstruction(construction);
+    }
 }

@@ -1,8 +1,10 @@
 import { HelperService } from 'src/app/shared/services/helpers.service';
+import { Construction } from '../base/construction.model';
 
 interface IWork {
     workInProgressId?: Job;
     priorities: Priority[];
+    workInProgress?: Construction | null;
 }
 
 interface Priority {
@@ -42,8 +44,8 @@ export enum Job {
 
 export enum JobWeight {
     None = 0,
-    Construction = 9,
-    Agriculture = 8,
-    Kitchen = 7,
-    Clean = 6,
+    Construction = 4,
+    Agriculture = 3,
+    Kitchen = 2,
+    Clean = 1,
 }
