@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Job } from '../model/settler/work.model';
+import { Job } from '../model/game/settler/work.model';
 
 @Pipe({
     name: 'work',

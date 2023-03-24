@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Base } from '../model/base/base.model';
+import { Base } from '../model/game/base/base.model';
 import { Game } from '../model/game/game.model';
 import { CryptHandlerService } from './crypt-handler.service';
 import { HelperService } from './helpers.service';

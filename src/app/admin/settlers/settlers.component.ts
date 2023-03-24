@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Settler } from 'src/app/shared/model/settler/settler.model';
+import { Settler } from 'src/app/shared/model/game/settler/settler.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
 import { GameService } from 'src/app/shared/services/game.service';
 import { SettlersService } from 'src/app/shared/services/settlers.service';

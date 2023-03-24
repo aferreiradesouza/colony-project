@@ -1,5 +1,5 @@
-import { GET_ALEATORY_PROFESSION } from '../../database/profession.database';
-import { HelperService } from '../../services/helpers.service';
+import { GET_ALEATORY_PROFESSION } from '../../../database/profession.database';
+import { HelperService } from '../../../services/helpers.service';
 import { Construction } from '../base/construction.model';
 import { Health } from './health.model';
 import { Necessity } from './necessity.model';

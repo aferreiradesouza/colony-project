@@ -1,5 +1,5 @@
-import { Constructions } from '../model/base/construction.model';
-import { Job } from '../model/settler/work.model';
+import { Constructions } from '../model/game/base/construction.model';
+import { Job } from '../model/game/settler/work.model';
 
 export interface IConstructionDatabase {
     id: Constructions;

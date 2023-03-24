@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { GET_ALEATORY_NAME } from 'src/app/shared/database/names.database';
-import { Construction, Constructions } from '../model/base/construction.model';
-import { Settler } from '../model/settler/settler.model';
-import { Skill, Skills } from '../model/settler/skill.model';
-import { Job, Work } from '../model/settler/work.model';
+import {
+    Construction,
+    Constructions,
+} from '../model/game/base/construction.model';
+import { Settler } from '../model/game/settler/settler.model';
+import { Skill, Skills } from '../model/game/settler/skill.model';
+import { Job, Work } from '../model/game/settler/work.model';
 import { BaseService } from './base.service';
 import { GameService } from './game.service';
 import { SettlersService } from './settlers.service';

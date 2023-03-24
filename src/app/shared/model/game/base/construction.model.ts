@@ -2,8 +2,8 @@ import { EventEmitter } from '@angular/core';
 import {
     ConstructionDatabase,
     IConstructionDatabase,
-} from '../../database/constructions.database';
-import { HelperService } from '../../services/helpers.service';
+} from '../../../database/constructions.database';
+import { HelperService } from '../../../services/helpers.service';
 import { Settler } from '../settler/settler.model';
 import { Job } from '../settler/work.model';
 

@@ -1,5 +1,5 @@
-import { Base } from '../base/base.model';
-import { Settler } from '../settler/settler.model';
+import { Base } from './base/base.model';
+import { Settler } from './settler/settler.model';
 
 export class Game {
     public id: string;

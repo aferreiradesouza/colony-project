@@ -1,4 +1,4 @@
-import { HelperService } from '../../services/helpers.service';
+import { HelperService } from '../../../services/helpers.service';
 
 interface ISkills {
     habilities: Array<Habilities>;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Construction } from '../model/base/construction.model';
+import { Construction } from '../model/game/base/construction.model';
 import { GameService } from './game.service';
 
 @Injectable({ providedIn: 'root' })

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Constructions } from '../model/base/construction.model';
+import { Constructions } from '../model/game/base/construction.model';
 
 @Pipe({
     name: 'structure',

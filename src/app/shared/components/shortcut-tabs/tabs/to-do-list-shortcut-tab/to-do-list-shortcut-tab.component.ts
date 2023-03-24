@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Construction } from 'src/app/shared/model/base/construction.model';
+import { Construction } from 'src/app/shared/model/game/base/construction.model';
 import { BaseService } from 'src/app/shared/services/base.service';
 
 @Component({

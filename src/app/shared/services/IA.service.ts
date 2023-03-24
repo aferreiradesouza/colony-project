@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Construction } from '../model/base/construction.model';
-import { Settler } from '../model/settler/settler.model';
-import { Job } from '../model/settler/work.model';
+import { Construction } from '../model/game/base/construction.model';
+import { Settler } from '../model/game/settler/settler.model';
+import { Job } from '../model/game/settler/work.model';
 import { GameService } from './game.service';
 
 interface Structure {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {
     Construction,
     Constructions,
-} from 'src/app/shared/model/base/construction.model';
+} from 'src/app/shared/model/game/base/construction.model';
 import { BaseService } from 'src/app/shared/services/base.service';
 import { DebugService } from 'src/app/shared/services/debug.service';
 
