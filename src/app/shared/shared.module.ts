@@ -17,13 +17,13 @@ import { ToDoListShortcutTabComponent } from './components/shortcut-tabs/tabs/to
 import { BadgesComponent } from './components/badges/badges.component';
 import { MediaService } from './services/media.service';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
-import { SettlersService } from './services/settlers.service';
+import { SettlersBusiness } from './business/settlers.business';
 import { DebugService } from './services/debug.service';
-import { GameService } from './services/game.service';
+import { GameBusiness } from './business/game.business';
 import { CryptHandlerService } from './services/crypt-handler.service';
 import { SkillPipe } from './pipe/skill.pipe';
 import { WorkPipe } from './pipe/work.pipe';
-import { BaseService } from './services/base.service';
+import { BaseBusiness } from './business/base.business';
 import { IAService } from './services/IA.service';
 import { StructurePipe } from './pipe/structures.pipe';
 import {
@@ -31,6 +31,9 @@ import {
     CountdownGlobalConfig,
     CountdownModule,
 } from 'ngx-countdown';
+import { StorageBusiness } from './business/storage.business';
+import { ConstructionBusiness } from './business/construction.business';
+import { SettlerPipe } from './pipe/settler.pipe';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -58,14 +61,16 @@ const COMPONENTS = [
     ProgressBarComponent,
 ];
 
-const PIPES = [SkillPipe, WorkPipe, StructurePipe];
+const PIPES = [SkillPipe, WorkPipe, StructurePipe, SettlerPipe];
 
 export const SERVICES_SHARED = [
-    SettlersService,
+    SettlersBusiness,
     DebugService,
-    GameService,
-    BaseService,
+    GameBusiness,
+    BaseBusiness,
     IAService,
+    StorageBusiness,
+    ConstructionBusiness,
 ];
 
 @NgModule({

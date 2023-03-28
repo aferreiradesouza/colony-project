@@ -7,18 +7,20 @@ import {
 import { Settler } from '../model/game/settler/settler.model';
 import { Skill, Skills } from '../model/game/settler/skill.model';
 import { Job, Work } from '../model/game/settler/work.model';
-import { BaseService } from './base.service';
-import { GameService } from './game.service';
-import { SettlersService } from './settlers.service';
+import { BaseBusiness } from '../business/base.business';
+import { GameBusiness } from '../business/game.business';
+import { SettlersBusiness } from '../business/settlers.business';
+import { ConstructionBusiness } from '../business/construction.business';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DebugService {
     constructor(
-        private settlerService: SettlersService,
-        private baseService: BaseService,
-        private gameService: GameService
+        private settlerBusiness: SettlersBusiness,
+        private constructionsBusiness: ConstructionBusiness,
+        private baseBusiness: BaseBusiness,
+        private gameBusiness: GameBusiness
     ) {}
 
     createSettlers(num = 1, work: Work = this.default): void {
@@ -38,12 +40,13 @@ export class DebugService {
                     work,
                 });
             })
-            .forEach((settler) => this.settlerService.add(settler));
+            .forEach((settler) => this.settlerBusiness.add(settler));
     }
 
     get default(): Work {
         return new Work({
             workInProgressId: Job.None,
+            constructionsId: null,
             priorities: [
                 {
                     id: Job.Builder,
@@ -90,7 +93,7 @@ export class DebugService {
     }
 
     createConstruction(id: Constructions): void {
-        this.baseService.addContruction(
+        this.constructionsBusiness.add(
             new Construction({
                 type: id,
                 status: 'not-started',
@@ -100,6 +103,6 @@ export class DebugService {
 
     log(): void {
         // eslint-disable-next-line no-console
-        console.log(this.gameService.game);
+        console.log(this.gameBusiness.game);
     }
 }

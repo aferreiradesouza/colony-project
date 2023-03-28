@@ -33,6 +33,14 @@ const routes: Routes = [
                     ),
             },
             {
+                path: 'storage',
+                data: { context: GET_MENU(MenuEnum.storage) },
+                loadChildren: () =>
+                    import('./storage/storage.module').then(
+                        (m) => m.StorageModule
+                    ),
+            },
+            {
                 path: 'settlers/policies',
                 data: { context: GET_MENU(MenuEnum.policies) },
                 loadChildren: () =>

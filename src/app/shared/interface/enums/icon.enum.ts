@@ -14,4 +14,5 @@ export enum IconEnum {
     wrench,
     cog,
     sun,
+    archiveBox,
 }

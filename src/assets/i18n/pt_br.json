@@ -5,7 +5,8 @@
             "SUMMARY": "Resumo",
             "BASE": "Base",
             "SETTLERS": "Colonos",
-            "ORDER": "Ordens"
+            "ORDER": "Ordens",
+            "STORAGE": "Armazém"
         },
         "SETTLERS": {
             "TITLE": "Colonos",

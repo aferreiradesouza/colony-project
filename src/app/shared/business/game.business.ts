@@ -1,20 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Base } from '../model/game/base/base.model';
+import { Storage } from '../model/game/base/storage.model';
 import { Game } from '../model/game/game.model';
-import { CryptHandlerService } from './crypt-handler.service';
-import { HelperService } from './helpers.service';
-import { StorageHandler } from './storage-handler.service';
+import { CryptHandlerService } from '../services/crypt-handler.service';
+import { HelperService } from '../services/helpers.service';
+import { StorageHandler } from '../services/storage-handler.service';
 
 @Injectable({ providedIn: 'root' })
-export class GameService {
+export class GameBusiness {
     private _game: Game;
 
     constructor(private cryptService: CryptHandlerService) {
-        this._game = new Game({
+        this._game = this.loadGame;
+    }
+
+    get loadGame(): Game {
+        if (StorageHandler.has('save')) {
+            const save = StorageHandler.get('save')!;
+            return JSON.parse(this.cryptService.decrypt(save)) as Game;
+        }
+        return new Game({
             id: HelperService.guid,
             settlers: [],
             base: new Base({
                 constructions: [],
+                storage: new Storage([]),
             }),
         });
     }

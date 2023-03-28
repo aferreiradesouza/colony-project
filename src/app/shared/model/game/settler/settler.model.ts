@@ -1,6 +1,5 @@
 import { GET_ALEATORY_PROFESSION } from '../../../database/profession.database';
 import { HelperService } from '../../../services/helpers.service';
-import { Construction } from '../base/construction.model';
 import { Health } from './health.model';
 import { Necessity } from './necessity.model';
 import { Profession } from './profession.model';
@@ -61,6 +60,7 @@ export class Settler {
             : new Work({
                   workInProgressId: Job.None,
                   priorities: [],
+                  constructionsId: null,
               });
     }
 
@@ -70,21 +70,5 @@ export class Settler {
 
     get completeNameWithProfession(): string {
         return `${this.firstName} "${this.profession.title}" ${this.lastName}`;
-    }
-
-    assignWork(job: Job, construction: Construction): void {
-        this.work.workInProgressId = job;
-    }
-
-    unassignWork(): void {
-        this.work.workInProgressId = Job.None;
-    }
-
-    getWorkValue(job: Job): number {
-        return this.work.priorities.filter((e) => e.id === job)[0].value;
-    }
-
-    getWorkWeight(job: Job): number {
-        return this.work.priorities.filter((e) => e.id === job)[0].weight!;
     }
 }

@@ -23,6 +23,12 @@ export const MENU: Menu[] = [
                 icon: 'userGroup',
                 url: '/settlers',
             },
+            {
+                id: MenuEnum.storage,
+                label: 'MENU.GENERAL.STORAGE',
+                icon: 'archiveBox',
+                url: '/storage',
+            },
         ],
     },
     {

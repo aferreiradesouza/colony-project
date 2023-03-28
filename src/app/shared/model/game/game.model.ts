@@ -11,12 +11,4 @@ export class Game {
         this.settlers = game.settlers.map((e) => new Settler(e));
         this.base = new Base(game.base);
     }
-
-    addSettler(settler: Settler): void {
-        this.settlers.push(settler);
-    }
-
-    replaceSettler(settlers: Settler[]): void {
-        this.settlers = settlers;
-    }
 }

@@ -8,15 +8,21 @@
 }
 
 .content {
-    overflow-y: auto;
+    scrollbar-gutter: stable;
     max-height: 100%;
+    overflow-y: hidden;
     @include transparentScroll;
+
+    &:hover {
+        overflow-y: auto;
+    }
 }
 
 .simple-notification {
-    @apply m-2 rounded-lg p-4 shadow;
+    @apply rounded-lg p-4 shadow;
 
     display: flex;
+    margin: 0.5rem 0 0.5rem 0.5rem;
     background-color: $neutralWhite;
 
     > .icon {

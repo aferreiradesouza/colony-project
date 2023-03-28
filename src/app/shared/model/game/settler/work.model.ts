@@ -1,10 +1,9 @@
 import { HelperService } from 'src/app/shared/services/helpers.service';
-import { Construction } from '../base/construction.model';
 
 interface IWork {
     workInProgressId?: Job;
     priorities: Priority[];
-    workInProgress?: Construction | null;
+    constructionsId?: string | null;
 }
 
 interface Priority {
@@ -15,9 +14,11 @@ interface Priority {
 
 export class Work {
     workInProgressId: Job;
+    constructionsId: string | null = null;
     priorities: Priority[];
 
     constructor(work: IWork) {
+        this.constructionsId = work.constructionsId ?? null;
         this.workInProgressId = work.workInProgressId ?? Job.None;
         this.priorities = this._createPriorityList(work.priorities);
     }
