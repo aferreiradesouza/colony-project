@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NotificationItem } from 'src/app/shared/interface/interface';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
     selector: 'app-notifications-shortcut-tab',
@@ -6,7 +8,13 @@ import { Component } from '@angular/core';
     styleUrls: ['./notifications-shortcut-tab.component.scss'],
 })
 export class NotificationsShortcutTabComponent {
-    public mock = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    constructor(private notificationService: NotificationService) {}
 
-    constructor() {}
+    get notifications(): NotificationItem[] {
+        return this.notificationService.notifications;
+    }
+
+    remove(id: string): void {
+        this.notificationService.remove(id);
+    }
 }

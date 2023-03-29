@@ -12,3 +12,10 @@ export interface MenuItem {
     icon: Icon;
     url: string;
 }
+
+export interface NotificationItem {
+    id?: string;
+    type: string;
+    title: string;
+    message: string;
+}

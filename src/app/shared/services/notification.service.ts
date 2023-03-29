@@ -1,0 +1,59 @@
+import { Injectable } from '@angular/core';
+import { NotificationEnum } from '../interface/enums/notification.enum';
+import { NotificationItem } from '../interface/interface';
+import { HelperService } from './helpers.service';
+
+interface NotificationModel {
+    title: string;
+    message: string;
+    type: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class NotificationService {
+    public notifications: NotificationItem[] = [];
+
+    readonly notificationModel: {
+        [key in NotificationEnum]: NotificationModel;
+    } = {
+        [NotificationEnum.ConstructionSuccess]: {
+            title: '{{title}} finalizado(a)',
+            message: '{{title}} finalizado(a) com sucesso!',
+            type: 'success',
+        },
+    } as const;
+
+    constructor() {}
+
+    constructionSuccess(vars: { [key in 'title']: string }): void {
+        const notificationModel = Object.assign(
+            {},
+            this.notificationModel[NotificationEnum.ConstructionSuccess]
+        );
+        for (const key in vars) {
+            notificationModel.title = notificationModel.title.replace(
+                `{{${key}}}`,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (vars as any)[key as any]
+            );
+            notificationModel.message = notificationModel.message.replace(
+                `{{${key}}}`,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (vars as any)[key as any]
+            );
+        }
+        this.add({
+            id: HelperService.guid,
+            ...notificationModel,
+        });
+    }
+
+    private add(notification: NotificationItem): void {
+        this.notifications.unshift(notification);
+    }
+
+    remove(id: string): void {
+        const index = this.notifications.findIndex((e) => e.id === id);
+        if (index > -1) this.notifications.splice(index, 1);
+    }
+}

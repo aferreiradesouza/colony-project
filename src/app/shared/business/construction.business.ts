@@ -1,10 +1,14 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { STRUCTURES } from '../constants/construction.constant';
 import { ConstructionDatabase } from '../database/constructions.database';
+import { NotificationEnum } from '../interface/enums/notification.enum';
 import {
     Construction,
     ConstructionStatus,
 } from '../model/game/base/construction.model';
 import { Job } from '../model/game/settler/work.model';
+import { StructurePipe } from '../pipe/structures.pipe';
+import { NotificationService } from '../services/notification.service';
 import { GameBusiness } from './game.business';
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +27,10 @@ export class ConstructionBusiness {
         job: Job;
     }>();
 
-    constructor(private gameService: GameBusiness) {}
+    constructor(
+        private gameService: GameBusiness,
+        private notificationService: NotificationService
+    ) {}
 
     get constructions(): Construction[] {
         return this.gameService.game.base.constructions;
@@ -83,6 +90,9 @@ export class ConstructionBusiness {
         clearInterval(construction.interval);
         this.changeStatus(id, 'done');
         this.unassignSettler(id);
+        this.notificationService.constructionSuccess({
+            title: STRUCTURES[construction.type],
+        });
     }
 
     changeStatus(id: string, status: ConstructionStatus): void {

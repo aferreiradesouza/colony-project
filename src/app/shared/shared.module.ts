@@ -35,6 +35,7 @@ import { StorageBusiness } from './business/storage.business';
 import { ConstructionBusiness } from './business/construction.business';
 import { SettlerPipe } from './pipe/settler.pipe';
 import { LogService } from './services/log.service';
+import { NotificationService } from './services/notification.service';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -73,6 +74,7 @@ export const SERVICES_SHARED = [
     StorageBusiness,
     ConstructionBusiness,
     LogService,
+    NotificationService,
 ];
 
 @NgModule({
