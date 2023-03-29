@@ -33,7 +33,7 @@ export class Construction {
         const structure = this._getDatabase(construction.type);
         this.jobNecessary = structure.jobNecessary;
         this.jobToCreateStructure = structure.jobToCreateStructure;
-        this.timeMs = structure.timeMs;
+        this.timeMs = this.status === 'done' ? 0 : structure.timeMs;
     }
 
     private _getDatabase(id: Constructions): IConstructionDatabase {

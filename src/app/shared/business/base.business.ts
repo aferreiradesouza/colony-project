@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Construction } from '../model/game/base/construction.model';
-import { Settler } from '../model/game/settler/settler.model';
 import { Job } from '../model/game/settler/work.model';
+import { LogService } from '../services/log.service';
 import { ConstructionBusiness } from './construction.business';
 import { SettlersBusiness } from './settlers.business';
 
@@ -43,13 +43,14 @@ export class BaseBusiness {
 
     private _startOnDoneConstruction(): void {
         this.constructionBusiness.onDoneConstruction.subscribe((event) => {
+            LogService.add('Construção finalizada');
             this.settlersBusiness.unassignWork(event.idSettler);
         });
     }
 
     private _startOnWorkAtStructure(): void {
         this.constructionBusiness.onWorkAtStructure.subscribe((event) => {
-            console.log(event);
+            LogService.add(`Trabalhou no job: ${event.job}`);
         });
     }
 }

@@ -28,9 +28,18 @@ export class IAService {
             const priorities = settler.work.priorities
                 .filter((priority) => priority.value && priority.id)
                 .sort((a, b) => {
-                    return a.weight! >= b.weight! && a.value <= b.value
-                        ? -1
-                        : 1;
+                    if (a.value < b.value && a.weight! >= b.weight!) return -3;
+                    else if (a.value < b.value && a.weight! <= b.weight!)
+                        return -2;
+                    else if (a.value === b.value && a.weight! >= b.weight!)
+                        return -1;
+                    else if (a.value === b.value && a.weight! === b.weight!)
+                        return 0;
+                    else if (a.value >= b.value && a.weight! <= b.weight!)
+                        return 1;
+                    else if (a.value >= b.value && a.weight! >= b.weight!)
+                        return 2;
+                    else return 3;
                 });
             for (const priority of priorities) {
                 const job = priority.id;
@@ -77,13 +86,11 @@ export class IAService {
 
     _jobConstruction(settler: Settler): void {
         const construction = this._checkStructuresWaitingConstruction();
-        console.log(construction);
         this.baseBusiness.assingSettler(
             settler.id,
             construction!.id,
             Job.Builder
         );
-        // this.constructionBusiness.build(construction!.id);
     }
 
     _checkStructuresHasKitchen(): Construction | null {

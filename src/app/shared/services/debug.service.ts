@@ -50,7 +50,11 @@ export class DebugService {
             priorities: [
                 {
                     id: Job.Builder,
-                    value: 1,
+                    value: 2,
+                },
+                {
+                    id: Job.Agriculture,
+                    value: 3,
                 },
                 {
                     id: Job.Kitchen,
@@ -97,6 +101,15 @@ export class DebugService {
             new Construction({
                 type: id,
                 status: 'not-started',
+            })
+        );
+    }
+
+    createReadyConstruction(id: Constructions): void {
+        this.constructionsBusiness.add(
+            new Construction({
+                type: id,
+                status: 'done',
             })
         );
     }

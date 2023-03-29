@@ -5,7 +5,5 @@ import { GameBusiness } from './game.business';
     providedIn: 'root',
 })
 export class StorageBusiness {
-    constructor(private gameService: GameBusiness) {
-        console.log('oi');
-    }
+    constructor(private gameService: GameBusiness) {}
 }

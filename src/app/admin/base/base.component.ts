@@ -30,4 +30,7 @@ export class BaseComponent {
     createKitchen(): void {
         this.debugService.createConstruction(Constructions.Kitchen);
     }
+    createReadyKitchen(): void {
+        this.debugService.createReadyConstruction(Constructions.Kitchen);
+    }
 }

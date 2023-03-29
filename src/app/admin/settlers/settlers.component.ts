@@ -3,6 +3,7 @@ import { Settler } from 'src/app/shared/model/game/settler/settler.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
 import { GameBusiness } from 'src/app/shared/business/game.business';
 import { SettlersBusiness } from 'src/app/shared/business/settlers.business';
+import { LogService } from 'src/app/shared/services/log.service';
 
 @Component({
     selector: 'app-settlers',
@@ -41,6 +42,8 @@ export class SettlersComponent {
     }
 
     log(): void {
+        // eslint-disable-next-line no-console
+        console.log(LogService.log);
         this.debugService.log();
     }
 }
