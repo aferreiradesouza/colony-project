@@ -42,8 +42,7 @@ export class Building {
         this.jobNecessary = structure.jobNecessary;
         this.jobToCreateStructure = structure.jobToCreateStructure;
         this.timeMs = building.timeMs ?? structure.timeMs;
-        // building.timeMs ?? this.status === 'done' ? 0 : structure.timeMs;
-        // this.assignedTo = building.assignedTo ?? null
+        this.tasks = structure.tasks?.map((e) => new Task(e)) ?? [];
     }
 
     private _getDatabase(id: Buildings): IBuildingDatabase {

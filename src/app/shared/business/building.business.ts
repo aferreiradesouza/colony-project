@@ -1,10 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BuildingDatabase } from '../database/building.database';
 import { Job } from '../interface/enums/job.enum';
+import { Tasks } from '../interface/enums/tasks.enum';
 import {
     Building,
     BuildingStatus,
 } from '../model/game/base/building/building.model';
+import { Task } from '../model/game/base/building/task.model';
 import { NotificationService } from '../services/notification.service';
 import { GameBusiness } from './game.business';
 
@@ -52,13 +54,24 @@ export class BuildingBusiness {
         return this.buildings.find((e) => e.assignedTo === id) ?? null;
     }
 
+    getBuildingByTaskAssignedToSettler(id: string): Building | null {
+        return (
+            this.buildings.find((e) =>
+                e.tasks.find((f) => f.assignedTo === id)
+            ) ?? null
+        );
+    }
+
+    getTaskBuildingBySettler(building: Building, id: string): Task | null {
+        return building.tasks.find((e) => e.assignedTo === id) ?? null;
+    }
+
     assignSettler(idSettler: string, idContruction: string): void {
         const building = this.getBuildingById(idContruction) as Building;
         building.assignedTo = idSettler;
         if (building.status === 'not-started') this.build(building.id);
         if (building.status === 'paused') this.resume(idContruction);
-        // if (building.status === 'building') this.resume(idContruction);
-        if (building.status === 'done') this.work(idContruction);
+        // if (building.status === 'done') this.work(idContruction);
     }
 
     build(id: string): void {
@@ -112,11 +125,29 @@ export class BuildingBusiness {
         clearInterval(building.interval);
     }
 
-    work(id: string): void {
-        const building = this.getBuildingById(id) as Building;
-        const config = BuildingDatabase.getBuildingById(building.type);
-        building.interval = setInterval(() => {
+    unassignSettlerAtDoneBuilding(idContruction: string, task: Tasks): void {
+        const building = this.getBuildingById(idContruction) as Building;
+        building.assignedTo = null;
+        const taskBuilding = this.getTaskByBuilding(building, task);
+        taskBuilding.assignedTo = null;
+        clearInterval(taskBuilding.interval);
+    }
+
+    work(idSettler: string, idBuilding: string, task: Tasks): void {
+        const building = this.getBuildingById(idBuilding) as Building;
+        const taskBuilding = this.getTaskByBuilding(building, task);
+        taskBuilding.assignedTo = idSettler;
+        const config = BuildingDatabase.getTaskBuildingById(
+            building.type,
+            taskBuilding.id
+        );
+        if (!config) return;
+        taskBuilding.interval = setInterval(() => {
             this.onWorkAtStructure.emit({ job: building.jobNecessary! });
-        }, config.timeForWork);
+        }, config.baseTimeMs);
+    }
+
+    getTaskByBuilding(building: Building, task: Tasks): Task {
+        return building.tasks.find((e) => e.id === task)!;
     }
 }
