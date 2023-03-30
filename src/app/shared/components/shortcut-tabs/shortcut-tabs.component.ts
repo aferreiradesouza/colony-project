@@ -13,6 +13,8 @@ import {
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MediaService } from '../../services/media.service';
+import { NotificationService } from '../../services/notification.service';
+import { ShortcutService } from '../../services/shortcut.service';
 import { ShortcutData, ShortcutTab } from './shortcut.interface';
 
 @Component({
@@ -30,7 +32,6 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
             label: 'SHORTCUT_TABS.NOTIFICATIONS',
             value: 'notifications',
             icon: 'bell',
-            notifications: 2,
         },
         {
             label: 'SHORTCUT_TABS.SETTLERS',
@@ -53,8 +54,14 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
         ElementRef<HTMLDivElement>
     >;
     public mediaSubscription: Subscription | undefined;
+    public notificationSubscription: Subscription | undefined;
 
-    constructor(public router: Router, private mediaService: MediaService) {
+    constructor(
+        public router: Router,
+        private mediaService: MediaService,
+        private shortcutService: ShortcutService,
+        private notificationService: NotificationService
+    ) {
         this.selectedTab = this.initialTab;
         this.mode =
             window.innerWidth >= this.mediaService.lg ? 'desktop' : 'mobile';
@@ -62,11 +69,13 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.mediaSubscription?.unsubscribe();
+        this.notificationSubscription?.unsubscribe();
     }
 
     ngAfterViewInit(): void {
         this.selectTab(this.selectedTab, false);
         this.initMediaSubscription();
+        this.startSubscriptionNotification();
     }
 
     initMediaSubscription(): void {
@@ -83,6 +92,7 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
 
     selectTab(tab: ShortcutTab, canBeOpened = true): void {
         this.selectedTab = tab;
+        this.shortcutService.setTab(tab);
         if (canBeOpened && this.mode === 'mobile') this.open();
         this.updateRenderTabs();
     }
@@ -123,5 +133,16 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
     close(): void {
         this.hasOpenMobile = false;
         this.hasOpenMobileChange.emit(this.hasOpenMobile);
+    }
+
+    startSubscriptionNotification(): void {
+        this.notificationSubscription =
+            this.notificationService.onChangeNotificationList.subscribe(() => {
+                this.tabs.forEach((e) => {
+                    if (e.value === 'notifications')
+                        e.notifications =
+                            this.notificationService.newNotifications.length;
+                });
+            });
     }
 }

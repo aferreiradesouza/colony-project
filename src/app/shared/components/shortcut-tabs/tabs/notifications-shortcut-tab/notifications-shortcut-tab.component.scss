@@ -18,6 +18,14 @@
     }
 }
 
+.no-notification-text {
+    @apply mt-2;
+
+    text-align: center;
+    color: $lightContrast;
+    @include text-small;
+}
+
 .simple-notification {
     @apply rounded-lg p-4 shadow;
 

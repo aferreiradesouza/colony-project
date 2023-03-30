@@ -1,56 +1,68 @@
 import { Injectable } from '@angular/core';
-import { Construction } from '../model/game/base/construction.model';
-import { Job } from '../model/game/settler/work.model';
+import { Itens } from '../interface/enums/item.enum';
+import { Job } from '../interface/enums/job.enum';
+import { Building } from '../model/game/base/building/building.model';
+import { Item } from '../model/game/base/building/storage/item.model';
+import { HelperService } from '../services/helpers.service';
 import { LogService } from '../services/log.service';
-import { ConstructionBusiness } from './construction.business';
+import { BuildingBusiness } from './building.business';
 import { SettlersBusiness } from './settlers.business';
+import { StorageBusiness } from './storage.business';
 
 @Injectable({ providedIn: 'root' })
 export class BaseBusiness {
     constructor(
-        private constructionBusiness: ConstructionBusiness,
-        private settlersBusiness: SettlersBusiness
+        private buildingBusiness: BuildingBusiness,
+        private settlersBusiness: SettlersBusiness,
+        private storageBusiness: StorageBusiness
     ) {
         this._startEvents();
     }
 
-    getConstructionAssignedTo(idSettler: string): Construction | null {
-        return this.constructionBusiness.getConstructionBySettler(idSettler);
+    getBuildingAssignedTo(idSettler: string): Building | null {
+        return this.buildingBusiness.getBuildingBySettler(idSettler);
     }
 
     assingSettler(
         idSettler: string,
-        idConstruction: string,
+        idBuilding: string,
         job: Job | null
     ): void {
-        this.constructionBusiness.assignSettler(idSettler, idConstruction);
+        this.buildingBusiness.assignSettler(idSettler, idBuilding);
         this.settlersBusiness.assignWork(
             idSettler,
-            idConstruction,
+            idBuilding,
             job ?? Job.None
         );
     }
 
-    unassignSettler(idConstruction: string, idSettler: string): void {
-        this.constructionBusiness.unassignSettler(idConstruction);
+    unassignSettler(idBuilding: string, idSettler: string): void {
+        this.buildingBusiness.unassignSettler(idBuilding);
         this.settlersBusiness.unassignWork(idSettler);
     }
 
     private _startEvents(): void {
-        this._startOnDoneConstruction();
+        this._startOnDoneBuilding();
         this._startOnWorkAtStructure();
     }
 
-    private _startOnDoneConstruction(): void {
-        this.constructionBusiness.onDoneConstruction.subscribe((event) => {
+    private _startOnDoneBuilding(): void {
+        this.buildingBusiness.onDoneBuilding.subscribe((event) => {
             LogService.add('Construção finalizada');
             this.settlersBusiness.unassignWork(event.idSettler);
         });
     }
 
     private _startOnWorkAtStructure(): void {
-        this.constructionBusiness.onWorkAtStructure.subscribe((event) => {
+        this.buildingBusiness.onWorkAtStructure.subscribe((event) => {
             LogService.add(`Trabalhou no job: ${event.job}`);
+            this.storageBusiness.addItem(
+                new Item({
+                    amount: 1,
+                    id: HelperService.guid,
+                    type: Itens.Meat,
+                })
+            );
         });
     }
 }

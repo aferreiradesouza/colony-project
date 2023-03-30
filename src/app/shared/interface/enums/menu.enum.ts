@@ -5,7 +5,7 @@ export enum MenuEnum {
     policies,
     works,
     routine,
-    construction,
+    building,
     storage,
     wildLife,
     biomes,

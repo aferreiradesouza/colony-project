@@ -16,7 +16,7 @@
         },
         "BASE": {
             "TITLE": "Base",
-            "CONSTRUCTION": "Construção",
+            "BUILDING": "Construção",
             "STORAGE": "Armazém"
         },
         "WORLD": {

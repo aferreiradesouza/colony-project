@@ -32,10 +32,12 @@ import {
     CountdownModule,
 } from 'ngx-countdown';
 import { StorageBusiness } from './business/storage.business';
-import { ConstructionBusiness } from './business/construction.business';
+import { BuildingBusiness } from './business/building.business';
 import { SettlerPipe } from './pipe/settler.pipe';
 import { LogService } from './services/log.service';
 import { NotificationService } from './services/notification.service';
+import { ShortcutService } from './services/shortcut.service';
+import { ItemPipe } from './pipe/item.pipe';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -63,7 +65,7 @@ const COMPONENTS = [
     ProgressBarComponent,
 ];
 
-const PIPES = [SkillPipe, WorkPipe, StructurePipe, SettlerPipe];
+const PIPES = [SkillPipe, WorkPipe, StructurePipe, SettlerPipe, ItemPipe];
 
 export const SERVICES_SHARED = [
     SettlersBusiness,
@@ -72,9 +74,10 @@ export const SERVICES_SHARED = [
     BaseBusiness,
     IAService,
     StorageBusiness,
-    ConstructionBusiness,
+    BuildingBusiness,
     LogService,
     NotificationService,
+    ShortcutService,
 ];
 
 @NgModule({

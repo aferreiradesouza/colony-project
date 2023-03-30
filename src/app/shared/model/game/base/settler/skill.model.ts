@@ -1,4 +1,4 @@
-import { HelperService } from '../../../services/helpers.service';
+import { HelperService } from '../../../../services/helpers.service';
 
 interface ISkills {
     habilities: Array<Habilities>;
@@ -30,7 +30,7 @@ export class Skills {
 }
 
 export enum Skill {
-    Construction,
+    Building,
     Social,
     Manufacture,
     Animals,

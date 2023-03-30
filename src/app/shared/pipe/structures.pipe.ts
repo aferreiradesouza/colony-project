@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { STRUCTURES } from '../constants/construction.constant';
-import { Constructions } from '../model/game/base/construction.model';
+import { BuildingDatabase } from '../database/building.database';
+import { Buildings } from '../interface/enums/buildings.enum';
 
 @Pipe({
     name: 'structure',
 })
 export class StructurePipe implements PipeTransform {
-    transform(value: Constructions): string {
-        return STRUCTURES[value];
+    transform(value: Buildings): string {
+        return BuildingDatabase.getBuildingById(value).name;
     }
 }

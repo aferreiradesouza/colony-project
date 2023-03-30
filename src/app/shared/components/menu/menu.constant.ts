@@ -58,10 +58,10 @@ export const MENU: Menu[] = [
         label: 'MENU.BASE.TITLE',
         children: [
             {
-                id: MenuEnum.construction,
-                label: 'MENU.BASE.CONSTRUCTION',
+                id: MenuEnum.building,
+                label: 'MENU.BASE.BUILDING',
                 icon: 'chartBarSquare',
-                url: '/base/construction',
+                url: '/base/building',
             },
             {
                 id: MenuEnum.storage,

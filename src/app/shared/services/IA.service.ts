@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Construction } from '../model/game/base/construction.model';
-import { Settler } from '../model/game/settler/settler.model';
-import { Job } from '../model/game/settler/work.model';
+import { Building } from '../model/game/base/building/building.model';
+import { Settler } from '../model/game/base/settler/settler.model';
 import { GameBusiness } from '../business/game.business';
 import { BaseBusiness } from '../business/base.business';
 import { SettlersBusiness } from '../business/settlers.business';
-import { ConstructionBusiness } from '../business/construction.business';
+import { BuildingBusiness } from '../business/building.business';
+import { Job } from '../interface/enums/job.enum';
 
 @Injectable({ providedIn: 'root' })
 export class IAService {
     constructor(
         private gameService: GameBusiness,
         private baseBusiness: BaseBusiness,
-        private constructionBusiness: ConstructionBusiness,
+        private buildingBusiness: BuildingBusiness,
         private settlersBusiness: SettlersBusiness
     ) {}
 
@@ -46,11 +46,11 @@ export class IAService {
                 if (job === settler.work.workInProgressId) break;
                 if (
                     job === Job.Builder &&
-                    !!this._checkStructuresWaitingConstruction()
+                    !!this._checkStructuresWaitingBuild()
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
-                    this._jobConstruction(settler);
+                    this._jobBuilding(settler);
                     break;
                 }
                 if (
@@ -67,15 +67,13 @@ export class IAService {
     }
 
     unassignSettler(settler: Settler): void {
-        const construction = this.baseBusiness.getConstructionAssignedTo(
-            settler.id
-        );
-        this.baseBusiness.unassignSettler(construction!.id, settler.id);
+        const building = this.baseBusiness.getBuildingAssignedTo(settler.id);
+        this.baseBusiness.unassignSettler(building!.id, settler.id);
     }
 
-    _checkStructuresWaitingConstruction(): Construction | null {
+    _checkStructuresWaitingBuild(): Building | null {
         return (
-            this.constructionBusiness.constructions.find(
+            this.buildingBusiness.buildings.find(
                 (e) =>
                     e.status !== 'done' &&
                     !e.assignedTo &&
@@ -84,18 +82,14 @@ export class IAService {
         );
     }
 
-    _jobConstruction(settler: Settler): void {
-        const construction = this._checkStructuresWaitingConstruction();
-        this.baseBusiness.assingSettler(
-            settler.id,
-            construction!.id,
-            Job.Builder
-        );
+    _jobBuilding(settler: Settler): void {
+        const building = this._checkStructuresWaitingBuild();
+        this.baseBusiness.assingSettler(settler.id, building!.id, Job.Builder);
     }
 
-    _checkStructuresHasKitchen(): Construction | null {
+    _checkStructuresHasKitchen(): Building | null {
         return (
-            this.gameService.game.base.constructions.find(
+            this.gameService.game.base.buildings.find(
                 (e) =>
                     e.status === 'done' &&
                     !e.assignedTo &&
@@ -105,11 +99,7 @@ export class IAService {
     }
 
     _jobKitchen(settler: Settler): void {
-        const construction = this._checkStructuresHasKitchen();
-        this.baseBusiness.assingSettler(
-            settler.id,
-            construction!.id,
-            Job.Kitchen
-        );
+        const building = this._checkStructuresHasKitchen();
+        this.baseBusiness.assingSettler(settler.id, building!.id, Job.Kitchen);
     }
 }

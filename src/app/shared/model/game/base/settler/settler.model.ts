@@ -1,10 +1,11 @@
-import { GET_ALEATORY_PROFESSION } from '../../../database/profession.database';
-import { HelperService } from '../../../services/helpers.service';
+import { Job } from 'src/app/shared/interface/enums/job.enum';
+import { GET_ALEATORY_PROFESSION } from '../../../../database/profession.database';
+import { HelperService } from '../../../../services/helpers.service';
 import { Health } from './health.model';
 import { Necessity } from './necessity.model';
 import { Profession } from './profession.model';
 import { Skills } from './skill.model';
-import { Job, Work } from './work.model';
+import { Work } from './work.model';
 
 interface ISettler {
     id?: string;
@@ -60,7 +61,7 @@ export class Settler {
             : new Work({
                   workInProgressId: Job.None,
                   priorities: [],
-                  constructionsId: null,
+                  buildingId: null,
               });
     }
 

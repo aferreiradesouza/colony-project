@@ -1,9 +1,10 @@
+import { Job, JobWeight } from 'src/app/shared/interface/enums/job.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
 
 interface IWork {
     workInProgressId?: Job;
     priorities: Priority[];
-    constructionsId?: string | null;
+    buildingId?: string | null;
 }
 
 interface Priority {
@@ -14,12 +15,12 @@ interface Priority {
 
 export class Work {
     workInProgressId: Job;
-    constructionsId: string | null = null;
+    buildingId: string | null = null;
     priorities: Priority[];
 
     constructor(work: IWork) {
-        this.constructionsId = work.constructionsId ?? null;
-        this.workInProgressId = work.workInProgressId ?? Job.None;
+        this.buildingId = null;
+        this.workInProgressId = Job.None;
         this.priorities = this._createPriorityList(work.priorities);
     }
 
@@ -33,20 +34,4 @@ export class Work {
             };
         });
     }
-}
-
-export enum Job {
-    None,
-    Builder,
-    Agriculture,
-    Kitchen,
-    Clean,
-}
-
-export enum JobWeight {
-    None = 0,
-    Builder = 4,
-    Agriculture = 3,
-    Kitchen = 2,
-    Clean = 1,
 }

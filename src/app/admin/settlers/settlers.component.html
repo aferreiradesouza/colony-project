@@ -2,7 +2,7 @@
 <app-button label="Add. Builder" class="ml-2" (clickEvent)="addBuilder()"></app-button>
 <app-button label="Add. Cook" class="ml-2" (clickEvent)="addCook()"></app-button>
 <app-button label="Save" class="ml-2" theme="secondary" (clickEvent)="save()"></app-button>
-<app-button label="Load" class="ml-2" theme="terciary" (clickEvent)="load()"></app-button>
+<!-- <app-button label="Load" class="ml-2" theme="terciary" (clickEvent)="load()"></app-button> -->
 <app-button label="Log Settlers" class="ml-2" theme="info" (clickEvent)="log()"></app-button>
 
 <div class="my-2 mx-4">
@@ -72,34 +72,3 @@
         </div>
     </div>
 </div>
-<!-- <table>
-    <thead>
-        <th>Nome</th>
-        <th>Idade</th>
-        <th>Habilidade</th>
-        <th>Necessidades</th>
-        <th>Profissão</th>
-        <th>Work</th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let settler of settlers">
-            <td>{{settler.completeName}}</td>
-            <td>{{settler.age}}</td>
-            <td>skill</td>
-            <td>
-                Fome: {{settler.necessity.hungry}}<br>
-                Diversão: {{settler.necessity.fun}}<br>
-                Descanso: {{settler.necessity.rest}}<br>
-            </td>
-            <td>
-                {{settler.profession.title}}
-            </td>
-            <td>
-                Work in progress: {{settler.work.name}}<br>
-                <ng-container *ngFor="let work of settler.work.priority">
-                    {{work.id}} - {{work.value}}<br>
-                </ng-container>
-            </td>
-        </tr>
-    </tbody>
-</table> -->

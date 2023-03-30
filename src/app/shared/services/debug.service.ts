@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { GET_ALEATORY_NAME } from 'src/app/shared/database/names.database';
-import {
-    Construction,
-    Constructions,
-} from '../model/game/base/construction.model';
-import { Settler } from '../model/game/settler/settler.model';
-import { Skill, Skills } from '../model/game/settler/skill.model';
-import { Job, Work } from '../model/game/settler/work.model';
-import { BaseBusiness } from '../business/base.business';
+import { Building } from '../model/game/base/building/building.model';
+import { Settler } from '../model/game/base/settler/settler.model';
+import { Skill, Skills } from '../model/game/base/settler/skill.model';
+import { Work } from '../model/game/base/settler/work.model';
 import { GameBusiness } from '../business/game.business';
 import { SettlersBusiness } from '../business/settlers.business';
-import { ConstructionBusiness } from '../business/construction.business';
+import { BuildingBusiness } from '../business/building.business';
+import { StorageBusiness } from '../business/storage.business';
+import { Storage } from '../model/game/base/building/storage/storage.model';
+import { Buildings } from '../interface/enums/buildings.enum';
+import { Job } from '../interface/enums/job.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -18,8 +18,8 @@ import { ConstructionBusiness } from '../business/construction.business';
 export class DebugService {
     constructor(
         private settlerBusiness: SettlersBusiness,
-        private constructionsBusiness: ConstructionBusiness,
-        private baseBusiness: BaseBusiness,
+        private buildingBusiness: BuildingBusiness,
+        private storageBusiness: StorageBusiness,
         private gameBusiness: GameBusiness
     ) {}
 
@@ -46,7 +46,7 @@ export class DebugService {
     get default(): Work {
         return new Work({
             workInProgressId: Job.None,
-            constructionsId: null,
+            buildingId: null,
             priorities: [
                 {
                     id: Job.Builder,
@@ -96,18 +96,22 @@ export class DebugService {
         });
     }
 
-    createConstruction(id: Constructions): void {
-        this.constructionsBusiness.add(
-            new Construction({
+    createStorage(): void {
+        this.storageBusiness.buildStorage(new Storage({ inventory: [] }));
+    }
+
+    createBuilding(id: Buildings): void {
+        this.buildingBusiness.add(
+            new Building({
                 type: id,
                 status: 'not-started',
             })
         );
     }
 
-    createReadyConstruction(id: Constructions): void {
-        this.constructionsBusiness.add(
-            new Construction({
+    createReadyBuilding(id: Buildings): void {
+        this.buildingBusiness.add(
+            new Building({
                 type: id,
                 status: 'done',
             })

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Settler } from 'src/app/shared/model/game/settler/settler.model';
+import { Settler } from 'src/app/shared/model/game/base/settler/settler.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
 import { GameBusiness } from 'src/app/shared/business/game.business';
 import { SettlersBusiness } from 'src/app/shared/business/settlers.business';
@@ -37,9 +37,9 @@ export class SettlersComponent {
         this.gameService.save();
     }
 
-    load(): void {
-        this.gameService.load();
-    }
+    // load(): void {
+    //     this.gameService.load();
+    // }
 
     log(): void {
         // eslint-disable-next-line no-console

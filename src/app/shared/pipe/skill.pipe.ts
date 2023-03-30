@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Skill } from '../model/game/settler/skill.model';
+import { Skill } from '../model/game/base/settler/skill.model';
 
 @Pipe({
     name: 'skill',
@@ -13,7 +13,7 @@ export class SkillPipe implements PipeTransform {
         const skills: { [key in Skill]: string } = {
             [Skill.Agriculture]: 'Agricultura',
             [Skill.Animals]: 'Animais',
-            [Skill.Construction]: 'Construção',
+            [Skill.Building]: 'Construção',
             [Skill.Fight]: 'Luta',
             [Skill.Manufacture]: 'Fabricação',
             [Skill.Medicine]: 'Medicina',

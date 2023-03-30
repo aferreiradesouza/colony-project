@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import {
-    Construction,
-    Constructions,
-} from 'src/app/shared/model/game/base/construction.model';
+import { Building } from 'src/app/shared/model/game/base/building/building.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
-import { ConstructionBusiness } from 'src/app/shared/business/construction.business';
+import { BuildingBusiness } from 'src/app/shared/business/building.business';
+import { Buildings } from 'src/app/shared/interface/enums/buildings.enum';
 
 @Component({
     selector: 'app-base',
@@ -13,24 +11,27 @@ import { ConstructionBusiness } from 'src/app/shared/business/construction.busin
 })
 export class BaseComponent {
     constructor(
-        private constructionBusiness: ConstructionBusiness,
+        private buildingBusiness: BuildingBusiness,
         private debugService: DebugService
     ) {}
 
-    get constructions(): Construction[] {
-        return this.constructionBusiness.constructions;
+    get buildings(): Building[] {
+        return this.buildingBusiness.buildings;
     }
 
-    createStorage(): void {
-        this.debugService.createConstruction(Constructions.Storage);
+    createFarm(): void {
+        this.debugService.createBuilding(Buildings.Farm);
     }
     createHouse(): void {
-        this.debugService.createConstruction(Constructions.House);
+        this.debugService.createBuilding(Buildings.House);
     }
     createKitchen(): void {
-        this.debugService.createConstruction(Constructions.Kitchen);
+        this.debugService.createBuilding(Buildings.Kitchen);
     }
     createReadyKitchen(): void {
-        this.debugService.createReadyConstruction(Constructions.Kitchen);
+        this.debugService.createReadyBuilding(Buildings.Kitchen);
+    }
+    log(item: Building): void {
+        console.log(item);
     }
 }

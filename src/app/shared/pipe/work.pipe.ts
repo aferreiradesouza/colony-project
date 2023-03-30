@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Job } from '../model/game/settler/work.model';
+import { Job } from '../interface/enums/job.enum';
 
 @Pipe({
     name: 'work',

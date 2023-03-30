@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
-import { ConstructionBusiness } from 'src/app/shared/business/construction.business';
-import { Construction } from 'src/app/shared/model/game/base/construction.model';
+import { BuildingBusiness } from 'src/app/shared/business/building.business';
+import { Building } from 'src/app/shared/model/game/base/building/building.model';
 
 @Component({
     selector: 'app-to-do-list-shortcut-tab',
@@ -11,11 +11,11 @@ import { Construction } from 'src/app/shared/model/game/base/construction.model'
 export class ToDoListShortcutTabComponent {
     constructor(
         private baseService: BaseBusiness,
-        private constructionsBusiness: ConstructionBusiness
+        private buildingBusiness: BuildingBusiness
     ) {}
 
-    get contructions(): Construction[] {
-        return this.constructionsBusiness.constructions.filter(
+    get contructions(): Building[] {
+        return this.buildingBusiness.buildings.filter(
             (e) => e.status === 'not-started' || e.status === 'building'
         );
     }

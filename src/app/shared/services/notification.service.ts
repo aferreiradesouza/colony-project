@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { NotificationEnum } from '../interface/enums/notification.enum';
 import { NotificationItem } from '../interface/interface';
 import { HelperService } from './helpers.service';
+import { ShortcutService } from './shortcut.service';
 
 interface NotificationModel {
     title: string;
@@ -12,23 +13,25 @@ interface NotificationModel {
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
     public notifications: NotificationItem[] = [];
-
     readonly notificationModel: {
         [key in NotificationEnum]: NotificationModel;
     } = {
-        [NotificationEnum.ConstructionSuccess]: {
+        [NotificationEnum.BuildingSuccess]: {
             title: '{{title}} finalizado(a)',
             message: '{{title}} finalizado(a) com sucesso!',
             type: 'success',
         },
-    } as const;
+    };
+    public onChangeNotificationList = new EventEmitter<NotificationItem[]>();
 
-    constructor() {}
+    constructor(private shortcutService: ShortcutService) {
+        this.startSubscriptionShortcutTab();
+    }
 
-    constructionSuccess(vars: { [key in 'title']: string }): void {
+    buildingSuccess(vars: { [key in 'title']: string }): void {
         const notificationModel = Object.assign(
             {},
-            this.notificationModel[NotificationEnum.ConstructionSuccess]
+            this.notificationModel[NotificationEnum.BuildingSuccess]
         );
         for (const key in vars) {
             notificationModel.title = notificationModel.title.replace(
@@ -44,16 +47,32 @@ export class NotificationService {
         }
         this.add({
             id: HelperService.guid,
+            isNew: this.shortcutService.activeTab !== 'notifications',
             ...notificationModel,
         });
     }
 
     private add(notification: NotificationItem): void {
         this.notifications.unshift(notification);
+        this.onChangeNotificationList.emit(this.notifications);
     }
 
     remove(id: string): void {
         const index = this.notifications.findIndex((e) => e.id === id);
         if (index > -1) this.notifications.splice(index, 1);
+        this.onChangeNotificationList.emit(this.notifications);
+    }
+
+    private startSubscriptionShortcutTab(): void {
+        this.shortcutService.onChangeTab.subscribe((event) => {
+            if (event === 'notifications') {
+                this.notifications.forEach((e) => (e.isNew = false));
+                this.onChangeNotificationList.emit(this.notifications);
+            }
+        });
+    }
+
+    get newNotifications(): NotificationItem[] {
+        return this.notifications.filter((e) => e.isNew);
     }
 }

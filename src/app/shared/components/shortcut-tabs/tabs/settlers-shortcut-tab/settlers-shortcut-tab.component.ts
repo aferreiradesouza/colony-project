@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Settler } from 'src/app/shared/model/game/settler/settler.model';
+import { Settler } from 'src/app/shared/model/game/base/settler/settler.model';
 import { SettlersBusiness } from 'src/app/shared/business/settlers.business';
 
 @Component({
