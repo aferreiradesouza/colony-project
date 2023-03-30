@@ -19,7 +19,6 @@ export class IAService {
 
     public start(): void {
         setInterval(() => {
-            // console.log(this.gameService);
             this.checkSettlersPriorities();
         }, 500);
     }
@@ -93,8 +92,14 @@ export class IAService {
             this.gameService.game.base.buildings.find(
                 (e) =>
                     e.status === 'done' &&
-                    e.tasks.filter((f) => !f.assignedTo && f.available)
-                        .length &&
+                    e.tasks.filter(
+                        (f) =>
+                            !f.assignedTo &&
+                            f.available &&
+                            (f.requirements
+                                ? f.requirements(this.gameService.game)
+                                : true)
+                    ).length &&
                     e.jobNecessary === Job.Kitchen
             ) ?? null
         );

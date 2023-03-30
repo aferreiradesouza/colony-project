@@ -54,16 +54,19 @@ export class BuildingBusiness {
         return this.buildings.find((e) => e.assignedTo === id) ?? null;
     }
 
-    getBuildingByTaskAssignedToSettler(id: string): Building | null {
+    getBuildingByTaskAssignedToSettler(idSettler: string): Building | null {
         return (
             this.buildings.find((e) =>
-                e.tasks.find((f) => f.assignedTo === id)
+                e.tasks.find((f) => f.assignedTo === idSettler)
             ) ?? null
         );
     }
 
-    getTaskBuildingBySettler(building: Building, id: string): Task | null {
-        return building.tasks.find((e) => e.assignedTo === id) ?? null;
+    getTaskBuildingBySettler(
+        building: Building,
+        idSettler: string
+    ): Task | null {
+        return building.tasks.find((e) => e.assignedTo === idSettler) ?? null;
     }
 
     assignSettler(idSettler: string, idContruction: string): void {
@@ -71,7 +74,6 @@ export class BuildingBusiness {
         building.assignedTo = idSettler;
         if (building.status === 'not-started') this.build(building.id);
         if (building.status === 'paused') this.resume(idContruction);
-        // if (building.status === 'done') this.work(idContruction);
     }
 
     build(id: string): void {
@@ -149,5 +151,15 @@ export class BuildingBusiness {
 
     getTaskByBuilding(building: Building, task: Tasks): Task {
         return building.tasks.find((e) => e.id === task)!;
+    }
+
+    disableTaskOfBuilding(task: Task): void {
+        task.available = false;
+        task.assignedTo = null;
+        clearInterval(task.interval);
+    }
+
+    enableTaskOfBuilding(task: Task): void {
+        task.available = true;
     }
 }

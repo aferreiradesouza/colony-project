@@ -98,19 +98,29 @@ export class BaseBusiness {
         }
     }
 
-    private _startEvents(): void {
-        this._startOnDoneBuilding();
-        this._startOnWorkAtStructure();
+    disableTaskOfBuilding(task: Task): void {
+        if (task.assignedTo)
+            this.settlersBusiness.unassignWork(task.assignedTo);
+        this.buildingBusiness.disableTaskOfBuilding(task);
     }
 
-    private _startOnDoneBuilding(): void {
+    enableTaskOfBuilding(task: Task): void {
+        this.buildingBusiness.enableTaskOfBuilding(task);
+    }
+
+    private _startEvents(): void {
+        this.startOnDoneBuilding();
+        this.startOnWorkAtStructure();
+    }
+
+    private startOnDoneBuilding(): void {
         this.buildingBusiness.onDoneBuilding.subscribe((event) => {
             LogService.add('Construção finalizada');
             this.settlersBusiness.unassignWork(event.idSettler);
         });
     }
 
-    private _startOnWorkAtStructure(): void {
+    private startOnWorkAtStructure(): void {
         this.buildingBusiness.onWorkAtStructure.subscribe((event) => {
             LogService.add(`Trabalhou no job: ${event.job}`);
             this.storageBusiness.addItem(

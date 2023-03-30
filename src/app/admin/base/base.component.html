@@ -18,33 +18,30 @@
                         </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Tasks
                         </th>
-                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Add. Task
-                        </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Log
                         </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    <tr *ngFor="let contruction of buildings">
+                    <tr *ngFor="let building of buildings">
                         <td class="whitespace-nowrap py-4 px-3 text-sm font-medium text-gray-900">
-                            {{contruction.type | structure}}</td>
+                            {{building.type | structure}}</td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-                            {{contruction.timeMs}}
+                            {{building.timeMs}}
                         </td>
-                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{contruction.status}}</td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{building.status}}</td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-                            {{contruction.assignedTo | settler}}</td>
+                            {{building.assignedTo | settler}}</td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-                            <div *ngFor="let item of contruction.tasks">
-                                {{item.id}} - {{item.assignedTo ? (item.assignedTo | settler) : 'Ninguém'}}
+                            <div *ngFor="let item of building.tasks" class="my-2">
+                                {{item.id}} - {{item.assignedTo ? (item.assignedTo | settler) : 'Ninguém'}} -
+                                {{item.available ? 'Disponível' : 'Indisponível'}} -
+                                <app-button label="Toggle" theme="info" size="tiny"
+                                    (clickEvent)="toggleAvailableTask(item)"></app-button>
                             </div>
                         </td>
                         <td>
-                            <app-button theme="secondary" label="Adicionar task"
-                                (click)="log(contruction)"></app-button>
-                        </td>
-                        <td>
-                            <app-button theme="terciary" label="Log" (click)="log(contruction)"></app-button>
+                            <app-button theme="terciary" label="Log" (click)="log(building)"></app-button>
                         </td>
                     </tr>
                 </tbody>

@@ -21,4 +21,8 @@ export class Storage extends Building {
         );
         this.inventory = data.inventory.map((e) => new Item(e));
     }
+
+    get hasStorage(): boolean {
+        return this.status === 'done';
+    }
 }

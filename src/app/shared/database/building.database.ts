@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Job } from '../interface/enums/job.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
+import { Game } from '../model/game/game.model';
 
 export interface IBuildingDatabase {
     id: Buildings;
@@ -9,12 +11,7 @@ export interface IBuildingDatabase {
     jobNecessary: Job | null;
     timeForWork: number;
     name: string;
-    tasks?: {
-        id: Tasks;
-        baseTimeMs: number;
-        assignedTo: string | null;
-        available: boolean;
-    }[];
+    tasks?: ITaskBuildingDatabase[];
 }
 
 export interface ITaskBuildingDatabase {
@@ -22,6 +19,7 @@ export interface ITaskBuildingDatabase {
     baseTimeMs: number;
     assignedTo: string | null;
     available: boolean;
+    requirements?: (game: Game) => { id: string; message: string }[] | null;
 }
 
 export class BuildingDatabase {
@@ -57,19 +55,28 @@ export class BuildingDatabase {
                         id: Tasks.RefeicaoSimples,
                         assignedTo: null,
                         baseTimeMs: 2000,
-                        available: true,
+                        available: false,
+                        requirements: (game) => {
+                            return [{ id: 'string', message: 'string' }];
+                        },
                     },
                     {
                         id: Tasks.RefeicaoMediana,
                         assignedTo: null,
                         baseTimeMs: 5000,
-                        available: true,
+                        available: false,
+                        requirements: (game) => {
+                            return [{ id: 'string', message: 'string' }];
+                        },
                     },
                     {
                         id: Tasks.RefeicaoCompleta,
                         assignedTo: null,
                         baseTimeMs: 10000,
-                        available: true,
+                        available: false,
+                        requirements: (game) => {
+                            return [{ id: 'string', message: 'string' }];
+                        },
                     },
                 ],
             },
