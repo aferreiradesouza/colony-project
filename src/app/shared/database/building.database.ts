@@ -1,5 +1,6 @@
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Job } from '../interface/enums/job.enum';
+import { Tasks } from '../interface/enums/tasks.enum';
 
 export interface IBuildingDatabase {
     id: Buildings;
@@ -8,6 +9,19 @@ export interface IBuildingDatabase {
     jobNecessary: Job | null;
     timeForWork: number;
     name: string;
+    tasks?: {
+        id: Tasks;
+        baseTimeMs: number;
+        assignedTo: string | null;
+        available: boolean;
+    }[];
+}
+
+export interface ITaskBuildingDatabase {
+    id: Tasks;
+    baseTimeMs: number;
+    assignedTo: string | null;
+    available: boolean;
 }
 
 export class BuildingDatabase {
@@ -38,6 +52,26 @@ export class BuildingDatabase {
                 jobNecessary: Job.Kitchen,
                 timeForWork: 1000,
                 name: 'Cozinha',
+                tasks: [
+                    {
+                        id: Tasks.RefeicaoSimples,
+                        assignedTo: null,
+                        baseTimeMs: 2000,
+                        available: true,
+                    },
+                    {
+                        id: Tasks.RefeicaoMediana,
+                        assignedTo: null,
+                        baseTimeMs: 5000,
+                        available: true,
+                    },
+                    {
+                        id: Tasks.RefeicaoCompleta,
+                        assignedTo: null,
+                        baseTimeMs: 10000,
+                        available: true,
+                    },
+                ],
             },
             [Buildings?.Farm]: {
                 id: Buildings?.Farm,
@@ -64,5 +98,16 @@ export class BuildingDatabase {
 
     static getBuildingById(id: Buildings): IBuildingDatabase {
         return BuildingDatabase.structures[id];
+    }
+
+    static getTaskBuildingById(
+        id: Buildings,
+        idTask: Tasks
+    ): ITaskBuildingDatabase | null {
+        return (
+            BuildingDatabase.structures[id].tasks?.find(
+                (e) => e.id === idTask
+            ) ?? null
+        );
     }
 }

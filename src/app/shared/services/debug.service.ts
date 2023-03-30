@@ -50,7 +50,7 @@ export class DebugService {
             priorities: [
                 {
                     id: Job.Builder,
-                    value: 2,
+                    value: 1,
                 },
                 {
                     id: Job.Agriculture,
@@ -58,7 +58,7 @@ export class DebugService {
                 },
                 {
                     id: Job.Kitchen,
-                    value: 1,
+                    value: 2,
                 },
             ],
         });

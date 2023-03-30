@@ -6,6 +6,7 @@ import { BaseBusiness } from '../business/base.business';
 import { SettlersBusiness } from '../business/settlers.business';
 import { BuildingBusiness } from '../business/building.business';
 import { Job } from '../interface/enums/job.enum';
+import { Task } from '../model/game/base/building/task.model';
 
 @Injectable({ providedIn: 'root' })
 export class IAService {
@@ -19,11 +20,11 @@ export class IAService {
     public start(): void {
         setInterval(() => {
             // console.log(this.gameService);
-            this._checkSettlersPriorities();
+            this.checkSettlersPriorities();
         }, 500);
     }
 
-    _checkSettlersPriorities(): void {
+    private checkSettlersPriorities(): void {
         this.settlersBusiness.settlers.forEach((settler) => {
             const priorities = settler.work.priorities
                 .filter((priority) => priority.value && priority.id)
@@ -46,32 +47,32 @@ export class IAService {
                 if (job === settler.work.workInProgressId) break;
                 if (
                     job === Job.Builder &&
-                    !!this._checkStructuresWaitingBuild()
+                    !!this.checkStructuresWaitingBuild()
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
-                    this._jobBuilding(settler);
+                    this.jobBuilding(settler);
                     break;
                 }
                 if (
                     job === Job.Kitchen &&
-                    !!this._checkStructuresHasKitchen()
+                    !!this.checkStructuresHasKitchenWithTaskAvailable()
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
-                    this._jobKitchen(settler);
+                    this.jobKitchen(settler);
                     break;
                 }
             }
         });
     }
 
-    unassignSettler(settler: Settler): void {
+    private unassignSettler(settler: Settler): void {
         const building = this.baseBusiness.getBuildingAssignedTo(settler.id);
         this.baseBusiness.unassignSettler(building!.id, settler.id);
     }
 
-    _checkStructuresWaitingBuild(): Building | null {
+    private checkStructuresWaitingBuild(): Building | null {
         return (
             this.buildingBusiness.buildings.find(
                 (e) =>
@@ -82,24 +83,36 @@ export class IAService {
         );
     }
 
-    _jobBuilding(settler: Settler): void {
-        const building = this._checkStructuresWaitingBuild();
+    private jobBuilding(settler: Settler): void {
+        const building = this.checkStructuresWaitingBuild();
         this.baseBusiness.assingSettler(settler.id, building!.id, Job.Builder);
     }
 
-    _checkStructuresHasKitchen(): Building | null {
+    private checkStructuresHasKitchenWithTaskAvailable(): Building | null {
         return (
             this.gameService.game.base.buildings.find(
                 (e) =>
                     e.status === 'done' &&
-                    !e.assignedTo &&
+                    e.tasks.filter((f) => !f.assignedTo && f.available)
+                        .length &&
                     e.jobNecessary === Job.Kitchen
             ) ?? null
         );
     }
 
-    _jobKitchen(settler: Settler): void {
-        const building = this._checkStructuresHasKitchen();
-        this.baseBusiness.assingSettler(settler.id, building!.id, Job.Kitchen);
+    private jobKitchen(settler: Settler): void {
+        const building =
+            this.checkStructuresHasKitchenWithTaskAvailable() as Building;
+        const task = this.getAvailableTask(building);
+        this.baseBusiness.assingSettler(
+            settler.id,
+            building!.id,
+            Job.Kitchen,
+            task.id
+        );
+    }
+
+    private getAvailableTask(building: Building): Task {
+        return building.tasks.find((e) => e.available && !e.assignedTo)!;
     }
 }
