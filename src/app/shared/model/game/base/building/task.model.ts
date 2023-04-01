@@ -1,5 +1,6 @@
+import { BaseBusiness } from 'src/app/shared/business/base.business';
+import { RequerimentsErrors } from 'src/app/shared/interface/enums/requeriments-errors.enum';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
-import { Game } from '../../game.model';
 
 export class Task {
     public id: Tasks;
@@ -7,8 +8,10 @@ export class Task {
     public baseTimeMs: number;
     public available: boolean;
     public requirements?: (
-        game: Game
-    ) => { id: string; message: string }[] | null;
+        baseBusiness: BaseBusiness,
+        task: Task
+    ) => { id: RequerimentsErrors; message: string }[] | null;
+    public warnings: { id: RequerimentsErrors; message: string }[] = [];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public interval: any = null;
@@ -18,7 +21,10 @@ export class Task {
         assignedTo: string | null;
         baseTimeMs: number;
         available: boolean;
-        requirements?: (game: Game) => { id: string; message: string }[] | null;
+        requirements?: (
+            baseBusiness: BaseBusiness,
+            task: Task
+        ) => { id: RequerimentsErrors; message: string }[] | null;
     }) {
         this.id = data.id;
         this.assignedTo = data.assignedTo;

@@ -11,6 +11,9 @@ import { StorageBusiness } from '../business/storage.business';
 import { Storage } from '../model/game/base/building/storage/storage.model';
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Job } from '../interface/enums/job.enum';
+import { Item } from '../model/game/base/building/storage/item.model';
+import { HelperService } from './helpers.service';
+import { Itens } from '../interface/enums/item.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -98,6 +101,16 @@ export class DebugService {
 
     createStorage(): void {
         this.storageBusiness.buildStorage(new Storage({ inventory: [] }));
+    }
+
+    addItem(item: Itens, amount = 1): void {
+        this.storageBusiness.addItem(
+            new Item({
+                amount,
+                id: HelperService.guid,
+                type: item,
+            })
+        );
     }
 
     createBuilding(id: Buildings): void {

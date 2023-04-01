@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { BaseBusiness } from '../business/base.business';
 import { Buildings } from '../interface/enums/buildings.enum';
+import { Itens } from '../interface/enums/item.enum';
 import { Job } from '../interface/enums/job.enum';
+import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
-import { Game } from '../model/game/game.model';
+import { Task } from '../model/game/base/building/task.model';
 
 export interface IBuildingDatabase {
     id: Buildings;
@@ -19,7 +22,10 @@ export interface ITaskBuildingDatabase {
     baseTimeMs: number;
     assignedTo: string | null;
     available: boolean;
-    requirements?: (game: Game) => { id: string; message: string }[] | null;
+    requirements?: (
+        baseBusiness: BaseBusiness,
+        task: Task
+    ) => { id: RequerimentsErrors; message: string }[] | null;
 }
 
 export class BuildingDatabase {
@@ -56,8 +62,38 @@ export class BuildingDatabase {
                         assignedTo: null,
                         baseTimeMs: 2000,
                         available: false,
-                        requirements: (game) => {
-                            return [{ id: 'string', message: 'string' }];
+                        requirements: (
+                            baseBusiness: BaseBusiness,
+                            task: Task
+                        ) => {
+                            const errors: {
+                                id: RequerimentsErrors;
+                                message: string;
+                            }[] = [];
+                            if (!baseBusiness.storageBusiness.hasStorage)
+                                errors.push({
+                                    id: RequerimentsErrors.NoStorage,
+                                    message: 'Não há armazém disponível',
+                                });
+                            if (
+                                !baseBusiness.storageBusiness.getItemByType(
+                                    Itens.Meat
+                                ) ||
+                                (baseBusiness.storageBusiness.getItemByType(
+                                    Itens.Meat
+                                ) &&
+                                    baseBusiness.storageBusiness.getItemByType(
+                                        Itens.Meat
+                                    )!.amount < 5)
+                            )
+                                errors.push({
+                                    id: RequerimentsErrors.InsufficientMaterial,
+                                    message: 'Não há carne suficiente',
+                                });
+
+                            if (errors.length || task.warnings.length)
+                                baseBusiness.addWarningTask(task, errors);
+                            return errors.length ? errors : null;
                         },
                     },
                     {
@@ -65,8 +101,29 @@ export class BuildingDatabase {
                         assignedTo: null,
                         baseTimeMs: 5000,
                         available: false,
-                        requirements: (game) => {
-                            return [{ id: 'string', message: 'string' }];
+                        requirements: (baseBusiness: BaseBusiness) => {
+                            const errors: {
+                                id: RequerimentsErrors;
+                                message: string;
+                            }[] = [];
+                            if (!baseBusiness.storageBusiness.hasStorage)
+                                errors.push({
+                                    id: RequerimentsErrors.NoStorage,
+                                    message: 'Não há armazém disponível',
+                                });
+                            if (
+                                baseBusiness.storageBusiness.getItemByType(
+                                    Itens.Meat
+                                ) &&
+                                baseBusiness.storageBusiness.getItemByType(
+                                    Itens.Meat
+                                )!.amount < 10
+                            )
+                                errors.push({
+                                    id: RequerimentsErrors.InsufficientMaterial,
+                                    message: 'Não há carne suficiente',
+                                });
+                            return errors.length ? errors : null;
                         },
                     },
                     {
@@ -74,8 +131,29 @@ export class BuildingDatabase {
                         assignedTo: null,
                         baseTimeMs: 10000,
                         available: false,
-                        requirements: (game) => {
-                            return [{ id: 'string', message: 'string' }];
+                        requirements: (baseBusiness: BaseBusiness) => {
+                            const errors: {
+                                id: RequerimentsErrors;
+                                message: string;
+                            }[] = [];
+                            if (!baseBusiness.storageBusiness.hasStorage)
+                                errors.push({
+                                    id: RequerimentsErrors.NoStorage,
+                                    message: 'Não há armazém disponível',
+                                });
+                            if (
+                                baseBusiness.storageBusiness.getItemByType(
+                                    Itens.Meat
+                                ) &&
+                                baseBusiness.storageBusiness.getItemByType(
+                                    Itens.Meat
+                                )!.amount < 15
+                            )
+                                errors.push({
+                                    id: RequerimentsErrors.InsufficientMaterial,
+                                    message: 'Não há carne suficiente',
+                                });
+                            return errors.length ? errors : null;
                         },
                     },
                 ],

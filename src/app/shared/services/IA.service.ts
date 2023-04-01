@@ -97,7 +97,7 @@ export class IAService {
                             !f.assignedTo &&
                             f.available &&
                             (f.requirements
-                                ? f.requirements(this.gameService.game)
+                                ? !f.requirements(this.baseBusiness, f)
                                 : true)
                     ).length &&
                     e.jobNecessary === Job.Kitchen

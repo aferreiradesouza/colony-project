@@ -14,9 +14,9 @@ import { StorageBusiness } from './storage.business';
 @Injectable({ providedIn: 'root' })
 export class BaseBusiness {
     constructor(
-        private buildingBusiness: BuildingBusiness,
-        private settlersBusiness: SettlersBusiness,
-        private storageBusiness: StorageBusiness
+        public buildingBusiness: BuildingBusiness,
+        public settlersBusiness: SettlersBusiness,
+        public storageBusiness: StorageBusiness
     ) {
         this._startEvents();
     }
@@ -131,5 +131,9 @@ export class BaseBusiness {
                 })
             );
         });
+    }
+
+    addWarningTask(task: Task, errors: any[]): void {
+        task.warnings = errors;
     }
 }

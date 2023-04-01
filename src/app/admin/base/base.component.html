@@ -38,6 +38,7 @@
                                 {{item.available ? 'Disponível' : 'Indisponível'}} -
                                 <app-button label="Toggle" theme="info" size="tiny"
                                     (clickEvent)="toggleAvailableTask(item)"></app-button>
+                                - <span *ngFor="let warning of item.warnings">{{warning.message}},</span>
                             </div>
                         </td>
                         <td>

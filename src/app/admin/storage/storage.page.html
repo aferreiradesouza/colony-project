@@ -1,5 +1,7 @@
 <app-button class="" theme="primary" label="Criar Storage" (click)="createStorage()"
     [disabled]="hasStorage || !!(storage && storage.status !== 'done')"></app-button>
+<app-button class="ml-4" theme="secondary" label="Adicionar carne" (click)="adicionarCarne()"
+    [disabled]="!hasStorage"></app-button>
 
 <div class="my-2 mx-4" *ngIf="hasStorage">
     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">

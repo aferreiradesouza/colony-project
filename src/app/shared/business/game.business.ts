@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Buildings } from '../interface/enums/buildings.enum';
+import { Itens } from '../interface/enums/item.enum';
 import { Base } from '../model/game/base/base.model';
+import { Item } from '../model/game/base/building/storage/item.model';
+import { Storage } from '../model/game/base/building/storage/storage.model';
 import { Game } from '../model/game/game.model';
 import { CryptHandlerService } from '../services/crypt-handler.service';
 import { HelperService } from '../services/helpers.service';
