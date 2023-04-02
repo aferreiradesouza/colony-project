@@ -5,6 +5,7 @@ import { BuildingBusiness } from 'src/app/shared/business/building.business';
 import { Buildings } from 'src/app/shared/interface/enums/buildings.enum';
 import { Task } from 'src/app/shared/model/game/base/building/task.model';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
+import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 
 @Component({
     selector: 'app-base',
@@ -46,5 +47,9 @@ export class BaseComponent {
         task.available
             ? this.baseBusiness.disableTaskOfBuilding(task)
             : this.baseBusiness.enableTaskOfBuilding(task);
+    }
+
+    addTask(item: Building): void {
+        this.buildingBusiness.addTask(item.id, Tasks.RefeicaoSimples);
     }
 }

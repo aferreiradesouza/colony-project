@@ -113,7 +113,8 @@ export class IAService {
             settler.id,
             building!.id,
             Job.Kitchen,
-            task.id
+            task.id,
+            task.guid
         );
     }
 

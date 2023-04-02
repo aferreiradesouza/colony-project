@@ -18,7 +18,7 @@
                         </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Tasks
                         </th>
-                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Log
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Buttons
                         </th>
                     </tr>
                 </thead>
@@ -43,6 +43,8 @@
                         </td>
                         <td>
                             <app-button theme="terciary" label="Log" (click)="log(building)"></app-button>
+                            <app-button class="ml-2" theme="secondary" label="Add task"
+                                (click)="addTask(building)"></app-button>
                         </td>
                     </tr>
                 </tbody>

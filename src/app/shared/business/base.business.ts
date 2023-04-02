@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Itens } from '../interface/enums/item.enum';
 import { Job } from '../interface/enums/job.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import { Building } from '../model/game/base/building/building.model';
-import { Item } from '../model/game/base/building/storage/item.model';
 import { Task } from '../model/game/base/building/task.model';
-import { HelperService } from '../services/helpers.service';
 import { LogService } from '../services/log.service';
 import { BuildingBusiness } from './building.business';
 import { SettlersBusiness } from './settlers.business';
 import { StorageBusiness } from './storage.business';
+import { TaskWarning } from '../database/task.database';
 
 @Injectable({ providedIn: 'root' })
 export class BaseBusiness {
@@ -18,7 +16,7 @@ export class BaseBusiness {
         public settlersBusiness: SettlersBusiness,
         public storageBusiness: StorageBusiness
     ) {
-        this._startEvents();
+        this.startEvents();
     }
 
     getBuildingAssignedTo(idSettler: string): Building | null {
@@ -46,11 +44,18 @@ export class BaseBusiness {
         idSettler: string,
         idBuilding: string,
         job: Job | null,
-        task?: Tasks
+        task?: Tasks,
+        uniqueIdTask?: string
     ): void {
         const building = this.buildingBusiness.getBuildingById(idBuilding);
-        if (building?.status === 'done' && task) {
-            this.assignDoneBuilding(idSettler, idBuilding, job, task);
+        if (building?.status === 'done' && task && uniqueIdTask) {
+            this.assignDoneBuilding(
+                idSettler,
+                idBuilding,
+                job,
+                task,
+                uniqueIdTask
+            );
         } else {
             this.assignNotDoneBuilding(idSettler, idBuilding, job);
         }
@@ -60,9 +65,26 @@ export class BaseBusiness {
         idSettler: string,
         idBuilding: string,
         job: Job | null,
-        task: Tasks
+        task: Tasks,
+        uniqueIdTask: string
     ): void {
-        this.buildingBusiness.work(idSettler, idBuilding, task);
+        this.buildingBusiness.work({
+            idSettler,
+            idBuilding,
+            task,
+            uniqueIdTask,
+            warningCallback: (task: Task): boolean => {
+                const warnings =
+                    task.requirements && task.requirements(this, task);
+                if (warnings?.length) {
+                    this.addWarningTask(task, warnings);
+                    this.unassignSettler(idBuilding, idSettler);
+                    clearInterval(task.interval);
+                    return true;
+                }
+                return false;
+            },
+        });
         this.settlersBusiness.assignWork(
             idSettler,
             idBuilding,
@@ -89,7 +111,8 @@ export class BaseBusiness {
         if (building?.status === 'done' && task) {
             this.buildingBusiness.unassignSettlerAtDoneBuilding(
                 idBuilding,
-                task.id
+                task.id,
+                task.guid
             );
             this.settlersBusiness.unassignWork(idSettler);
         } else {
@@ -108,9 +131,14 @@ export class BaseBusiness {
         this.buildingBusiness.enableTaskOfBuilding(task);
     }
 
-    private _startEvents(): void {
+    addWarningTask(task: Task, errors: TaskWarning): void {
+        task.warnings = errors ?? [];
+    }
+
+    private startEvents(): void {
         this.startOnDoneBuilding();
         this.startOnWorkAtStructure();
+        this.startOnUseMaterial();
     }
 
     private startOnDoneBuilding(): void {
@@ -122,18 +150,21 @@ export class BaseBusiness {
 
     private startOnWorkAtStructure(): void {
         this.buildingBusiness.onWorkAtStructure.subscribe((event) => {
+            // console.log(event);
             LogService.add(`Trabalhou no job: ${event.job}`);
-            this.storageBusiness.addItem(
-                new Item({
-                    amount: 1,
-                    id: HelperService.guid,
-                    type: Itens.Meat,
-                })
-            );
+            // this.storageBusiness.addItem(
+            //     new Item({
+            //         amount: 1,
+            //         id: HelperService.guid,
+            //         type: Itens.Meat,
+            //     })
+            // );
         });
     }
 
-    addWarningTask(task: Task, errors: any[]): void {
-        task.warnings = errors;
+    private startOnUseMaterial(): void {
+        this.buildingBusiness.onUseMaterial.subscribe((event) => {
+            this.storageBusiness.useMaterial(event.id, event.amount);
+        });
     }
 }

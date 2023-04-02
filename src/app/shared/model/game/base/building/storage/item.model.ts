@@ -8,6 +8,6 @@ export class Item {
     constructor(data: { id: string; type: Itens; amount: number }) {
         this.id = data.id;
         this.type = data.type;
-        this.amount = data?.amount;
+        this.amount = data?.amount ?? 0;
     }
 }

@@ -21,6 +21,7 @@ export class Base {
                     status: e.status,
                     assignedTo: e.assignedTo,
                     timeMs: e.timeMs,
+                    tasks: e.tasks,
                 })
         );
         this.storage = base.storage

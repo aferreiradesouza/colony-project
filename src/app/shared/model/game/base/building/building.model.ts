@@ -15,6 +15,7 @@ export interface IBuilding {
     status?: BuildingStatus;
     assignedTo?: string | null;
     timeMs?: number;
+    tasks?: Task[];
 }
 
 export class Building {
@@ -42,7 +43,15 @@ export class Building {
         this.jobNecessary = structure.jobNecessary;
         this.jobToCreateStructure = structure.jobToCreateStructure;
         this.timeMs = building.timeMs ?? structure.timeMs;
-        this.tasks = structure.tasks?.map((e) => new Task(e)) ?? [];
+        this.tasks =
+            building.tasks?.map(
+                (e) =>
+                    new Task({
+                        ...e,
+                        consumption: e.consumption ?? [],
+                        assignedTo: null,
+                    })
+            ) ?? [];
     }
 
     private _getDatabase(id: Buildings): IBuildingDatabase {

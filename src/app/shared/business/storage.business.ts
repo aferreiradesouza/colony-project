@@ -42,4 +42,17 @@ export class StorageBusiness {
         if (ItemOfStorage) ItemOfStorage.amount += newItem.amount;
         else this.storage!.inventory.push(newItem);
     }
+
+    useMaterial(type: Itens, amount: number): void {
+        const item = this.getItemByType(type);
+        if (!item) return;
+        item.amount -= amount;
+        if (item.amount <= 0) this.removeMaterial(type);
+    }
+
+    removeMaterial(type: Itens): void {
+        const index = this.inventory.findIndex((e) => e.type === type);
+        if (index <= -1) return;
+        this.inventory.splice(index, 1);
+    }
 }

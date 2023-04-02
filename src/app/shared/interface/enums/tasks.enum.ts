@@ -1,6 +1,3 @@
 export enum Tasks {
-    None,
-    RefeicaoSimples,
-    RefeicaoMediana,
-    RefeicaoCompleta,
+    RefeicaoSimples = 1,
 }

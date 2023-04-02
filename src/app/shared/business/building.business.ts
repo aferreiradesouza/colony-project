@@ -9,6 +9,8 @@ import {
 import { Task } from '../model/game/base/building/task.model';
 import { NotificationService } from '../services/notification.service';
 import { GameBusiness } from './game.business';
+import { TaskDatabase } from '../database/task.database';
+import { Itens } from '../interface/enums/item.enum';
 
 @Injectable({ providedIn: 'root' })
 export class BuildingBusiness {
@@ -25,6 +27,8 @@ export class BuildingBusiness {
     public onWorkAtStructure = new EventEmitter<{
         job: Job;
     }>();
+
+    public onUseMaterial = new EventEmitter<{ id: Itens; amount: number }>();
 
     constructor(
         private gameService: GameBusiness,
@@ -127,30 +131,62 @@ export class BuildingBusiness {
         clearInterval(building.interval);
     }
 
-    unassignSettlerAtDoneBuilding(idContruction: string, task: Tasks): void {
+    unassignSettlerAtDoneBuilding(
+        idContruction: string,
+        task: Tasks,
+        uniqueIdTask: string
+    ): void {
         const building = this.getBuildingById(idContruction) as Building;
         building.assignedTo = null;
-        const taskBuilding = this.getTaskByBuilding(building, task);
+        const taskBuilding = this.getTaskByBuilding(
+            building,
+            task,
+            uniqueIdTask
+        );
         taskBuilding.assignedTo = null;
         clearInterval(taskBuilding.interval);
     }
 
-    work(idSettler: string, idBuilding: string, task: Tasks): void {
-        const building = this.getBuildingById(idBuilding) as Building;
-        const taskBuilding = this.getTaskByBuilding(building, task);
-        taskBuilding.assignedTo = idSettler;
-        const config = BuildingDatabase.getTaskBuildingById(
+    work(data: {
+        idSettler: string;
+        idBuilding: string;
+        task: Tasks;
+        uniqueIdTask: string;
+        warningCallback: (task: Task) => boolean;
+    }): void {
+        const building = this.getBuildingById(data.idBuilding) as Building;
+        const taskBuilding = this.getTaskByBuilding(
+            building,
+            data.task,
+            data.uniqueIdTask
+        );
+        taskBuilding.assignedTo = data.idSettler;
+        const config = TaskDatabase.getTaskBuildingById(
             building.type,
             taskBuilding.id
         );
         if (!config) return;
         taskBuilding.interval = setInterval(() => {
+            if (taskBuilding.requirements) {
+                if (data.warningCallback(taskBuilding)) {
+                    return;
+                }
+            }
+            taskBuilding.consumption.forEach((e) => {
+                this.onUseMaterial.emit(e);
+            });
             this.onWorkAtStructure.emit({ job: building.jobNecessary! });
         }, config.baseTimeMs);
     }
 
-    getTaskByBuilding(building: Building, task: Tasks): Task {
-        return building.tasks.find((e) => e.id === task)!;
+    getTaskByBuilding(
+        building: Building,
+        task: Tasks,
+        uniqueIdTask: string
+    ): Task {
+        return building.tasks.find(
+            (e) => e.id === task && e.guid === uniqueIdTask
+        )!;
     }
 
     disableTaskOfBuilding(task: Task): void {
@@ -161,5 +197,11 @@ export class BuildingBusiness {
 
     enableTaskOfBuilding(task: Task): void {
         task.available = true;
+    }
+
+    addTask(idBuilding: string, tasks: Tasks): void {
+        const building = this.getBuildingById(idBuilding);
+        const task = TaskDatabase.getTaskById(tasks);
+        building?.tasks.push(new Task(task));
     }
 }
