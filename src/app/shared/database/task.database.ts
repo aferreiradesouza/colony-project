@@ -8,6 +8,7 @@ import { Task } from '../model/game/base/building/task.model';
 export interface ITaskDatabase {
     id: Tasks;
     baseTimeMs: number;
+    name: string;
     assignedTo: string | null;
     available: boolean;
     buildings: Buildings[];
@@ -26,10 +27,21 @@ export class TaskDatabase {
             [Tasks?.RefeicaoSimples]: {
                 id: Tasks.RefeicaoSimples,
                 buildings: [Buildings.Kitchen],
+                name: 'Refeição Simples',
                 assignedTo: null,
                 baseTimeMs: 2000,
                 available: false,
                 consumption: [{ id: Itens.Meat, amount: 5 }],
+                requirements: TaskDatabase.requirementsSimpleMeal,
+            },
+            [Tasks?.RefeicaoCompleta]: {
+                id: Tasks.RefeicaoCompleta,
+                buildings: [Buildings.Kitchen],
+                name: 'Refeição Completa',
+                assignedTo: null,
+                baseTimeMs: 4000,
+                available: false,
+                consumption: [{ id: Itens.Meat, amount: 10 }],
                 requirements: TaskDatabase.requirementsSimpleMeal,
             },
         };

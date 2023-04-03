@@ -34,7 +34,8 @@
                             {{building.assignedTo | settler}}</td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
                             <div *ngFor="let item of building.tasks" class="my-2">
-                                {{item.id}} - {{item.assignedTo ? (item.assignedTo | settler) : 'Ninguém'}} -
+                                {{item.id | task}} - {{item.assignedTo ? (item.assignedTo | settler) :
+                                'Ninguém'}} -
                                 {{item.available ? 'Disponível' : 'Indisponível'}} -
                                 <app-button label="Toggle" theme="info" size="tiny"
                                     (clickEvent)="toggleAvailableTask(item)"></app-button>

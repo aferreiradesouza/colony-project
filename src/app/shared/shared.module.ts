@@ -38,6 +38,7 @@ import { LogService } from './services/log.service';
 import { NotificationService } from './services/notification.service';
 import { ShortcutService } from './services/shortcut.service';
 import { ItemPipe } from './pipe/item.pipe';
+import { TaskPipe } from './pipe/task.pipe';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -65,7 +66,14 @@ const COMPONENTS = [
     ProgressBarComponent,
 ];
 
-const PIPES = [SkillPipe, WorkPipe, StructurePipe, SettlerPipe, ItemPipe];
+const PIPES = [
+    SkillPipe,
+    WorkPipe,
+    StructurePipe,
+    SettlerPipe,
+    ItemPipe,
+    TaskPipe,
+];
 
 export const SERVICES_SHARED = [
     SettlersBusiness,
