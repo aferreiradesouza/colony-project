@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { BaseBusiness } from '../business/base.business';
 import { Buildings } from '../interface/enums/buildings.enum';
+import { Itens } from '../interface/enums/item.enum';
 import { Job } from '../interface/enums/job.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
-import { ITaskDatabase } from './task.database';
+import {
+    Building,
+    BuildingResource,
+} from '../model/game/base/building/building.model';
+import { BuildingValidation } from '../validation/building.validation';
+import { ITaskDatabase, RequerimentsWarning } from './task.database';
 
 export interface IBuildingDatabase {
     id: Buildings;
@@ -12,6 +19,11 @@ export interface IBuildingDatabase {
     timeForWork: number;
     name: string;
     tasks?: ITaskDatabase[];
+    resources?: BuildingResource[];
+    requirements?: (
+        baseBusiness: BaseBusiness,
+        building: Building
+    ) => RequerimentsWarning;
 }
 
 export class BuildingDatabase {
@@ -26,6 +38,10 @@ export class BuildingDatabase {
                 jobNecessary: null,
                 timeForWork: 1000,
                 name: 'Armazém',
+                resources: [
+                    { id: Itens.Wood, amount: 200 },
+                    { id: Itens.Stone, amount: 200 },
+                ],
             },
             [Buildings?.House]: {
                 id: Buildings?.House,
@@ -34,6 +50,8 @@ export class BuildingDatabase {
                 jobNecessary: null,
                 timeForWork: 1000,
                 name: 'Casa',
+                requirements: BuildingValidation.requirementsHouse,
+                resources: [{ id: Itens.Wood, amount: 100 }],
             },
             [Buildings?.Kitchen]: {
                 id: Buildings?.Kitchen,
@@ -42,6 +60,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Kitchen,
                 timeForWork: 1000,
                 name: 'Cozinha',
+                resources: [{ id: Itens.Wood, amount: 100 }],
             },
             [Buildings?.Farm]: {
                 id: Buildings?.Farm,
@@ -50,6 +69,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Agriculture,
                 timeForWork: 1000,
                 name: 'Fazenda',
+                resources: [{ id: Itens.Wood, amount: 100 }],
             },
             [Buildings?.Factory]: {
                 id: Buildings?.Factory,
@@ -58,6 +78,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Builder,
                 timeForWork: 1000,
                 name: 'Fábrica',
+                resources: [{ id: Itens.Wood, amount: 100 }],
             },
         };
     }

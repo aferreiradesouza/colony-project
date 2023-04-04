@@ -6,8 +6,12 @@ import {
 } from '../../../../database/building.database';
 import { HelperService } from '../../../../services/helpers.service';
 import { Task } from './task.model';
+import { Itens } from 'src/app/shared/interface/enums/item.enum';
+import { RequerimentsWarning } from 'src/app/shared/database/task.database';
+import { BaseBusiness } from 'src/app/shared/business/base.business';
 
 export type BuildingStatus = 'not-started' | 'building' | 'paused' | 'done';
+export type BuildingResource = { id: Itens; amount: number };
 
 export interface IBuilding {
     id?: string;
@@ -28,6 +32,12 @@ export class Building {
     public assignedTo: string | null = null;
     public percent = 0;
     public tasks: Task[] = [];
+    public warnings: RequerimentsWarning = [];
+    public resources: BuildingResource[] = [];
+    public requirements?: (
+        baseBusiness: BaseBusiness,
+        building: Building
+    ) => RequerimentsWarning;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public interval: any = null;
@@ -43,6 +53,8 @@ export class Building {
         this.jobNecessary = structure.jobNecessary;
         this.jobToCreateStructure = structure.jobToCreateStructure;
         this.timeMs = building.timeMs ?? structure.timeMs;
+        this.resources = structure.resources ?? [];
+        this.requirements = structure.requirements;
         this.tasks =
             building.tasks?.map(
                 (e) =>
@@ -56,5 +68,9 @@ export class Building {
 
     private _getDatabase(id: Buildings): IBuildingDatabase {
         return BuildingDatabase.getBuildingById(id);
+    }
+
+    addWarning(errors: RequerimentsWarning): void {
+        this.warnings = errors ?? [];
     }
 }

@@ -18,6 +18,8 @@
                         </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Tasks
                         </th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Warnings
+                        </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Buttons
                         </th>
                     </tr>
@@ -41,6 +43,9 @@
                                     (clickEvent)="toggleAvailableTask(item)"></app-button>
                                 - <span *ngFor="let warning of item.warnings">{{warning.message}},</span>
                             </div>
+                        </td>
+                        <td>
+                            {{building.warnings | json}}
                         </td>
                         <td>
                             <app-button theme="terciary" label="Log" (click)="log(building)"></app-button>

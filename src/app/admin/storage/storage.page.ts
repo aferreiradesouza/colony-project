@@ -24,6 +24,14 @@ export class StoragePage {
         this.debugService.addItem(Itens.Meat, 5);
     }
 
+    adicionarPedra(): void {
+        this.debugService.addItem(Itens.Stone, 100);
+    }
+
+    adicionarMadeira(): void {
+        this.debugService.addItem(Itens.Wood, 100);
+    }
+
     get inventory(): Item[] {
         return this.storageBusiness.inventory;
     }

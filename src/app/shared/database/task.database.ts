@@ -4,6 +4,7 @@ import { Itens } from '../interface/enums/item.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import { Task } from '../model/game/base/building/task.model';
+import { TaskValidation } from '../validation/task.validation';
 
 export interface ITaskDatabase {
     id: Tasks;
@@ -14,10 +15,15 @@ export interface ITaskDatabase {
     buildings: Buildings[];
     consumption: TaskConsumption[];
     resourceGenerated: TaskResourceGenerated[];
-    requirements?: (baseBusiness: BaseBusiness, task: Task) => TaskWarning;
+    requirements?: (
+        baseBusiness: BaseBusiness,
+        task: Task
+    ) => RequerimentsWarning;
 }
 
-export type TaskWarning = { id: RequerimentsErrors; message: string }[] | null;
+export type RequerimentsWarning =
+    | { id: RequerimentsErrors; message: string }[]
+    | null;
 export type TaskConsumption = { id: Itens; amount: number };
 export type TaskResourceGenerated = { id: Itens; amount: number };
 
@@ -35,7 +41,7 @@ export class TaskDatabase {
                 available: false,
                 resourceGenerated: [{ id: Itens.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Itens.Meat, amount: 5 }],
-                requirements: TaskDatabase.requirementsSimpleMeal,
+                requirements: TaskValidation.requirementsSimpleMeal,
             },
             [Tasks?.RefeicaoCompleta]: {
                 id: Tasks.RefeicaoCompleta,
@@ -46,7 +52,7 @@ export class TaskDatabase {
                 available: false,
                 resourceGenerated: [{ id: Itens.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Itens.Meat, amount: 10 }],
-                requirements: TaskDatabase.requirementsSimpleMeal,
+                requirements: TaskValidation.requirementsSimpleMeal,
             },
         };
     }
@@ -68,31 +74,5 @@ export class TaskDatabase {
                 (e) => e.id === idTask && e.buildings.find((f) => f === id)
             )[0] ?? null
         );
-    }
-
-    static requirementsSimpleMeal(
-        baseBusiness: BaseBusiness,
-        task: Task
-    ): TaskWarning {
-        const errors: TaskWarning = [];
-        if (!baseBusiness.storageBusiness.hasStorage)
-            errors.push({
-                id: RequerimentsErrors.NoStorage,
-                message: 'Não há armazém disponível',
-            });
-        if (
-            !baseBusiness.storageBusiness.getItemByType(Itens.Meat) ||
-            (baseBusiness.storageBusiness.getItemByType(Itens.Meat) &&
-                baseBusiness.storageBusiness.getItemByType(Itens.Meat)!.amount <
-                    5)
-        )
-            errors.push({
-                id: RequerimentsErrors.InsufficientMaterial,
-                message: 'Não há carne suficiente',
-            });
-
-        if (errors.length || task.warnings?.length)
-            baseBusiness.addWarningTask(task, errors);
-        return errors.length ? errors : null;
     }
 }

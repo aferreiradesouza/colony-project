@@ -77,7 +77,10 @@ export class IAService {
                 (e) =>
                     e.status !== 'done' &&
                     !e.assignedTo &&
-                    e.jobToCreateStructure === Job.Builder
+                    e.jobToCreateStructure === Job.Builder &&
+                    (e.requirements
+                        ? !e.requirements(this.baseBusiness, e)
+                        : true)
             ) ?? null
         );
     }

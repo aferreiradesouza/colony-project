@@ -2,7 +2,7 @@ import { BaseBusiness } from 'src/app/shared/business/base.business';
 import {
     TaskConsumption,
     TaskResourceGenerated,
-    TaskWarning,
+    RequerimentsWarning,
 } from 'src/app/shared/database/task.database';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
@@ -19,8 +19,8 @@ export class Task {
     public requirements?: (
         baseBusiness: BaseBusiness,
         task: Task
-    ) => TaskWarning;
-    public warnings: TaskWarning = [];
+    ) => RequerimentsWarning;
+    public warnings: RequerimentsWarning = [];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public interval: any = null;
@@ -34,7 +34,10 @@ export class Task {
         available: boolean;
         consumption: TaskConsumption[];
         resourceGenerated: TaskResourceGenerated[];
-        requirements?: (baseBusiness: BaseBusiness, task: Task) => TaskWarning;
+        requirements?: (
+            baseBusiness: BaseBusiness,
+            task: Task
+        ) => RequerimentsWarning;
     }) {
         this.id = data.id;
         this.name = data.name;
@@ -45,5 +48,9 @@ export class Task {
         this.consumption = data.consumption;
         this.requirements = data.requirements;
         this.resourceGenerated = data.resourceGenerated;
+    }
+
+    addWarning(errors: RequerimentsWarning): void {
+        this.warnings = errors ?? [];
     }
 }

@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BuildingDatabase } from '../database/building.database';
-import { Job } from '../interface/enums/job.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import {
     Building,
@@ -26,7 +25,7 @@ export class BuildingBusiness {
 
     public onWorkAtStructure = new EventEmitter<Task>();
 
-    public onUseMaterial = new EventEmitter<{ id: Itens; amount: number }>();
+    public onUseMaterial = new EventEmitter<{ id: Itens; amount: number }[]>();
 
     constructor(
         private gameService: GameBusiness,
@@ -74,7 +73,11 @@ export class BuildingBusiness {
     assignSettler(idSettler: string, idContruction: string): void {
         const building = this.getBuildingById(idContruction) as Building;
         building.assignedTo = idSettler;
-        if (building.status === 'not-started') this.build(building.id);
+        if (building.status === 'not-started') {
+            if (building.resources.length)
+                this.onUseMaterial.emit(building.resources);
+            this.build(building.id);
+        }
         if (building.status === 'paused') this.resume(idContruction);
     }
 
@@ -153,27 +156,23 @@ export class BuildingBusiness {
         warningCallback: (task: Task) => boolean;
     }): void {
         const building = this.getBuildingById(data.idBuilding) as Building;
-        const taskBuilding = this.getTaskByBuilding(
+        const task = this.getTaskByBuilding(
             building,
             data.task,
             data.uniqueIdTask
         );
-        taskBuilding.assignedTo = data.idSettler;
-        const config = TaskDatabase.getTaskBuildingById(
-            building.type,
-            taskBuilding.id
-        );
+        task.assignedTo = data.idSettler;
+        const config = TaskDatabase.getTaskBuildingById(building.type, task.id);
         if (!config) return;
-        taskBuilding.interval = setInterval(() => {
-            if (taskBuilding.requirements) {
-                if (data.warningCallback(taskBuilding)) {
+        task.interval = setInterval(() => {
+            if (task.requirements) {
+                if (data.warningCallback(task)) {
                     return;
                 }
             }
-            taskBuilding.consumption.forEach((e) => {
-                this.onUseMaterial.emit(e);
-            });
-            this.onWorkAtStructure.emit(taskBuilding);
+            if (task.consumption.length)
+                this.onUseMaterial.emit(task.consumption);
+            this.onWorkAtStructure.emit(task);
         }, config.baseTimeMs);
     }
 

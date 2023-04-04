@@ -1,5 +1,6 @@
 export enum Itens {
-    None,
-    Meat,
-    RefeicaoSimples
+    Meat = 1,
+    RefeicaoSimples,
+    Wood,
+    Stone,
 }

@@ -1,4 +1,4 @@
 export enum RequerimentsErrors {
     NoStorage,
-    InsufficientMaterial,
+    InsufficientResource,
 }

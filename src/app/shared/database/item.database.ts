@@ -10,10 +10,6 @@ export class ItemDatabase {
 
     static get items(): { [key in Itens]: IItemDatabase } {
         return {
-            [Itens?.None]: {
-                id: Itens?.None,
-                name: 'None',
-            },
             [Itens?.Meat]: {
                 id: Itens?.Meat,
                 name: 'Carne',
@@ -21,6 +17,14 @@ export class ItemDatabase {
             [Itens?.RefeicaoSimples]: {
                 id: Itens?.RefeicaoSimples,
                 name: 'Refeição Simples',
+            },
+            [Itens?.Wood]: {
+                id: Itens?.Wood,
+                name: 'Madeira',
+            },
+            [Itens?.Stone]: {
+                id: Itens?.Stone,
+                name: 'Pedra',
             },
         };
     }

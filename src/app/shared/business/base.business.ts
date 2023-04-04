@@ -7,7 +7,7 @@ import { LogService } from '../services/log.service';
 import { BuildingBusiness } from './building.business';
 import { SettlersBusiness } from './settlers.business';
 import { StorageBusiness } from './storage.business';
-import { TaskWarning } from '../database/task.database';
+import { RequerimentsWarning } from '../database/task.database';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
 
@@ -79,7 +79,7 @@ export class BaseBusiness {
                 const warnings =
                     task.requirements && task.requirements(this, task);
                 if (warnings?.length) {
-                    this.addWarningTask(task, warnings);
+                    task.addWarning(warnings);
                     this.unassignSettler(idBuilding, idSettler);
                     clearInterval(task.interval);
                     return true;
@@ -99,6 +99,12 @@ export class BaseBusiness {
         idBuilding: string,
         job: Job | null
     ): void {
+        const building = this.buildingBusiness.getBuildingById(idBuilding);
+        if (building?.requirements) {
+            const errors = building.requirements(this, building);
+            building.addWarning(errors);
+            if (errors?.length) return;
+        }
         this.buildingBusiness.assignSettler(idSettler, idBuilding);
         this.settlersBusiness.assignWork(
             idSettler,
@@ -133,7 +139,7 @@ export class BaseBusiness {
         this.buildingBusiness.enableTaskOfBuilding(task);
     }
 
-    addWarningTask(task: Task, errors: TaskWarning): void {
+    addWarningTask(task: Task, errors: RequerimentsWarning): void {
         task.warnings = errors ?? [];
     }
 
@@ -167,7 +173,9 @@ export class BaseBusiness {
 
     private startOnUseMaterial(): void {
         this.buildingBusiness.onUseMaterial.subscribe((event) => {
-            this.storageBusiness.useResource(event.id, event.amount);
+            event.forEach((e) => {
+                this.storageBusiness.useResource(e.id, e.amount);
+            });
         });
     }
 }
