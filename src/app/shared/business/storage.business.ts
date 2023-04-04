@@ -43,7 +43,7 @@ export class StorageBusiness {
         else this.storage!.inventory.push(newItem);
     }
 
-    useMaterial(type: Itens, amount: number): void {
+    useResource(type: Itens, amount: number): void {
         const item = this.getItemByType(type);
         if (!item) return;
         item.amount -= amount;

@@ -8,6 +8,8 @@ import { BuildingBusiness } from './building.business';
 import { SettlersBusiness } from './settlers.business';
 import { StorageBusiness } from './storage.business';
 import { TaskWarning } from '../database/task.database';
+import { Item } from '../model/game/base/building/storage/item.model';
+import { HelperService } from '../services/helpers.service';
 
 @Injectable({ providedIn: 'root' })
 export class BaseBusiness {
@@ -150,21 +152,22 @@ export class BaseBusiness {
 
     private startOnWorkAtStructure(): void {
         this.buildingBusiness.onWorkAtStructure.subscribe((event) => {
-            // console.log(event);
-            LogService.add(`Trabalhou no job: ${event.job}`);
-            // this.storageBusiness.addItem(
-            //     new Item({
-            //         amount: 1,
-            //         id: HelperService.guid,
-            //         type: Itens.Meat,
-            //     })
-            // );
+            LogService.add(`Criou: ${event.name}`);
+            event.resourceGenerated.forEach((e) => {
+                this.storageBusiness.addItem(
+                    new Item({
+                        amount: e.amount,
+                        id: HelperService.guid,
+                        type: e.id,
+                    })
+                );
+            });
         });
     }
 
     private startOnUseMaterial(): void {
         this.buildingBusiness.onUseMaterial.subscribe((event) => {
-            this.storageBusiness.useMaterial(event.id, event.amount);
+            this.storageBusiness.useResource(event.id, event.amount);
         });
     }
 }

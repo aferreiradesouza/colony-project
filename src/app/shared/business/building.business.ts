@@ -24,9 +24,7 @@ export class BuildingBusiness {
         status: BuildingStatus;
     }>();
 
-    public onWorkAtStructure = new EventEmitter<{
-        job: Job;
-    }>();
+    public onWorkAtStructure = new EventEmitter<Task>();
 
     public onUseMaterial = new EventEmitter<{ id: Itens; amount: number }>();
 
@@ -175,7 +173,7 @@ export class BuildingBusiness {
             taskBuilding.consumption.forEach((e) => {
                 this.onUseMaterial.emit(e);
             });
-            this.onWorkAtStructure.emit({ job: building.jobNecessary! });
+            this.onWorkAtStructure.emit(taskBuilding);
         }, config.baseTimeMs);
     }
 

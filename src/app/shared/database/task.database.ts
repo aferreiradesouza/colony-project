@@ -12,12 +12,14 @@ export interface ITaskDatabase {
     assignedTo: string | null;
     available: boolean;
     buildings: Buildings[];
-    consumption: TaskConsumption;
+    consumption: TaskConsumption[];
+    resourceGenerated: TaskResourceGenerated[];
     requirements?: (baseBusiness: BaseBusiness, task: Task) => TaskWarning;
 }
 
 export type TaskWarning = { id: RequerimentsErrors; message: string }[] | null;
-export type TaskConsumption = { id: Itens; amount: number }[];
+export type TaskConsumption = { id: Itens; amount: number };
+export type TaskResourceGenerated = { id: Itens; amount: number };
 
 export class TaskDatabase {
     constructor() {}
@@ -31,6 +33,7 @@ export class TaskDatabase {
                 assignedTo: null,
                 baseTimeMs: 2000,
                 available: false,
+                resourceGenerated: [{ id: Itens.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Itens.Meat, amount: 5 }],
                 requirements: TaskDatabase.requirementsSimpleMeal,
             },
@@ -41,6 +44,7 @@ export class TaskDatabase {
                 assignedTo: null,
                 baseTimeMs: 4000,
                 available: false,
+                resourceGenerated: [{ id: Itens.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Itens.Meat, amount: 10 }],
                 requirements: TaskDatabase.requirementsSimpleMeal,
             },

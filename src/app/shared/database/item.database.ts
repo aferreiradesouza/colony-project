@@ -18,6 +18,10 @@ export class ItemDatabase {
                 id: Itens?.Meat,
                 name: 'Carne',
             },
+            [Itens?.RefeicaoSimples]: {
+                id: Itens?.RefeicaoSimples,
+                name: 'Refeição Simples',
+            },
         };
     }
 
