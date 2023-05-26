@@ -38,6 +38,7 @@ export class DebugService {
                         habilities: [
                             { id: Skill.Shot, level: 9 },
                             { id: Skill.Animals, level: null },
+                            { id: Skill.Cook, level: 15 },
                         ],
                     }),
                     work,

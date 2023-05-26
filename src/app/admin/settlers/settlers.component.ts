@@ -4,6 +4,7 @@ import { DebugService } from 'src/app/shared/services/debug.service';
 import { GameBusiness } from 'src/app/shared/business/game.business';
 import { SettlersBusiness } from 'src/app/shared/business/settlers.business';
 import { LogService } from 'src/app/shared/services/log.service';
+import { Job } from 'src/app/shared/interface/enums/job.enum';
 
 @Component({
     selector: 'app-settlers',
@@ -45,5 +46,9 @@ export class SettlersComponent {
         // eslint-disable-next-line no-console
         console.log(LogService.log);
         this.debugService.log();
+    }
+
+    changeWorkValue(newWorkValue: number, idSettler: string, job: Job): void {
+        this.settlerService.changeWorkValue(idSettler, newWorkValue, job);
     }
 }

@@ -34,4 +34,9 @@ export class Work {
             };
         });
     }
+
+    changePriority(job: Job, newWorkValue: number): void {
+        const priority = this.priorities.find((e) => e.id === job);
+        priority!.value = newWorkValue;
+    }
 }

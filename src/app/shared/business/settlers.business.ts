@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Job } from '../interface/enums/job.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { GameBusiness } from './game.business';
+import { Hability, Skill } from '../model/game/base/settler/skill.model';
 
 @Injectable({ providedIn: 'root' })
 export class SettlersBusiness {
@@ -43,5 +44,16 @@ export class SettlersBusiness {
     getWorkWeight(id: string, job: Job): number {
         const settler = this.getSettlerById(id) as Settler;
         return settler.work.priorities.filter((e) => e.id === job)[0].weight!;
+    }
+
+    changeWorkValue(idSettler: string, newWorkValue: number, job: Job): void {
+        const settler = this.getSettlerById(idSettler) as Settler;
+        settler.work.changePriority(job, newWorkValue);
+    }
+
+    getSkillBySettler(idSettler: string, skill: Skill): Hability | null {
+        const settler = this.getSettlerById(idSettler);
+        if (!settler) return null;
+        return settler.skills.habilities.find((e) => e.id === skill) ?? null;
     }
 }

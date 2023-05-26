@@ -60,7 +60,10 @@
                                 <tbody>
                                     <tr *ngFor="let work of settler.work.priorities">
                                         <td>{{work.id | work}}</td>
-                                        <td align="center">{{work.value}}</td>
+                                        <td align="center">
+                                            <input type="number" [(ngModel)]="work.value"
+                                                (ngModelChange)="changeWorkValue($event, settler.id, work.id)">
+                                        </td>
                                         <td align="center">{{work.weight}}</td>
                                     </tr>
                                 </tbody>

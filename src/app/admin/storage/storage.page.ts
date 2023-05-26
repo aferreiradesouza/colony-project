@@ -21,7 +21,7 @@ export class StoragePage {
     }
 
     adicionarCarne(): void {
-        this.debugService.addItem(Itens.Meat, 5);
+        this.debugService.addItem(Itens.Meat, 100);
     }
 
     adicionarPedra(): void {

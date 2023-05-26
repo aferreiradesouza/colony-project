@@ -39,6 +39,7 @@ import { NotificationService } from './services/notification.service';
 import { ShortcutService } from './services/shortcut.service';
 import { ItemPipe } from './pipe/item.pipe';
 import { TaskPipe } from './pipe/task.pipe';
+import { EfficiencyBusiness } from './business/efficiency.business';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -86,6 +87,7 @@ export const SERVICES_SHARED = [
     LogService,
     NotificationService,
     ShortcutService,
+    EfficiencyBusiness,
 ];
 
 @NgModule({

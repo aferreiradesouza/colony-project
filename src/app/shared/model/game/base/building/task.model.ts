@@ -6,6 +6,7 @@ import {
 } from 'src/app/shared/database/task.database';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
+import { Settler } from '../settler/settler.model';
 
 export class Task {
     public id: Tasks;
@@ -16,6 +17,7 @@ export class Task {
     public available: boolean;
     public consumption: TaskConsumption[];
     public resourceGenerated: TaskResourceGenerated[];
+    public efficiencyFn: (task: Task, settler: Settler) => void;
     public requirements?: (
         baseBusiness: BaseBusiness,
         task: Task
@@ -34,6 +36,7 @@ export class Task {
         available: boolean;
         consumption: TaskConsumption[];
         resourceGenerated: TaskResourceGenerated[];
+        efficiencyFn: (task: Task, settler: Settler) => void;
         requirements?: (
             baseBusiness: BaseBusiness,
             task: Task
@@ -47,10 +50,15 @@ export class Task {
         this.available = data.available;
         this.consumption = data.consumption;
         this.requirements = data.requirements;
+        this.efficiencyFn = data.efficiencyFn;
         this.resourceGenerated = data.resourceGenerated;
     }
 
     addWarning(errors: RequerimentsWarning): void {
         this.warnings = errors ?? [];
+    }
+
+    clearWarning(): void {
+        this.warnings = [];
     }
 }

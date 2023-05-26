@@ -50,7 +50,6 @@ export class BaseComponent {
     }
 
     addTask(item: Building): void {
-        console.log(Tasks.RefeicaoCompleta);
         this.buildingBusiness.addTask(item.id, Tasks.RefeicaoCompleta);
     }
 }

@@ -1,22 +1,22 @@
 import { HelperService } from '../../../../services/helpers.service';
 
 interface ISkills {
-    habilities: Array<Habilities>;
+    habilities: Array<Hability>;
 }
 
-interface Habilities {
+export interface Hability {
     id: Skill;
     level: number | null;
 }
 
 export class Skills {
-    public habilities: Array<Habilities>;
+    public habilities: Array<Hability>;
 
     constructor(skills: ISkills) {
         this.habilities = this._createSkillList(skills.habilities);
     }
 
-    _createSkillList(habilities: Array<Habilities>): Array<Habilities> {
+    private _createSkillList(habilities: Array<Hability>): Array<Hability> {
         return HelperService.enumToArray(Skill).map((e) => {
             const level = habilities.find(
                 (hability) => hability.id === Skill[e]
@@ -38,4 +38,5 @@ export enum Skill {
     Fight,
     Medicine,
     Agriculture,
+    Cook,
 }

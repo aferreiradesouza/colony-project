@@ -7,6 +7,7 @@ import { SettlersBusiness } from '../business/settlers.business';
 import { BuildingBusiness } from '../business/building.business';
 import { Job } from '../interface/enums/job.enum';
 import { Task } from '../model/game/base/building/task.model';
+import { Itens } from '../interface/enums/item.enum';
 
 @Injectable({ providedIn: 'root' })
 export class IAService {
@@ -20,7 +21,25 @@ export class IAService {
     public start(): void {
         setInterval(() => {
             this.checkSettlersPriorities();
+            this.verifyBuildingsRequeriments();
         }, 500);
+    }
+
+    private verifyBuildingsRequeriments(): void {
+        this.baseBusiness.buildingBusiness.buildings.forEach((building) => {
+            if (
+                building.status !== 'done' &&
+                building.status !== 'building' &&
+                building.requirements
+            ) {
+                const errors = building.requirements(
+                    this.baseBusiness,
+                    building
+                );
+                if (errors?.length) building.addWarning(errors);
+                else building.clearWarning();
+            }
+        });
     }
 
     private checkSettlersPriorities(): void {
@@ -41,6 +60,13 @@ export class IAService {
                         return 2;
                     else return 3;
                 });
+
+            if (
+                settler.work.workInProgressId &&
+                !priorities.find((p) => p.id === settler.work.workInProgressId)
+            )
+                this.unassignSettler(settler);
+
             for (const priority of priorities) {
                 const job = priority.id;
                 if (job === settler.work.workInProgressId) break;

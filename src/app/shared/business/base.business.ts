@@ -70,12 +70,13 @@ export class BaseBusiness {
         task: Tasks,
         uniqueIdTask: string
     ): void {
+        const settler = this.settlersBusiness.getSettlerById(idSettler)!;
         this.buildingBusiness.work({
-            idSettler,
+            settler,
             idBuilding,
             task,
             uniqueIdTask,
-            warningCallback: (task: Task): boolean => {
+            canStartTask: (task: Task): boolean => {
                 const warnings =
                     task.requirements && task.requirements(this, task);
                 if (warnings?.length) {
@@ -88,7 +89,7 @@ export class BaseBusiness {
             },
         });
         this.settlersBusiness.assignWork(
-            idSettler,
+            settler.id,
             idBuilding,
             job ?? Job.None
         );
@@ -100,11 +101,7 @@ export class BaseBusiness {
         job: Job | null
     ): void {
         const building = this.buildingBusiness.getBuildingById(idBuilding);
-        if (building?.requirements) {
-            const errors = building.requirements(this, building);
-            building.addWarning(errors);
-            if (errors?.length) return;
-        }
+        building?.clearWarning();
         this.buildingBusiness.assignSettler(idSettler, idBuilding);
         this.settlersBusiness.assignWork(
             idSettler,

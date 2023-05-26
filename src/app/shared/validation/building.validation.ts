@@ -16,7 +16,7 @@ export class BuildingValidation {
         const errors: RequerimentsWarning = [];
         const storage = BuildingDatabase.getBuildingById(Buildings.Storage);
 
-        if (!storage.resources) return null;
+        if (!storage.resources || building.status === 'paused') return null;
 
         if (!baseBusiness.storageBusiness.hasStorage)
             errors.push({
@@ -38,7 +38,6 @@ export class BuildingValidation {
                 message: 'Não tem pedra suficiente',
             });
 
-        BuildingValidation.setError(building, errors);
         return errors.length ? errors : null;
     }
 
@@ -49,7 +48,7 @@ export class BuildingValidation {
         const errors: RequerimentsWarning = [];
         const house = BuildingDatabase.getBuildingById(Buildings.House);
 
-        if (!house.resources) return null;
+        if (!house.resources || building.status === 'paused') return null;
 
         if (!baseBusiness.storageBusiness.hasStorage)
             errors.push({
@@ -71,12 +70,6 @@ export class BuildingValidation {
                 message: 'Não tem madeira suficiente',
             });
 
-        BuildingValidation.setError(building, errors);
         return errors.length ? errors : null;
-    }
-
-    static setError(building: Building, errors: RequerimentsWarning): void {
-        if (errors?.length || building.warnings?.length)
-            building.addWarning(errors);
     }
 }

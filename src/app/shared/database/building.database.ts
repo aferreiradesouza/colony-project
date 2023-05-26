@@ -51,7 +51,7 @@ export class BuildingDatabase {
                 timeForWork: 1000,
                 name: 'Casa',
                 requirements: BuildingValidation.requirementsHouse,
-                resources: [{ id: Itens.Wood, amount: 100 }],
+                resources: [{ id: Itens.Wood, amount: 1000 }],
             },
             [Buildings?.Kitchen]: {
                 id: Buildings?.Kitchen,
@@ -60,6 +60,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Kitchen,
                 timeForWork: 1000,
                 name: 'Cozinha',
+                requirements: BuildingValidation.requirementsHouse,
                 resources: [{ id: Itens.Wood, amount: 100 }],
             },
             [Buildings?.Farm]: {
@@ -69,6 +70,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Agriculture,
                 timeForWork: 1000,
                 name: 'Fazenda',
+                requirements: BuildingValidation.requirementsHouse,
                 resources: [{ id: Itens.Wood, amount: 100 }],
             },
             [Buildings?.Factory]: {
@@ -78,6 +80,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Builder,
                 timeForWork: 1000,
                 name: 'Fábrica',
+                requirements: BuildingValidation.requirementsHouse,
                 resources: [{ id: Itens.Wood, amount: 100 }],
             },
         };

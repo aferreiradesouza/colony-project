@@ -10,6 +10,7 @@ import { NotificationService } from '../services/notification.service';
 import { GameBusiness } from './game.business';
 import { TaskDatabase } from '../database/task.database';
 import { Itens } from '../interface/enums/item.enum';
+import { Settler } from '../model/game/base/settler/settler.model';
 
 @Injectable({ providedIn: 'root' })
 export class BuildingBusiness {
@@ -109,6 +110,7 @@ export class BuildingBusiness {
         clearInterval(building.interval);
         this.changeStatus(id, 'done');
         this.unassignSettler(id);
+        building.clearWarning();
         this.notificationService.buildingSuccess({
             title: BuildingDatabase.getBuildingById(building.type).name,
         });
@@ -149,11 +151,11 @@ export class BuildingBusiness {
     }
 
     work(data: {
-        idSettler: string;
+        settler: Settler;
         idBuilding: string;
         task: Tasks;
         uniqueIdTask: string;
-        warningCallback: (task: Task) => boolean;
+        canStartTask: (task: Task) => boolean;
     }): void {
         const building = this.getBuildingById(data.idBuilding) as Building;
         const task = this.getTaskByBuilding(
@@ -161,19 +163,18 @@ export class BuildingBusiness {
             data.task,
             data.uniqueIdTask
         );
-        task.assignedTo = data.idSettler;
-        const config = TaskDatabase.getTaskBuildingById(building.type, task.id);
-        if (!config) return;
+        task.assignedTo = data.settler.id;
+        task.efficiencyFn(task, data.settler);
         task.interval = setInterval(() => {
             if (task.requirements) {
-                if (data.warningCallback(task)) {
+                if (data.canStartTask(task)) {
                     return;
                 }
             }
             if (task.consumption.length)
                 this.onUseMaterial.emit(task.consumption);
             this.onWorkAtStructure.emit(task);
-        }, config.baseTimeMs);
+        }, task.baseTimeMs);
     }
 
     getTaskByBuilding(
@@ -190,6 +191,7 @@ export class BuildingBusiness {
         task.available = false;
         task.assignedTo = null;
         clearInterval(task.interval);
+        task.clearWarning();
     }
 
     enableTaskOfBuilding(task: Task): void {

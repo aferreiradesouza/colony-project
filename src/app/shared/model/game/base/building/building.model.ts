@@ -73,4 +73,8 @@ export class Building {
     addWarning(errors: RequerimentsWarning): void {
         this.warnings = errors ?? [];
     }
+
+    clearWarning(): void {
+        this.warnings = [];
+    }
 }
