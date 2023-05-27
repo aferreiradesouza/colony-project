@@ -26,14 +26,14 @@ export class EfficiencyBusiness {
                     ((EfficiencyBusiness.maxEfficiency -
                         EfficiencyBusiness.defaultEfficiency) /
                         (EfficiencyBusiness.maxLevelSkill - 7)) *
-                    (skill.level - EfficiencyBusiness.defaultLevelSkill)
+                    (skill.level - EfficiencyBusiness.defaultLevelSkill) + EfficiencyBusiness.defaultEfficiency
                 );
             else
                 return (
                     (EfficiencyBusiness.defaultEfficiency -
                         EfficiencyBusiness.minEfficiency /
                             EfficiencyBusiness.defaultLevelSkill) *
-                    (EfficiencyBusiness.defaultLevelSkill - skill.level)
+                    (EfficiencyBusiness.defaultLevelSkill - skill.level) - EfficiencyBusiness.defaultEfficiency
                 );
         } else {
             return EfficiencyBusiness.minEfficiency;

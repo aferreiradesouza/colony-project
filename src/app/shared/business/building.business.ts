@@ -165,23 +165,43 @@ export class BuildingBusiness {
             data.uniqueIdTask
         );
         task.assignedTo = data.settler.id;
-        const efficiency = task.efficiencyFn(task, data.settler);
-        const efficiencyCalculated = (task.baseTimeMs * efficiency) / 100;
-        const newEfficiency =
-            efficiency > EfficiencyBusiness.defaultEfficiency
-                ? efficiencyCalculated - task.baseTimeMs
-                : task.baseTimeMs - efficiencyCalculated + task.baseTimeMs;
-        console.log(newEfficiency);
+        const timeWithEfficienty = this._getTimeWithEfficiencyOfTask(
+            task,
+            data.settler
+        );
+        task.timeLeft = timeWithEfficienty;
+        this._startTask(task, timeWithEfficienty, data.canStartTask);
+    }
+
+    private _startTask(
+        task: Task,
+        timeWithEfficienty: number,
+        canStart: (task: Task) => boolean
+    ): void {
         task.interval = setInterval(() => {
+            if (task.timeLeft > 0) {
+                task.timeLeft =
+                    task.timeLeft - 1000 < 0 ? 0 : task.timeLeft - 1000;
+                return;
+            }
+            task.timeLeft = timeWithEfficienty;
             if (task.requirements) {
-                if (data.canStartTask(task)) {
+                if (canStart(task)) {
                     return;
                 }
             }
             if (task.consumption.length)
                 this.onUseMaterial.emit(task.consumption);
             this.onWorkAtStructure.emit(task);
-        }, newEfficiency);
+        }, 1000);
+    }
+
+    private _getTimeWithEfficiencyOfTask(task: Task, settler: Settler): number {
+        const efficiency = task.efficiencyFn(task, settler);
+        const efficiencyCalculated = (task.baseTimeMs * efficiency) / 100;
+        return efficiency > EfficiencyBusiness.defaultEfficiency
+            ? efficiencyCalculated - task.baseTimeMs
+            : task.baseTimeMs - efficiencyCalculated + task.baseTimeMs;
     }
 
     getTaskByBuilding(

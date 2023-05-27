@@ -16,6 +16,7 @@ export class Task {
     public baseTimeMs: number;
     public available: boolean;
     public consumption: TaskConsumption[];
+    public timeLeft: number;
     public resourceGenerated: TaskResourceGenerated[];
     public efficiencyFn: (task: Task, settler: Settler) => number;
     public requirements?: (
@@ -47,6 +48,7 @@ export class Task {
         this.guid = data.guid ?? HelperService.guid;
         this.assignedTo = data.assignedTo;
         this.baseTimeMs = data.baseTimeMs;
+        this.timeLeft = 0;
         this.available = data.available;
         this.consumption = data.consumption;
         this.requirements = data.requirements;

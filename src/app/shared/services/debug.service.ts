@@ -26,7 +26,7 @@ export class DebugService {
         private gameBusiness: GameBusiness
     ) {}
 
-    createSettlers(num = 1, work: Work = this.default): void {
+    createSettlers(num = 1, work: Work = this.default, skills?: Skills): void {
         Array(num)
             .fill('')
             .map(() => {
@@ -34,13 +34,15 @@ export class DebugService {
                     firstName: GET_ALEATORY_NAME().name,
                     lastName: GET_ALEATORY_NAME().lastname,
                     age: 18,
-                    skills: new Skills({
-                        habilities: [
-                            { id: Skill.Shot, level: 9 },
-                            { id: Skill.Animals, level: null },
-                            { id: Skill.Cook, level: 15 },
-                        ],
-                    }),
+                    skills:
+                        skills ??
+                        new Skills({
+                            habilities: [
+                                { id: Skill.Shot, level: 9 },
+                                { id: Skill.Animals, level: null },
+                                { id: Skill.Cook, level: 15 },
+                            ],
+                        }),
                     work,
                 });
             })
