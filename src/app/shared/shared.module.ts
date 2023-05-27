@@ -40,6 +40,7 @@ import { ShortcutService } from './services/shortcut.service';
 import { ItemPipe } from './pipe/item.pipe';
 import { TaskPipe } from './pipe/task.pipe';
 import { EfficiencyBusiness } from './business/efficiency.business';
+import { CountdownComponent } from './components/countdown/countdown.component';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -65,6 +66,7 @@ const COMPONENTS = [
     ToDoListShortcutTabComponent,
     BadgesComponent,
     ProgressBarComponent,
+    CountdownComponent,
 ];
 
 const PIPES = [

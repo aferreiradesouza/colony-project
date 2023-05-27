@@ -149,6 +149,7 @@ export class BuildingBusiness {
         );
         taskBuilding.assignedTo = null;
         clearInterval(taskBuilding.interval);
+        taskBuilding.timeLeft = 0;
     }
 
     work(data: {
