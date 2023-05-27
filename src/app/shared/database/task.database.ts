@@ -17,7 +17,7 @@ export interface ITaskDatabase {
     buildings: Buildings[];
     consumption: TaskConsumption[];
     resourceGenerated: TaskResourceGenerated[];
-    efficiencyFn: (task: Task, settler: Settler) => void;
+    efficiencyFn: (task: Task, settler: Settler) => number;
     requirements?: (
         baseBusiness: BaseBusiness,
         task: Task

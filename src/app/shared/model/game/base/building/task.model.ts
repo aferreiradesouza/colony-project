@@ -17,7 +17,7 @@ export class Task {
     public available: boolean;
     public consumption: TaskConsumption[];
     public resourceGenerated: TaskResourceGenerated[];
-    public efficiencyFn: (task: Task, settler: Settler) => void;
+    public efficiencyFn: (task: Task, settler: Settler) => number;
     public requirements?: (
         baseBusiness: BaseBusiness,
         task: Task
@@ -36,7 +36,7 @@ export class Task {
         available: boolean;
         consumption: TaskConsumption[];
         resourceGenerated: TaskResourceGenerated[];
-        efficiencyFn: (task: Task, settler: Settler) => void;
+        efficiencyFn: (task: Task, settler: Settler) => number;
         requirements?: (
             baseBusiness: BaseBusiness,
             task: Task

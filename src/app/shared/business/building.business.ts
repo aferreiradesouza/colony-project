@@ -11,6 +11,7 @@ import { GameBusiness } from './game.business';
 import { TaskDatabase } from '../database/task.database';
 import { Itens } from '../interface/enums/item.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
+import { EfficiencyBusiness } from './efficiency.business';
 
 @Injectable({ providedIn: 'root' })
 export class BuildingBusiness {
@@ -164,7 +165,13 @@ export class BuildingBusiness {
             data.uniqueIdTask
         );
         task.assignedTo = data.settler.id;
-        task.efficiencyFn(task, data.settler);
+        const efficiency = task.efficiencyFn(task, data.settler);
+        const efficiencyCalculated = (task.baseTimeMs * efficiency) / 100;
+        const newEfficiency =
+            efficiency > EfficiencyBusiness.defaultEfficiency
+                ? efficiencyCalculated - task.baseTimeMs
+                : task.baseTimeMs - efficiencyCalculated + task.baseTimeMs;
+        console.log(newEfficiency);
         task.interval = setInterval(() => {
             if (task.requirements) {
                 if (data.canStartTask(task)) {
@@ -174,7 +181,7 @@ export class BuildingBusiness {
             if (task.consumption.length)
                 this.onUseMaterial.emit(task.consumption);
             this.onWorkAtStructure.emit(task);
-        }, task.baseTimeMs);
+        }, newEfficiency);
     }
 
     getTaskByBuilding(
