@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { Task } from '../model/game/base/building/task.model';
 import { SettlersBusiness } from './settlers.business';
-import { Skill } from '../model/game/base/settler/skill.model';
+import { Hability, Skill } from '../model/game/base/settler/skill.model';
 
 @Injectable({ providedIn: 'root' })
 export class EfficiencyBusiness {
@@ -14,10 +14,14 @@ export class EfficiencyBusiness {
 
     constructor() {}
 
-    static efficencySimpleMeal(task: Task, settler: Settler): number {
+    static efficencyCook(task: Task, settler: Settler): number {
         const skill = settler.skills.habilities.find(
             (e) => e.id === Skill.Cook
         );
+        return EfficiencyBusiness.calculate(skill);
+    }
+
+    static calculate(skill: Hability | undefined): number {
         if (skill && skill.level) {
             if (skill.level === EfficiencyBusiness.defaultLevelSkill)
                 return EfficiencyBusiness.defaultEfficiency;
@@ -25,7 +29,7 @@ export class EfficiencyBusiness {
                 return (
                     ((EfficiencyBusiness.maxEfficiency -
                         EfficiencyBusiness.defaultEfficiency) /
-                        (EfficiencyBusiness.maxLevelSkill - 7)) *
+                        (EfficiencyBusiness.maxLevelSkill - EfficiencyBusiness.defaultEfficiency)) *
                     (skill.level - EfficiencyBusiness.defaultLevelSkill) + EfficiencyBusiness.defaultEfficiency
                 );
             else

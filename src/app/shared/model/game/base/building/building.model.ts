@@ -9,6 +9,7 @@ import { Task } from './task.model';
 import { Itens } from 'src/app/shared/interface/enums/item.enum';
 import { RequerimentsWarning } from 'src/app/shared/database/task.database';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
+import { Item } from './storage/item.model';
 
 export type BuildingStatus = 'not-started' | 'building' | 'paused' | 'done';
 export type BuildingResource = { id: Itens; amount: number };
@@ -17,6 +18,7 @@ export interface IBuilding {
     id?: string;
     type: Buildings;
     status?: BuildingStatus;
+    inventory?: Item[];
     assignedTo?: string | null;
     timeMs?: number;
     tasks?: Task[];
@@ -32,6 +34,7 @@ export class Building {
     public assignedTo: string | null = null;
     public percent = 0;
     public tasks: Task[] = [];
+    public inventory: Item[];
     public warnings: RequerimentsWarning = [];
     public resources: BuildingResource[] = [];
     public requirements?: (
@@ -44,6 +47,7 @@ export class Building {
 
     constructor(building: IBuilding) {
         this.type = building.type;
+        this.inventory = building.inventory ?? [];
         this.status =
             building?.status === 'building'
                 ? 'paused'

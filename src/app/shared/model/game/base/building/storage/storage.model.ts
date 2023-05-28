@@ -3,7 +3,7 @@ import { Building, IBuilding } from '../building.model';
 import { Item } from './item.model';
 
 export class Storage extends Building {
-    public inventory: Item[];
+    // public inventory: Item[];
     public level = 1;
     public maxStorage = 100;
 

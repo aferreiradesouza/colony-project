@@ -14,6 +14,7 @@ import { Job } from '../interface/enums/job.enum';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from './helpers.service';
 import { Itens } from '../interface/enums/item.enum';
+import { Inventory } from '../model/game/base/settler/inventory.model';
 
 @Injectable({
     providedIn: 'root',
@@ -31,6 +32,7 @@ export class DebugService {
             .fill('')
             .map(() => {
                 return new Settler({
+                    inventory: new Inventory([]),
                     firstName: GET_ALEATORY_NAME().name,
                     lastName: GET_ALEATORY_NAME().lastname,
                     age: 18,
@@ -40,7 +42,7 @@ export class DebugService {
                             habilities: [
                                 { id: Skill.Shot, level: 9 },
                                 { id: Skill.Animals, level: null },
-                                { id: Skill.Cook, level: 15 },
+                                { id: Skill.Cook, level: 7 },
                             ],
                         }),
                     work,

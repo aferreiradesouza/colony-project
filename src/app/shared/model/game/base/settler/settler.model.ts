@@ -6,6 +6,7 @@ import { Necessity } from './necessity.model';
 import { Profession } from './profession.model';
 import { Skills } from './skill.model';
 import { Work } from './work.model';
+import { Inventory } from './inventory.model';
 
 interface ISettler {
     id?: string;
@@ -17,6 +18,7 @@ interface ISettler {
     necessity?: Necessity;
     profession?: Profession;
     work?: Work;
+    inventory: Inventory;
 }
 
 export class Settler {
@@ -29,6 +31,7 @@ export class Settler {
     public necessity: Necessity;
     public profession: Profession;
     public work: Work;
+    public inventory: Inventory;
 
     constructor(settler: ISettler) {
         const profession = GET_ALEATORY_PROFESSION();
@@ -37,6 +40,7 @@ export class Settler {
         this.age = settler.age;
         this.firstName = settler.firstName;
         this.lastName = settler.lastName;
+        this.inventory = settler.inventory;
         this.skills = settler.skills
             ? new Skills(settler.skills)
             : new Skills({ habilities: [] });

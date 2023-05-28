@@ -86,11 +86,22 @@ export class BuildingBusiness {
     build(id: string): void {
         const building = this.getBuildingById(id) as Building;
         this.changeStatus(id, 'building');
+        if (!this.inventoryHasNecessaryMaterials(building)) {
+            
+        }
+        this.startIntervalBuilding(id, building);
+    }
+
+    private startIntervalBuilding(id: string, building: Building): void {
         building.interval = setInterval(() => {
             building.timeMs -= 1000;
             building.percent = this._calculatePercent(building);
             if (building.timeMs <= 0) this.done(id);
         }, 1000);
+    }
+
+    inventoryHasNecessaryMaterials(building: Building): boolean {
+        
     }
 
     resume(id: string): void {

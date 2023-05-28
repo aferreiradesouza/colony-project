@@ -38,10 +38,7 @@ export class BuildingDatabase {
                 jobNecessary: null,
                 timeForWork: 1000,
                 name: 'Armazém',
-                resources: [
-                    { id: Itens.Wood, amount: 200 },
-                    { id: Itens.Stone, amount: 200 },
-                ],
+                resources: [],
             },
             [Buildings?.House]: {
                 id: Buildings?.House,
