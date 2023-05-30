@@ -48,17 +48,23 @@ export class BuildingDatabase {
                 timeForWork: 1000,
                 name: 'Casa',
                 requirements: BuildingValidation.requirementsHouse,
-                resources: [{ id: Itens.Wood, amount: 1000 }],
+                resources: [
+                    { id: Itens.Wood, amount: 200 },
+                    { id: Itens.Stone, amount: 200 },
+                ],
             },
             [Buildings?.Kitchen]: {
                 id: Buildings?.Kitchen,
                 jobToCreateStructure: Job.Builder,
-                timeMs: 2000,
+                timeMs: 10000,
                 jobNecessary: Job.Kitchen,
                 timeForWork: 1000,
                 name: 'Cozinha',
                 requirements: BuildingValidation.requirementsHouse,
-                resources: [{ id: Itens.Wood, amount: 100 }],
+                resources: [
+                    { id: Itens.Wood, amount: 200 },
+                    { id: Itens.Stone, amount: 200 },
+                ],
             },
             [Buildings?.Farm]: {
                 id: Buildings?.Farm,

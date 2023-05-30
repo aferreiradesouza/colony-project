@@ -34,7 +34,7 @@ export class Building {
     public assignedTo: string | null = null;
     public percent = 0;
     public tasks: Task[] = [];
-    public inventory: Item[];
+    public inventory: Array<Item>;
     public warnings: RequerimentsWarning = [];
     public resources: BuildingResource[] = [];
     public requirements?: (
@@ -43,7 +43,9 @@ export class Building {
     ) => RequerimentsWarning;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public interval: any = null;
+    public buildStorageInterval: any = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public getItemFromStorageInterval: any = null;
 
     constructor(building: IBuilding) {
         this.type = building.type;

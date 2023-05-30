@@ -82,7 +82,7 @@ export class BaseBusiness {
                 if (warnings?.length) {
                     task.addWarning(warnings);
                     this.unassignSettler(idBuilding, idSettler);
-                    clearInterval(task.interval);
+                    clearInterval(task.startTaskInterval);
                     return true;
                 }
                 return false;
@@ -144,6 +144,7 @@ export class BaseBusiness {
         this.startOnDoneBuilding();
         this.startOnWorkAtStructure();
         this.startOnUseMaterial();
+        this.startOnGetMaterial();
     }
 
     private startOnDoneBuilding(): void {
@@ -173,6 +174,32 @@ export class BaseBusiness {
             event.forEach((e) => {
                 this.storageBusiness.useResource(e.id, e.amount);
             });
+        });
+    }
+
+    private startOnGetMaterial(): void {
+        this.buildingBusiness.onGetMaterial.subscribe((event) => {
+            const item = this.storageBusiness.getResource(
+                event.id,
+                event.amount
+            );
+            if (item && event.taskId) item.taskId = event.taskId;
+            if (!item) {
+                const errors =
+                    (event.building.requirements &&
+                        event.building.requirements(this, event.building)) ??
+                    [];
+                clearInterval(event.building.getItemFromStorageInterval);
+                this.settlersBusiness.unassignWork(event.building.assignedTo!);
+                this.buildingBusiness.unassignSettler(event.building.id);
+                event.building.addWarning(errors);
+                return;
+            }
+            this.buildingBusiness.addItemInInventory(
+                event.building.id,
+                item,
+                event.taskId
+            );
         });
     }
 }

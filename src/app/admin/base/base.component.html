@@ -20,6 +20,8 @@
                         </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Warnings
                         </th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Inventário
+                        </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Buttons
                         </th>
                     </tr>
@@ -47,6 +49,11 @@
                         </td>
                         <td>
                             {{building.warnings | json}}
+                        </td>
+                        <td>
+                            <div *ngFor="let inventory of building.inventory">{{inventory.type | item}} -
+                                {{inventory.amount}}
+                            </div>
                         </td>
                         <td>
                             <app-button theme="terciary" label="Log" (click)="log(building)"></app-button>

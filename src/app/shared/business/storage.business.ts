@@ -55,4 +55,16 @@ export class StorageBusiness {
         if (index <= -1) return;
         this.inventory.splice(index, 1);
     }
+
+    getResource(type: Itens, amount: number): Item | null {
+        const item = this.inventory.find(
+            (e) => e.type === type && e.amount >= amount
+        );
+        if (item) {
+            this.useResource(type, amount);
+            return { ...item, amount };
+        } else {
+            return null;
+        }
+    }
 }

@@ -7,7 +7,6 @@ import { SettlersBusiness } from '../business/settlers.business';
 import { BuildingBusiness } from '../business/building.business';
 import { Job } from '../interface/enums/job.enum';
 import { Task } from '../model/game/base/building/task.model';
-import { Itens } from '../interface/enums/item.enum';
 
 @Injectable({ providedIn: 'root' })
 export class IAService {

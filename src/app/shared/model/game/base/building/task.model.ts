@@ -26,7 +26,9 @@ export class Task {
     public warnings: RequerimentsWarning = [];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public interval: any = null;
+    public startTaskInterval: any = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public getItemFromStorageInterval: any = null;
 
     constructor(data: {
         id: Tasks;
