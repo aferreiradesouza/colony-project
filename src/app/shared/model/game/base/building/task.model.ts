@@ -7,6 +7,7 @@ import {
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
 import { Settler } from '../settler/settler.model';
+import { Skill } from '../settler/skill.model';
 
 export class Task {
     public id: Tasks;
@@ -15,10 +16,11 @@ export class Task {
     public assignedTo: string | null;
     public baseTimeMs: number;
     public available: boolean;
+    public mainSkill: Skill;
     public consumption: TaskConsumption[];
     public timeLeft: number;
     public resourceGenerated: TaskResourceGenerated[];
-    public efficiencyFn: (task: Task, settler: Settler) => number;
+    public efficiencyFn: (settler: Settler) => number;
     public requirements?: (
         baseBusiness: BaseBusiness,
         task: Task
@@ -36,10 +38,11 @@ export class Task {
         assignedTo: string | null;
         baseTimeMs: number;
         name: string;
+        mainSkill: Skill;
         available: boolean;
         consumption: TaskConsumption[];
         resourceGenerated: TaskResourceGenerated[];
-        efficiencyFn: (task: Task, settler: Settler) => number;
+        efficiencyFn: (settler: Settler) => number;
         requirements?: (
             baseBusiness: BaseBusiness,
             task: Task
@@ -50,6 +53,7 @@ export class Task {
         this.guid = data.guid ?? HelperService.guid;
         this.assignedTo = data.assignedTo;
         this.baseTimeMs = data.baseTimeMs;
+        this.mainSkill = data.mainSkill;
         this.timeLeft = 0;
         this.available = data.available;
         this.consumption = data.consumption;

@@ -13,6 +13,8 @@ import { Itens } from '../interface/enums/item.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { EfficiencyBusiness } from './efficiency.business';
 import { Item } from '../model/game/base/building/storage/item.model';
+import { HelperService } from '../services/helpers.service';
+import { Skill } from '../model/game/base/settler/skill.model';
 
 @Injectable({ providedIn: 'root' })
 export class BuildingBusiness {
@@ -76,21 +78,21 @@ export class BuildingBusiness {
         return building.tasks.find((e) => e.assignedTo === idSettler) ?? null;
     }
 
-    assignSettler(idSettler: string, idContruction: string): void {
+    assignSettler(settler: Settler, idContruction: string): void {
         const building = this.getBuildingById(idContruction) as Building;
-        building.assignedTo = idSettler;
+        building.assignedTo = settler.id;
         if (building.status === 'not-started') {
-            this.build(building.id);
+            this.build(building.id, settler);
         }
-        if (building.status === 'paused') this.resume(idContruction);
+        if (building.status === 'paused') this.resume(idContruction, settler);
     }
 
-    build(id: string): void {
+    build(id: string, settler: Settler): void {
         const building = this.getBuildingById(id) as Building;
         if (!this.inventoryHasNecessaryMaterials(building)) {
-            this.startGetItemFromStorage(building);
+            this.startGetItemFromStorage(building, settler);
         } else {
-            this.startBuildingInterval(building);
+            this.startBuildingInterval(building, settler);
         }
         this.changeStatus(id, 'building');
     }
@@ -99,7 +101,11 @@ export class BuildingBusiness {
         const building = this.getBuildingById(id) as Building;
         const ItemOfStorage = this.getItemByType(item.type, building, taskId);
         if (ItemOfStorage) ItemOfStorage.amount += item.amount;
-        else building.inventory.push(item);
+        else
+            building.inventory.push({
+                ...item,
+                id: HelperService.guid,
+            });
     }
 
     private getItemByType(
@@ -114,14 +120,22 @@ export class BuildingBusiness {
         );
     }
 
-    private startGetItemFromStorage(building: Building): void {
+    private startGetItemFromStorage(
+        building: Building,
+        settler: Settler
+    ): void {
+        const time = EfficiencyBusiness.calculateEfficiency(
+            500,
+            Skill.Agility,
+            settler
+        );
         building.getItemFromStorageInterval = setInterval(() => {
             this.whichItemWillPickUp(building);
             if (this.inventoryHasNecessaryMaterials(building)) {
-                this.startBuildingInterval(building);
+                this.startBuildingInterval(building, settler);
                 clearInterval(building.getItemFromStorageInterval);
             }
-        }, 200);
+        }, time);
     }
 
     private startGetItemFromStorageForTask(
@@ -236,13 +250,35 @@ export class BuildingBusiness {
         });
     }
 
-    private startBuildingInterval(building: Building): void {
+    private startBuildingInterval(building: Building, settler: Settler): void {
+        // if (building.status !== 'paused') {
+        //     const time = EfficiencyBusiness.calculateEfficiency(
+        //         500,
+        //         Skill.Building,
+        //         settler
+        //     );
+        //     building.timeMs = time;
+        // }
+        const time = EfficiencyBusiness.calculateEfficiency(
+            1000,
+            Skill.Building,
+            settler,
+            true
+        );
+        // console.log(EfficiencyBusiness.Building(settler));
         building.buildStorageInterval = setInterval(() => {
-            building.timeMs -= 1000;
+            building.timeMs -= time;
             building.percent = this.calculatePercent(building);
             if (building.timeMs <= 0) this.done(building.id);
         }, 1000);
     }
+
+    /*
+        35000 = 100%
+        1000 = x
+        35000x = 100 * 1000
+        (100 * 1000) / 35000 = x
+    */
 
     private useMaterialInInventory(
         building: Building,
@@ -298,8 +334,8 @@ export class BuildingBusiness {
         return hasItem;
     }
 
-    resume(id: string): void {
-        this.build(id);
+    resume(id: string, settler: Settler): void {
+        this.build(id, settler);
     }
 
     stop(id: string): void {
@@ -310,6 +346,8 @@ export class BuildingBusiness {
 
     done(id: string): void {
         const building = this.getBuildingById(id) as Building;
+        building.timeMs = 0;
+        building.percent = 100;
         this.onDoneBuilding.emit({
             id,
             idSettler: building.assignedTo!,
@@ -375,8 +413,9 @@ export class BuildingBusiness {
             data.uniqueIdTask
         );
         task.assignedTo = data.settler.id;
-        const timeWithEfficienty = this.getTimeWithEfficiencyOfTask(
-            task,
+        const timeWithEfficienty = EfficiencyBusiness.calculateEfficiency(
+            task.baseTimeMs,
+            task.mainSkill,
             data.settler
         );
         task.timeLeft = timeWithEfficienty;
@@ -443,13 +482,13 @@ export class BuildingBusiness {
         }, 1000);
     }
 
-    private getTimeWithEfficiencyOfTask(task: Task, settler: Settler): number {
-        const efficiency = task.efficiencyFn(task, settler);
-        const efficiencyCalculated = (task.baseTimeMs * efficiency) / 100;
-        return efficiency > EfficiencyBusiness.defaultEfficiency
-            ? efficiencyCalculated - task.baseTimeMs
-            : task.baseTimeMs - efficiencyCalculated + task.baseTimeMs;
-    }
+    // private getTimeWithEfficiencyOfTask(task: Task, settler: Settler): number {
+    //     const efficiency = task.efficiencyFn(settler);
+    //     const efficiencyCalculated = (task.baseTimeMs * efficiency) / 100;
+    //     return efficiency > EfficiencyBusiness.defaultEfficiency
+    //         ? efficiencyCalculated - task.baseTimeMs
+    //         : task.baseTimeMs - efficiencyCalculated + task.baseTimeMs;
+    // }
 
     getTaskByBuilding(
         building: Building,

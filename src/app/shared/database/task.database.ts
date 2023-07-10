@@ -6,6 +6,7 @@ import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum'
 import { Tasks } from '../interface/enums/tasks.enum';
 import { Task } from '../model/game/base/building/task.model';
 import { Settler } from '../model/game/base/settler/settler.model';
+import { Skill } from '../model/game/base/settler/skill.model';
 import { TaskValidation } from '../validation/task.validation';
 
 export interface ITaskDatabase {
@@ -15,9 +16,10 @@ export interface ITaskDatabase {
     assignedTo: string | null;
     available: boolean;
     buildings: Buildings[];
+    mainSkill: Skill;
     consumption: TaskConsumption[];
     resourceGenerated: TaskResourceGenerated[];
-    efficiencyFn: (task: Task, settler: Settler) => number;
+    efficiencyFn: (settler: Settler) => number;
     requirements?: (
         baseBusiness: BaseBusiness,
         task: Task
@@ -42,7 +44,8 @@ export class TaskDatabase {
                 assignedTo: null,
                 baseTimeMs: 2000,
                 available: false,
-                efficiencyFn: EfficiencyBusiness.efficencyCook,
+                mainSkill: Skill.Cook,
+                efficiencyFn: EfficiencyBusiness.Cook,
                 resourceGenerated: [{ id: Itens.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Itens.Meat, amount: 5 }],
                 requirements: TaskValidation.requirementsSimpleMeal,
@@ -54,7 +57,8 @@ export class TaskDatabase {
                 assignedTo: null,
                 baseTimeMs: 4000,
                 available: false,
-                efficiencyFn: EfficiencyBusiness.efficencyCook,
+                mainSkill: Skill.Cook,
+                efficiencyFn: EfficiencyBusiness.Cook,
                 resourceGenerated: [{ id: Itens.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Itens.Meat, amount: 10 }],
                 requirements: TaskValidation.requirementsSimpleMeal,

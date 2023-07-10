@@ -11,7 +11,8 @@
                     <tr>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
                             Nome</th>
-                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Tempo</th>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
+                            Tempo/Percentual</th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Status
                         </th>
                         <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">Settler
@@ -31,7 +32,7 @@
                         <td class="whitespace-nowrap py-4 px-3 text-sm font-medium text-gray-900">
                             {{building.type | structure}}</td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">
-                            {{building.timeMs}}
+                            {{building.timeMs}} - {{building.percent}}
                         </td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{building.status}}</td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">

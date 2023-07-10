@@ -27,6 +27,10 @@ export class Skills {
             };
         });
     }
+
+    getSkill(skill: Skill): Hability {
+        return this.habilities.find((e) => e.id === skill)!;
+    }
 }
 
 export enum Skill {
@@ -39,4 +43,5 @@ export enum Skill {
     Medicine,
     Agriculture,
     Cook,
+    Agility,
 }

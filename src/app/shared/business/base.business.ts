@@ -101,8 +101,10 @@ export class BaseBusiness {
         job: Job | null
     ): void {
         const building = this.buildingBusiness.getBuildingById(idBuilding);
+        const settler = this.settlersBusiness.getSettlerById(idSettler);
+        if (!settler) return;
         building?.clearWarning();
-        this.buildingBusiness.assignSettler(idSettler, idBuilding);
+        this.buildingBusiness.assignSettler(settler, idBuilding);
         this.settlersBusiness.assignWork(
             idSettler,
             idBuilding,
@@ -190,8 +192,10 @@ export class BaseBusiness {
                         event.building.requirements(this, event.building)) ??
                     [];
                 clearInterval(event.building.getItemFromStorageInterval);
-                this.settlersBusiness.unassignWork(event.building.assignedTo!);
-                this.buildingBusiness.unassignSettler(event.building.id);
+                this.unassignSettler(
+                    event.building.id,
+                    event.building.assignedTo!
+                );
                 event.building.addWarning(errors);
                 return;
             }

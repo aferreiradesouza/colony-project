@@ -29,7 +29,13 @@ export class SettlersComponent {
     }
 
     addBuilder(): void {
-        this.debugService.createSettlers(1, this.debugService.builder);
+        this.debugService.createSettlers(
+            1,
+            this.debugService.builder,
+            new Skills({
+                habilities: [{ id: Skill.Building, level: 15 }],
+            })
+        );
     }
 
     get settlers(): Settler[] {

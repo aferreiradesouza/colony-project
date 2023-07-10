@@ -43,6 +43,8 @@ export class DebugService {
                                 { id: Skill.Shot, level: 9 },
                                 { id: Skill.Animals, level: null },
                                 { id: Skill.Cook, level: 7 },
+                                { id: Skill.Agility, level: 15 },
+                                { id: Skill.Building, level: 4 },
                             ],
                         }),
                     work,
