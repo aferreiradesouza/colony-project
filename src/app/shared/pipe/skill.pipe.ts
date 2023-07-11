@@ -17,7 +17,7 @@ export class SkillPipe implements PipeTransform {
             [Skill.Fight]: 'Luta',
             [Skill.Manufacture]: 'Fabricação',
             [Skill.Medicine]: 'Medicina',
-            [Skill.Shot]: 'Tiro',
+            [Skill.Shoot]: 'Tiro',
             [Skill.Social]: 'Social',
             [Skill.Cook]: 'Cozinhar',
             [Skill.Agility]: 'Agilidade',

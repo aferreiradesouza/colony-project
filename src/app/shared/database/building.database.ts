@@ -113,6 +113,16 @@ export class BuildingDatabase {
                 biomesAllowed: [Biomes.Forest],
                 resources: [],
             },
+            [Buildings?.HunterHouse]: {
+                id: Buildings?.HunterHouse,
+                jobToCreateStructure: Job.Builder,
+                timeMs: 30000,
+                jobNecessary: Job.Hunt,
+                timeForWork: 2000,
+                name: 'Casa do caçador',
+                biomesAllowed: [Biomes.Forest],
+                resources: [],
+            },
         };
     }
 

@@ -84,7 +84,7 @@ export class IAService {
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
-                    this.jobKitchen(settler);
+                    this.job(settler, Job.Kitchen);
                     break;
                 }
                 if (
@@ -93,7 +93,7 @@ export class IAService {
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
-                    this.jobCut(settler);
+                    this.job(settler, Job.Cut);
                     break;
                 }
                 if (
@@ -102,7 +102,16 @@ export class IAService {
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
-                    this.jobMinning(settler);
+                    this.job(settler, Job.Mining);
+                    break;
+                }
+                if (
+                    job === Job.Hunt &&
+                    !!this.checkStructuresHasJobWithTaskAvaible(Job.Hunt)
+                ) {
+                    if (settler.work.workInProgressId)
+                        this.unassignSettler(settler);
+                    this.job(settler, Job.Hunt);
                     break;
                 }
             }
@@ -187,47 +196,61 @@ export class IAService {
     //     );
     // }
 
-    private jobKitchen(settler: Settler): void {
+    job(settler: Settler, job: Job): void {
         const building = this.checkStructuresHasJobWithTaskAvaible(
-            Job.Kitchen
+            job
         ) as Building;
         const task = this.getAvailableTask(building);
         this.baseBusiness.assingSettler(
             settler.id,
             building!.id,
-            Job.Kitchen,
+            job,
             task.id,
             task.guid
         );
     }
 
-    private jobCut(settler: Settler): void {
-        const building = this.checkStructuresHasJobWithTaskAvaible(
-            Job.Cut
-        ) as Building;
-        const task = this.getAvailableTask(building);
-        this.baseBusiness.assingSettler(
-            settler.id,
-            building!.id,
-            Job.Cut,
-            task.id,
-            task.guid
-        );
-    }
+    // private jobKitchen(settler: Settler): void {
+    //     const building = this.checkStructuresHasJobWithTaskAvaible(
+    //         Job.Kitchen
+    //     ) as Building;
+    //     const task = this.getAvailableTask(building);
+    //     this.baseBusiness.assingSettler(
+    //         settler.id,
+    //         building!.id,
+    //         Job.Kitchen,
+    //         task.id,
+    //         task.guid
+    //     );
+    // }
 
-    private jobMinning(settler: Settler): void {
-        const building = this.checkStructuresHasJobWithTaskAvaible(
-            Job.Mining
-        ) as Building;
-        const task = this.getAvailableTask(building);
-        this.baseBusiness.assingSettler(
-            settler.id,
-            building!.id,
-            Job.Mining,
-            task.id,
-            task.guid
-        );
-    }
+    // private jobCut(settler: Settler): void {
+    //     const building = this.checkStructuresHasJobWithTaskAvaible(
+    //         Job.Cut
+    //     ) as Building;
+    //     const task = this.getAvailableTask(building);
+    //     this.baseBusiness.assingSettler(
+    //         settler.id,
+    //         building!.id,
+    //         Job.Cut,
+    //         task.id,
+    //         task.guid
+    //     );
+    // }
+
+    // private jobMinning(settler: Settler): void {
+    //     const building = this.checkStructuresHasJobWithTaskAvaible(
+    //         Job.Mining
+    //     ) as Building;
+    //     const task = this.getAvailableTask(building);
+    //     this.baseBusiness.assingSettler(
+    //         settler.id,
+    //         building!.id,
+    //         Job.Mining,
+    //         task.id,
+    //         task.guid
+    //     );
+    // }
 
     private getAvailableTask(building: Building): Task {
         return building.tasks.find((e) => e.available && !e.assignedTo)!;

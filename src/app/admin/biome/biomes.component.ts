@@ -34,6 +34,10 @@ export class BiomesComponent {
         this.debugService.createBuilding(Buildings.Quarry, Biomes.Forest);
     }
 
+    addHunterHouse(): void {
+        this.debugService.createBuilding(Buildings.HunterHouse, Biomes.Forest);
+    }
+
     toggleAvailableTask(task: Task): void {
         task.available
             ? this.baseBusiness.disableTaskOfBuilding(task)
@@ -45,6 +49,8 @@ export class BiomesComponent {
             this.buildingBusiness.addTask(building.id, Tasks.ObterMadeira);
         } else if (building.type === Buildings.Quarry) {
             this.buildingBusiness.addTask(building.id, Tasks.ObterPedra);
+        } else if (building.type === Buildings.HunterHouse) {
+            this.buildingBusiness.addTask(building.id, Tasks.ObterCarne);
         }
     }
 }

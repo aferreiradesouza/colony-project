@@ -18,6 +18,7 @@ export class WorkPipe implements PipeTransform {
             [Job.Clean]: 'Limpar',
             [Job.Cut]: 'Cortar',
             [Job.Mining]: 'Mineração',
+            [Job.Hunt]: 'Caçar',
         };
         return jobs[job];
     }

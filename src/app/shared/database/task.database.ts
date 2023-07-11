@@ -89,6 +89,19 @@ export class TaskDatabase {
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
             },
+            [Tasks?.ObterCarne]: {
+                id: Tasks.ObterCarne,
+                buildings: [Buildings.HunterHouse],
+                name: 'Obter carne',
+                assignedTo: null,
+                baseTimeMs: 3000,
+                available: false,
+                mainSkill: Skill.Shoot,
+                efficiencyFn: EfficiencyBusiness.Shoot,
+                resourceGenerated: [{ id: Itens.Meat, amount: 7 }],
+                consumption: [],
+                requirements: TaskValidation.requirementStorage,
+            },
         };
     }
 

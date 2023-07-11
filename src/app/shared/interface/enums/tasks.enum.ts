@@ -3,4 +3,5 @@ export enum Tasks {
     RefeicaoCompleta,
     ObterMadeira,
     ObterPedra,
+    ObterCarne,
 }

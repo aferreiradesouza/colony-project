@@ -38,7 +38,7 @@ export enum Skill {
     Social,
     Manufacture,
     Animals,
-    Shot,
+    Shoot,
     Fight,
     Medicine,
     Agriculture,
