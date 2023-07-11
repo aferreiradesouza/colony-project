@@ -11,6 +11,8 @@ export class InventoryShortcutTabComponent {
     constructor(private storageBusiness: StorageBusiness) {}
 
     get storage(): Item[] {
-        return this.storageBusiness.inventory;
+        return this.storageBusiness.hasStorage
+            ? this.storageBusiness.inventory
+            : [];
     }
 }
