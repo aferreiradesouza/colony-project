@@ -48,6 +48,12 @@ const routes: Routes = [
                         (m) => m.SummaryModule
                     ),
             },
+            {
+                path: 'biomes',
+                data: { context: GET_MENU(MenuEnum.biomes) },
+                loadChildren: () =>
+                    import('./biome/biomes.module').then((m) => m.BiomesModule),
+            },
         ],
     },
 ];

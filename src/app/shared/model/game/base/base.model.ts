@@ -22,6 +22,7 @@ export class Base {
                     assignedTo: e.assignedTo,
                     timeMs: e.timeMs,
                     tasks: e.tasks,
+                    biome: e.biome,
                 })
         );
         this.storage = base.storage

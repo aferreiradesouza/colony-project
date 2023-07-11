@@ -11,7 +11,8 @@ export class Game {
         this.id = game.id;
         this.base = new Base(game.base);
         this.biomes = [
-            new Biome({type: Biomes.Floresta})
+            new Biome({ type: Biomes.Forest }),
+            new Biome({ type: Biomes.Lake }),
         ];
     }
 }

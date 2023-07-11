@@ -251,21 +251,12 @@ export class BuildingBusiness {
     }
 
     private startBuildingInterval(building: Building, settler: Settler): void {
-        // if (building.status !== 'paused') {
-        //     const time = EfficiencyBusiness.calculateEfficiency(
-        //         500,
-        //         Skill.Building,
-        //         settler
-        //     );
-        //     building.timeMs = time;
-        // }
         const time = EfficiencyBusiness.calculateEfficiency(
             1000,
             Skill.Building,
             settler,
             true
         );
-        // console.log(EfficiencyBusiness.Building(settler));
         building.buildStorageInterval = setInterval(() => {
             building.timeMs -= time;
             building.percent = this.calculatePercent(building);
@@ -462,6 +453,7 @@ export class BuildingBusiness {
             this.onWorkAtStructure.emit(task);
             if (task.requirements) {
                 if (!canStart(task)) {
+                    if (!task.consumption.length) return;
                     clearInterval(task.startTaskInterval);
                     if (
                         !this.inventoryHasNecessaryMaterialsForTask(
@@ -481,14 +473,6 @@ export class BuildingBusiness {
             }
         }, 1000);
     }
-
-    // private getTimeWithEfficiencyOfTask(task: Task, settler: Settler): number {
-    //     const efficiency = task.efficiencyFn(settler);
-    //     const efficiencyCalculated = (task.baseTimeMs * efficiency) / 100;
-    //     return efficiency > EfficiencyBusiness.defaultEfficiency
-    //         ? efficiencyCalculated - task.baseTimeMs
-    //         : task.baseTimeMs - efficiencyCalculated + task.baseTimeMs;
-    // }
 
     getTaskByBuilding(
         building: Building,

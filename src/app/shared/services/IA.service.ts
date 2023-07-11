@@ -80,11 +80,29 @@ export class IAService {
                 }
                 if (
                     job === Job.Kitchen &&
-                    !!this.checkStructuresHasKitchenWithTaskAvailable()
+                    !!this.checkStructuresHasJobWithTaskAvaible(Job.Kitchen)
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
                     this.jobKitchen(settler);
+                    break;
+                }
+                if (
+                    job === Job.Cut &&
+                    !!this.checkStructuresHasJobWithTaskAvaible(Job.Cut)
+                ) {
+                    if (settler.work.workInProgressId)
+                        this.unassignSettler(settler);
+                    this.jobCut(settler);
+                    break;
+                }
+                if (
+                    job === Job.Mining &&
+                    !!this.checkStructuresHasJobWithTaskAvaible(Job.Mining)
+                ) {
+                    if (settler.work.workInProgressId)
+                        this.unassignSettler(settler);
+                    this.jobMinning(settler);
                     break;
                 }
             }
@@ -115,7 +133,7 @@ export class IAService {
         this.baseBusiness.assingSettler(settler.id, building!.id, Job.Builder);
     }
 
-    private checkStructuresHasKitchenWithTaskAvailable(): Building | null {
+    private checkStructuresHasJobWithTaskAvaible(job: Job): Building | null {
         return (
             this.gameService.game.base.buildings.find(
                 (e) =>
@@ -128,19 +146,84 @@ export class IAService {
                                 ? !f.requirements(this.baseBusiness, f)
                                 : true)
                     ).length &&
-                    e.jobNecessary === Job.Kitchen
+                    e.jobNecessary === job
             ) ?? null
         );
     }
 
+    // private checkStructuresHasKitchenWithTaskAvailable(): Building | null {
+    //     return (
+    //         this.gameService.game.base.buildings.find(
+    //             (e) =>
+    //                 e.status === 'done' &&
+    //                 e.tasks.filter(
+    //                     (f) =>
+    //                         !f.assignedTo &&
+    //                         f.available &&
+    //                         (f.requirements
+    //                             ? !f.requirements(this.baseBusiness, f)
+    //                             : true)
+    //                 ).length &&
+    //                 e.jobNecessary === Job.Kitchen
+    //         ) ?? null
+    //     );
+    // }
+
+    // private checkStructuresHasCutWithTaskAvailable(): Building | null {
+    //     return (
+    //         this.gameService.game.base.buildings.find(
+    //             (e) =>
+    //                 e.status === 'done' &&
+    //                 e.tasks.filter(
+    //                     (f) =>
+    //                         !f.assignedTo &&
+    //                         f.available &&
+    //                         (f.requirements
+    //                             ? !f.requirements(this.baseBusiness, f)
+    //                             : true)
+    //                 ).length &&
+    //                 e.jobNecessary === Job.Cut
+    //         ) ?? null
+    //     );
+    // }
+
     private jobKitchen(settler: Settler): void {
-        const building =
-            this.checkStructuresHasKitchenWithTaskAvailable() as Building;
+        const building = this.checkStructuresHasJobWithTaskAvaible(
+            Job.Kitchen
+        ) as Building;
         const task = this.getAvailableTask(building);
         this.baseBusiness.assingSettler(
             settler.id,
             building!.id,
             Job.Kitchen,
+            task.id,
+            task.guid
+        );
+    }
+
+    private jobCut(settler: Settler): void {
+        const building = this.checkStructuresHasJobWithTaskAvaible(
+            Job.Cut
+        ) as Building;
+        const task = this.getAvailableTask(building);
+        this.baseBusiness.assingSettler(
+            settler.id,
+            building!.id,
+            Job.Cut,
+            task.id,
+            task.guid
+        );
+    }
+
+    private jobMinning(settler: Settler): void {
+        const building = this.checkStructuresHasJobWithTaskAvaible(
+            Job.Mining
+        ) as Building;
+        const task = this.getAvailableTask(building);
+        this.baseBusiness.assingSettler(
+            settler.id,
+            building!.id,
+            Job.Mining,
             task.id,
             task.guid
         );

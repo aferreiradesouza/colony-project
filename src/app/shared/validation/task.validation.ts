@@ -31,4 +31,18 @@ export class TaskValidation {
         if (errors.length || task.warnings?.length) task.addWarning(errors);
         return errors.length ? errors : null;
     }
+
+    static requirementStorage(
+        baseBusiness: BaseBusiness,
+        task: Task
+    ): RequerimentsWarning {
+        const errors: RequerimentsWarning = [];
+        if (!baseBusiness.storageBusiness.hasStorage)
+            errors.push({
+                id: RequerimentsErrors.NoStorage,
+                message: 'Não há armazém disponível',
+            });
+        if (errors.length || task.warnings?.length) task.addWarning(errors);
+        return errors.length ? errors : null;
+    }
 }

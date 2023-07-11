@@ -39,6 +39,10 @@ export class GameBusiness {
         StorageHandler.set('save', crypt);
     }
 
+    public deleteSave(): void {
+        StorageHandler.remove('save');
+    }
+
     private _setGame(game: Game): void {
         this._game = game;
     }

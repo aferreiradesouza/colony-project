@@ -12,7 +12,6 @@ const routes: Routes = [
         loadChildren: () =>
             import('./offsite/offsite.module').then((m) => m.OffsiteModule),
     },
-    { path: 'storage', loadChildren: () => import('./admin/storage/storage.module').then(m => m.StorageModule) },
 ];
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

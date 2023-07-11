@@ -33,6 +33,7 @@
     "SHORTCUT_TABS": {
         "NOTIFICATIONS": "Notificações",
         "SETTLERS": "Colonos",
-        "TO_DO_LIST": "Lista pendente"
+        "TO_DO_LIST": "Lista pendente",
+        "INVENTORY": "Inventário"
     }
 }

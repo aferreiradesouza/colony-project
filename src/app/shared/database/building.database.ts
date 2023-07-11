@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { BaseBusiness } from '../business/base.business';
+import { Biomes } from '../interface/enums/biomes.enum';
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Itens } from '../interface/enums/item.enum';
 import { Job } from '../interface/enums/job.enum';
@@ -20,6 +21,7 @@ export interface IBuildingDatabase {
     name: string;
     tasks?: ITaskDatabase[];
     resources?: BuildingResource[];
+    biomesAllowed: Biomes[];
     requirements?: (
         baseBusiness: BaseBusiness,
         building: Building
@@ -38,6 +40,7 @@ export class BuildingDatabase {
                 jobNecessary: null,
                 timeForWork: 1000,
                 name: 'Armazém',
+                biomesAllowed: [Biomes.Normal],
                 resources: [],
             },
             [Buildings?.House]: {
@@ -47,6 +50,7 @@ export class BuildingDatabase {
                 jobNecessary: null,
                 timeForWork: 1000,
                 name: 'Casa',
+                biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [
                     { id: Itens.Wood, amount: 200 },
@@ -60,6 +64,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Kitchen,
                 timeForWork: 1000,
                 name: 'Cozinha',
+                biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [
                     { id: Itens.Wood, amount: 200 },
@@ -73,6 +78,7 @@ export class BuildingDatabase {
                 jobNecessary: Job.Agriculture,
                 timeForWork: 1000,
                 name: 'Fazenda',
+                biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [{ id: Itens.Wood, amount: 100 }],
             },
@@ -83,8 +89,29 @@ export class BuildingDatabase {
                 jobNecessary: Job.Builder,
                 timeForWork: 1000,
                 name: 'Fábrica',
+                biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [{ id: Itens.Wood, amount: 100 }],
+            },
+            [Buildings?.Camping]: {
+                id: Buildings?.Camping,
+                jobToCreateStructure: Job.Builder,
+                timeMs: 30000,
+                jobNecessary: Job.Cut,
+                timeForWork: 1000,
+                name: 'Acampamento',
+                biomesAllowed: [Biomes.Forest],
+                resources: [],
+            },
+            [Buildings?.Quarry]: {
+                id: Buildings?.Quarry,
+                jobToCreateStructure: Job.Builder,
+                timeMs: 30000,
+                jobNecessary: Job.Mining,
+                timeForWork: 1000,
+                name: 'Pedreira',
+                biomesAllowed: [Biomes.Forest],
+                resources: [],
             },
         };
     }

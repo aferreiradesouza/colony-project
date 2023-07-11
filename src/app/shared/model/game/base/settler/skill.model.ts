@@ -44,4 +44,5 @@ export enum Skill {
     Agriculture,
     Cook,
     Agility,
+    Strong,
 }

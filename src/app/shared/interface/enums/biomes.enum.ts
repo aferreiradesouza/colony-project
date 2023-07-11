@@ -1,3 +1,5 @@
 export enum Biomes {
-    Floresta,
+    Normal,
+    Forest,
+    Lake,
 }

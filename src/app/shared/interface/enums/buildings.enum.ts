@@ -4,4 +4,6 @@ export enum Buildings {
     Kitchen,
     Farm,
     Factory,
+    Camping,
+    Quarry,
 }

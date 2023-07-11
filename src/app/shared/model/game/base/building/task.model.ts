@@ -3,6 +3,8 @@ import {
     TaskConsumption,
     TaskResourceGenerated,
     RequerimentsWarning,
+    ITaskDatabase,
+    TaskDatabase,
 } from 'src/app/shared/database/task.database';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
@@ -48,18 +50,23 @@ export class Task {
             task: Task
         ) => RequerimentsWarning;
     }) {
+        const task = this._getDatabase(data.id);
         this.id = data.id;
         this.name = data.name;
         this.guid = data.guid ?? HelperService.guid;
         this.assignedTo = data.assignedTo;
-        this.baseTimeMs = data.baseTimeMs;
+        this.baseTimeMs = task.baseTimeMs;
         this.mainSkill = data.mainSkill;
         this.timeLeft = 0;
         this.available = data.available;
         this.consumption = data.consumption;
         this.requirements = data.requirements;
         this.efficiencyFn = data.efficiencyFn;
-        this.resourceGenerated = data.resourceGenerated;
+        this.resourceGenerated = task.resourceGenerated;
+    }
+
+    private _getDatabase(id: Tasks): ITaskDatabase {
+        return TaskDatabase.getTaskById(id);
     }
 
     addWarning(errors: RequerimentsWarning): void {

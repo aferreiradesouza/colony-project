@@ -10,6 +10,7 @@ import { Itens } from 'src/app/shared/interface/enums/item.enum';
 import { RequerimentsWarning } from 'src/app/shared/database/task.database';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
 import { Item } from './storage/item.model';
+import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 
 export type BuildingStatus = 'not-started' | 'building' | 'paused' | 'done';
 export type BuildingResource = { id: Itens; amount: number };
@@ -22,6 +23,7 @@ export interface IBuilding {
     assignedTo?: string | null;
     timeMs?: number;
     tasks?: Task[];
+    biome: Biomes;
 }
 
 export class Building {
@@ -33,6 +35,7 @@ export class Building {
     public timeMs: number;
     public assignedTo: string | null = null;
     public percent = 0;
+    public biome: Biomes;
     public tasks: Task[] = [];
     public inventory: Array<Item>;
     public warnings: RequerimentsWarning = [];
@@ -48,6 +51,7 @@ export class Building {
     public getItemFromStorageInterval: any = null;
 
     constructor(building: IBuilding) {
+        this.biome = building.biome;
         this.type = building.type;
         this.inventory = building.inventory ?? [];
         this.status =

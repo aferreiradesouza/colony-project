@@ -44,6 +44,11 @@ export class ShortcutTabsComponent implements AfterViewInit, OnDestroy {
             value: 'to-do-list',
             icon: 'queueList',
         },
+        {
+            label: 'SHORTCUT_TABS.INVENTORY',
+            value: 'inventory',
+            icon: 'queueList',
+        },
     ];
 
     @Input() hasOpenMobile = false;

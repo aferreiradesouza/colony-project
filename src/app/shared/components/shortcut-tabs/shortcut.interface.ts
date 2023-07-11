@@ -7,7 +7,11 @@ export interface ShortcutData {
     notifications?: number | string;
 }
 
-export type ShortcutTab = 'settlers' | 'notifications' | 'to-do-list';
+export type ShortcutTab =
+    | 'settlers'
+    | 'notifications'
+    | 'to-do-list'
+    | 'inventory';
 
 export interface ToDoListShortcut {
     work: string;

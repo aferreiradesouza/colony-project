@@ -46,6 +46,10 @@ export class SettlersComponent {
         this.gameService.save();
     }
 
+    deleteSave(): void {
+        this.gameService.deleteSave();
+    }
+
     // load(): void {
     //     this.gameService.load();
     // }

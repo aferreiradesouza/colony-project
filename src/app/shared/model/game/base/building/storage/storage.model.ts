@@ -1,6 +1,7 @@
 import { Buildings } from 'src/app/shared/interface/enums/buildings.enum';
 import { Building, IBuilding } from '../building.model';
 import { Item } from './item.model';
+import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 
 export class Storage extends Building {
     // public inventory: Item[];
@@ -17,6 +18,7 @@ export class Storage extends Building {
                 : {
                       type: Buildings.Storage,
                       status: 'not-started',
+                      biome: Biomes.Normal,
                   }
         );
         this.inventory = data.inventory.map((e) => new Item(e));

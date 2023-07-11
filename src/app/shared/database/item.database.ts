@@ -18,6 +18,10 @@ export class ItemDatabase {
                 id: Itens?.RefeicaoSimples,
                 name: 'Refeição Simples',
             },
+            [Itens?.RefeicaoCompleta]: {
+                id: Itens?.RefeicaoCompleta,
+                name: 'Refeição Completa',
+            },
             [Itens?.Wood]: {
                 id: Itens?.Wood,
                 name: 'Madeira',

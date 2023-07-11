@@ -15,6 +15,7 @@ import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from './helpers.service';
 import { Itens } from '../interface/enums/item.enum';
 import { Inventory } from '../model/game/base/settler/inventory.model';
+import { Biomes } from '../interface/enums/biomes.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -120,11 +121,12 @@ export class DebugService {
         );
     }
 
-    createBuilding(id: Buildings): void {
+    createBuilding(id: Buildings, biome: Biomes = Biomes.Normal): void {
         this.buildingBusiness.add(
             new Building({
                 type: id,
                 status: 'not-started',
+                biome,
             })
         );
     }
@@ -134,6 +136,7 @@ export class DebugService {
             new Building({
                 type: id,
                 status: 'done',
+                biome: Biomes.Normal,
             })
         );
     }

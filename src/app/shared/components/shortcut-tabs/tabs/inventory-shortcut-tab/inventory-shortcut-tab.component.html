@@ -1,0 +1,12 @@
+<table>
+    <thead>
+        <th>Item</th>
+        <th>Quantidade</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of storage">
+            <td>{{item.type | item}}</td>
+            <td>{{item.amount}}</td>
+        </tr>
+    </tbody>
+</table>

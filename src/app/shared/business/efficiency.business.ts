@@ -23,6 +23,11 @@ export class EfficiencyBusiness {
         return EfficiencyBusiness.calculate(skill);
     }
 
+    static Strong(settler: Settler): number {
+        const skill = settler.skills.getSkill(Skill.Strong);
+        return EfficiencyBusiness.calculate(skill);
+    }
+
     static Building(settler: Settler): number {
         const skill = settler.skills.getSkill(Skill.Building);
         return EfficiencyBusiness.calculate(skill);
