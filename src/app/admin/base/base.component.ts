@@ -49,7 +49,7 @@ export class BaseComponent {
             : this.baseBusiness.enableTaskOfBuilding(task);
     }
 
-    addTask(item: Building): void {
-        this.buildingBusiness.addTask(item.id, Tasks.RefeicaoCompleta);
+    addTask(item: Building, task: Tasks): void {
+        this.buildingBusiness.addTask(item.id, task);
     }
 }

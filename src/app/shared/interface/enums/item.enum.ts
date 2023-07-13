@@ -1,4 +1,4 @@
-export enum Itens {
+export enum Items {
     Meat = 1,
     RefeicaoSimples,
     RefeicaoCompleta,

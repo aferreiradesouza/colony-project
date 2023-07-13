@@ -6,14 +6,15 @@ import {
 } from '../../../../database/building.database';
 import { HelperService } from '../../../../services/helpers.service';
 import { Task } from './task.model';
-import { Itens } from 'src/app/shared/interface/enums/item.enum';
+import { Items } from 'src/app/shared/interface/enums/item.enum';
 import { RequerimentsWarning } from 'src/app/shared/database/task.database';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
 import { Item } from './storage/item.model';
 import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
+import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 
 export type BuildingStatus = 'not-started' | 'building' | 'paused' | 'done';
-export type BuildingResource = { id: Itens; amount: number };
+export type BuildingResource = { id: Items; amount: number };
 
 export interface IBuilding {
     id?: string;
@@ -31,6 +32,7 @@ export class Building {
     public type: Buildings;
     public status: BuildingStatus;
     public jobNecessary: Job | null;
+    public tasksAllowed?: Tasks[];
     public jobToCreateStructure: Job;
     public timeMs: number;
     public assignedTo: string | null = null;
@@ -60,6 +62,7 @@ export class Building {
                 : building.status ?? 'not-started';
         this.id = building.id ?? HelperService.guid;
         const structure = this._getDatabase(building.type);
+        this.tasksAllowed = structure.tasksAllowed;
         this.jobNecessary = structure.jobNecessary;
         this.jobToCreateStructure = structure.jobToCreateStructure;
         this.timeMs = building.timeMs ?? structure.timeMs;

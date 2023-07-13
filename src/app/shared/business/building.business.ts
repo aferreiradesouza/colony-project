@@ -9,7 +9,7 @@ import { Task } from '../model/game/base/building/task.model';
 import { NotificationService } from '../services/notification.service';
 import { GameBusiness } from './game.business';
 import { TaskDatabase } from '../database/task.database';
-import { Itens } from '../interface/enums/item.enum';
+import { Items } from '../interface/enums/item.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { EfficiencyBusiness } from './efficiency.business';
 import { Item } from '../model/game/base/building/storage/item.model';
@@ -27,9 +27,9 @@ export class BuildingBusiness {
         status: BuildingStatus;
     }>();
     public onWorkAtStructure = new EventEmitter<Task>();
-    public onUseMaterial = new EventEmitter<{ id: Itens; amount: number }[]>();
+    public onUseMaterial = new EventEmitter<{ id: Items; amount: number }[]>();
     public onGetMaterial = new EventEmitter<{
-        id: Itens;
+        id: Items;
         amount: number;
         building: Building;
         taskId?: string;
@@ -105,11 +105,11 @@ export class BuildingBusiness {
             building.inventory.push({
                 ...item,
                 id: HelperService.guid,
-            });
+            } as Item);
     }
 
     private getItemByType(
-        type: Itens,
+        type: Items,
         building: Building,
         taskId?: string
     ): Item | null {
@@ -161,7 +161,7 @@ export class BuildingBusiness {
     private whichItemWillPickUp(building: Building): void {
         let itemToPickup:
             | {
-                  type: Itens;
+                  type: Items;
                   amount: number;
               }
             | undefined;
@@ -206,7 +206,7 @@ export class BuildingBusiness {
     private whichItemWillPickUpForTask(building: Building, task: Task): void {
         let itemToPickup:
             | {
-                  type: Itens;
+                  type: Items;
                   amount: number;
               }
             | undefined;
@@ -273,13 +273,14 @@ export class BuildingBusiness {
 
     private useMaterialInInventory(
         building: Building,
-        item: Itens,
+        item: Items,
         amount: number,
         taskId?: string
     ): void {
         const index = building.inventory.findIndex(
             (e) => e.type === item && (taskId ? e.taskId === taskId : true)
         );
+        if (index === -1) return;
         building.inventory[index].amount -= amount;
         if (building.inventory[index].amount <= 0) {
             building.inventory.splice(index, 1);
@@ -451,24 +452,22 @@ export class BuildingBusiness {
                 });
             }
             this.onWorkAtStructure.emit(task);
-            if (task.requirements) {
-                if (!canStart(task)) {
-                    if (!task.consumption.length) return;
-                    clearInterval(task.startTaskInterval);
-                    if (
-                        !this.inventoryHasNecessaryMaterialsForTask(
-                            building,
-                            task
-                        ) &&
-                        !task.warnings?.length
-                    ) {
-                        this.startGetItemFromStorageForTask(
-                            building,
-                            task,
-                            timeWithEfficienty,
-                            canStart
-                        );
-                    }
+            if (canStart(task)) {
+                if (!task.consumption.length) return;
+                clearInterval(task.startTaskInterval);
+                if (
+                    !this.inventoryHasNecessaryMaterialsForTask(
+                        building,
+                        task
+                    ) &&
+                    !task.warnings?.length
+                ) {
+                    this.startGetItemFromStorageForTask(
+                        building,
+                        task,
+                        timeWithEfficienty,
+                        canStart
+                    );
                 }
             }
         }, 1000);

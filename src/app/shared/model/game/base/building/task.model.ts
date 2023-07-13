@@ -10,6 +10,7 @@ import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
 import { Settler } from '../settler/settler.model';
 import { Skill } from '../settler/skill.model';
+import { Items } from 'src/app/shared/interface/enums/item.enum';
 
 export class Task {
     public id: Tasks;
@@ -56,12 +57,12 @@ export class Task {
         this.guid = data.guid ?? HelperService.guid;
         this.assignedTo = data.assignedTo;
         this.baseTimeMs = task.baseTimeMs;
-        this.mainSkill = data.mainSkill;
+        this.mainSkill = task.mainSkill;
         this.timeLeft = 0;
         this.available = data.available;
-        this.consumption = data.consumption;
-        this.requirements = data.requirements;
-        this.efficiencyFn = data.efficiencyFn;
+        this.consumption = task.consumption;
+        this.requirements = task.requirements;
+        this.efficiencyFn = task.efficiencyFn;
         this.resourceGenerated = task.resourceGenerated;
     }
 
@@ -75,5 +76,9 @@ export class Task {
 
     clearWarning(): void {
         this.warnings = [];
+    }
+
+    getTaskConsumption(id: Items): TaskConsumption | null {
+        return this.consumption.find((e) => e.id === id) ?? null;
     }
 }

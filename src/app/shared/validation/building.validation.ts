@@ -2,7 +2,7 @@ import { BaseBusiness } from '../business/base.business';
 import { BuildingDatabase } from '../database/building.database';
 import { RequerimentsWarning } from '../database/task.database';
 import { Buildings } from '../interface/enums/buildings.enum';
-import { Itens } from '../interface/enums/item.enum';
+import { Items } from '../interface/enums/item.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Building } from '../model/game/base/building/building.model';
 
@@ -23,15 +23,15 @@ export class BuildingValidation {
                 id: RequerimentsErrors.NoStorage,
                 message: 'Não há armazém disponível',
             });
-        if (!baseBusiness.storageBusiness.getItemByType(Itens.Stone))
+        if (!baseBusiness.storageBusiness.getItemByType(Items.Stone))
             errors.push({
                 id: RequerimentsErrors.InsufficientResource,
                 message: 'Não tem pedra',
             });
         if (
-            baseBusiness.storageBusiness.getItemByType(Itens.Stone) &&
-            baseBusiness.storageBusiness.getItemByType(Itens.Stone)!.amount <
-                storage.resources.find((e) => e.id === Itens.Stone)!.amount!
+            baseBusiness.storageBusiness.getItemByType(Items.Stone) &&
+            baseBusiness.storageBusiness.getItemByType(Items.Stone)!.amount <
+                storage.resources.find((e) => e.id === Items.Stone)!.amount!
         )
             errors.push({
                 id: RequerimentsErrors.InsufficientResource,
@@ -51,12 +51,12 @@ export class BuildingValidation {
         if (!house.resources) return null;
 
         const woodNecessary =
-            house.resources.find((e) => e.id === Itens.Wood)!.amount -
-            (building.inventory.find((e) => e.type === Itens.Wood)?.amount ??
+            house.resources.find((e) => e.id === Items.Wood)!.amount -
+            (building.inventory.find((e) => e.type === Items.Wood)?.amount ??
                 0);
         const stoneNecessary =
-            house.resources.find((e) => e.id === Itens.Stone)!.amount -
-            (building.inventory.find((e) => e.type === Itens.Stone)?.amount ??
+            house.resources.find((e) => e.id === Items.Stone)!.amount -
+            (building.inventory.find((e) => e.type === Items.Stone)?.amount ??
                 0);
 
         if (!baseBusiness.storageBusiness.hasStorage)
@@ -65,7 +65,7 @@ export class BuildingValidation {
                 message: 'Não há armazém disponível',
             });
         if (
-            !baseBusiness.storageBusiness.getItemByType(Itens.Wood) &&
+            !baseBusiness.storageBusiness.getItemByType(Items.Wood) &&
             woodNecessary > 0
         )
             errors.push({
@@ -73,7 +73,7 @@ export class BuildingValidation {
                 message: 'Não tem madeira',
             });
         if (
-            !baseBusiness.storageBusiness.getItemByType(Itens.Stone) &&
+            !baseBusiness.storageBusiness.getItemByType(Items.Stone) &&
             stoneNecessary > 0
         )
             errors.push({
@@ -81,8 +81,8 @@ export class BuildingValidation {
                 message: 'Não tem pedra',
             });
         if (
-            baseBusiness.storageBusiness.getItemByType(Itens.Wood) &&
-            baseBusiness.storageBusiness.getItemByType(Itens.Wood)!.amount <
+            baseBusiness.storageBusiness.getItemByType(Items.Wood) &&
+            baseBusiness.storageBusiness.getItemByType(Items.Wood)!.amount <
                 woodNecessary
         )
             errors.push({
@@ -90,8 +90,8 @@ export class BuildingValidation {
                 message: 'Não tem madeira suficiente',
             });
         if (
-            baseBusiness.storageBusiness.getItemByType(Itens.Stone) &&
-            baseBusiness.storageBusiness.getItemByType(Itens.Stone)!.amount <
+            baseBusiness.storageBusiness.getItemByType(Items.Stone) &&
+            baseBusiness.storageBusiness.getItemByType(Items.Stone)!.amount <
                 stoneNecessary
         )
             errors.push({

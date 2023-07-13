@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { GameBusiness } from './game.business';
 import { Storage } from './../model/game/base/building/storage/storage.model';
-import { Itens } from '../interface/enums/item.enum';
+import { Items } from '../interface/enums/item.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -33,7 +33,7 @@ export class StorageBusiness {
         return this.storage?.inventory.find((e) => e.id === id) ?? null;
     }
 
-    getItemByType(type: Itens): Item | null {
+    getItemByType(type: Items): Item | null {
         return this.storage?.inventory.find((e) => e.type === type) ?? null;
     }
 
@@ -43,26 +43,26 @@ export class StorageBusiness {
         else this.storage!.inventory.push(newItem);
     }
 
-    useResource(type: Itens, amount: number): void {
+    useResource(type: Items, amount: number): void {
         const item = this.getItemByType(type);
         if (!item) return;
         item.amount -= amount;
         if (item.amount <= 0) this.removeMaterial(type);
     }
 
-    removeMaterial(type: Itens): void {
+    removeMaterial(type: Items): void {
         const index = this.inventory.findIndex((e) => e.type === type);
         if (index <= -1) return;
         this.inventory.splice(index, 1);
     }
 
-    getResource(type: Itens, amount: number): Item | null {
+    getResource(type: Items, amount: number): Item | null {
         const item = this.inventory.find(
             (e) => e.type === type && e.amount >= amount
         );
         if (item) {
             this.useResource(type, amount);
-            return { ...item, amount };
+            return { ...item, amount } as Item;
         } else {
             return null;
         }

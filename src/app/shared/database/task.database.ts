@@ -1,7 +1,7 @@
 import { BaseBusiness } from '../business/base.business';
 import { EfficiencyBusiness } from '../business/efficiency.business';
 import { Buildings } from '../interface/enums/buildings.enum';
-import { Itens } from '../interface/enums/item.enum';
+import { Items } from '../interface/enums/item.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import { Task } from '../model/game/base/building/task.model';
@@ -29,8 +29,8 @@ export interface ITaskDatabase {
 export type RequerimentsWarning =
     | { id: RequerimentsErrors; message: string }[]
     | null;
-export type TaskConsumption = { id: Itens; amount: number };
-export type TaskResourceGenerated = { id: Itens; amount: number };
+export type TaskConsumption = { id: Items; amount: number };
+export type TaskResourceGenerated = { id: Items; amount: number };
 
 export class TaskDatabase {
     constructor() {}
@@ -46,8 +46,8 @@ export class TaskDatabase {
                 available: false,
                 mainSkill: Skill.Cook,
                 efficiencyFn: EfficiencyBusiness.Cook,
-                resourceGenerated: [{ id: Itens.RefeicaoSimples, amount: 1 }],
-                consumption: [{ id: Itens.Meat, amount: 5 }],
+                resourceGenerated: [{ id: Items.RefeicaoSimples, amount: 1 }],
+                consumption: [{ id: Items.Meat, amount: 5 }],
                 requirements: TaskValidation.requirementsSimpleMeal,
             },
             [Tasks?.RefeicaoCompleta]: {
@@ -55,13 +55,13 @@ export class TaskDatabase {
                 buildings: [Buildings.Kitchen],
                 name: 'Refeição Completa',
                 assignedTo: null,
-                baseTimeMs: 4000,
+                baseTimeMs: 1000,
                 available: false,
                 mainSkill: Skill.Cook,
                 efficiencyFn: EfficiencyBusiness.Cook,
-                resourceGenerated: [{ id: Itens.RefeicaoCompleta, amount: 1 }],
-                consumption: [{ id: Itens.Meat, amount: 10 }],
-                requirements: TaskValidation.requirementsSimpleMeal,
+                resourceGenerated: [{ id: Items.RefeicaoCompleta, amount: 1 }],
+                consumption: [{ id: Items.Meat, amount: 10 }],
+                requirements: TaskValidation.requirementsCompleteMeal,
             },
             [Tasks?.ObterMadeira]: {
                 id: Tasks.ObterMadeira,
@@ -72,7 +72,7 @@ export class TaskDatabase {
                 available: false,
                 mainSkill: Skill.Strong,
                 efficiencyFn: EfficiencyBusiness.Strong,
-                resourceGenerated: [{ id: Itens.Wood, amount: 10 }],
+                resourceGenerated: [{ id: Items.Wood, amount: 10 }],
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
             },
@@ -85,7 +85,7 @@ export class TaskDatabase {
                 available: false,
                 mainSkill: Skill.Strong,
                 efficiencyFn: EfficiencyBusiness.Strong,
-                resourceGenerated: [{ id: Itens.Stone, amount: 10 }],
+                resourceGenerated: [{ id: Items.Stone, amount: 10 }],
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
             },
@@ -98,7 +98,7 @@ export class TaskDatabase {
                 available: false,
                 mainSkill: Skill.Shoot,
                 efficiencyFn: EfficiencyBusiness.Shoot,
-                resourceGenerated: [{ id: Itens.Meat, amount: 7 }],
+                resourceGenerated: [{ id: Items.Meat, amount: 7 }],
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
             },

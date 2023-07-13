@@ -83,9 +83,9 @@ export class BaseBusiness {
                     task.addWarning(warnings);
                     this.unassignSettler(idBuilding, idSettler);
                     clearInterval(task.startTaskInterval);
-                    return true;
+                    return false;
                 }
-                return false;
+                return true;
             },
         });
         this.settlersBusiness.assignWork(
@@ -192,10 +192,11 @@ export class BaseBusiness {
                         event.building.requirements(this, event.building)) ??
                     [];
                 clearInterval(event.building.getItemFromStorageInterval);
-                this.unassignSettler(
-                    event.building.id,
-                    event.building.assignedTo!
-                );
+                if (event.building.assignedTo)
+                    this.unassignSettler(
+                        event.building.id,
+                        event.building.assignedTo!
+                    );
                 event.building.addWarning(errors);
                 return;
             }

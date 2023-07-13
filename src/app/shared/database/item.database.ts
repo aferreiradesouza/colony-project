@@ -1,7 +1,7 @@
-import { Itens } from '../interface/enums/item.enum';
+import { Items } from '../interface/enums/item.enum';
 
 export interface IItemDatabase {
-    id: Itens;
+    id: Items;
     name: string;
     weight: number;
 }
@@ -9,32 +9,32 @@ export interface IItemDatabase {
 export class ItemDatabase {
     constructor() {}
 
-    static get items(): { [key in Itens]: IItemDatabase } {
+    static get items(): { [key in Items]: IItemDatabase } {
         return {
-            [Itens?.Meat]: {
-                id: Itens?.Meat,
+            [Items?.Meat]: {
+                id: Items?.Meat,
                 name: 'Carne',
                 weight: 0.2,
             },
-            [Itens?.RefeicaoSimples]: {
-                id: Itens?.RefeicaoSimples,
+            [Items?.RefeicaoSimples]: {
+                id: Items?.RefeicaoSimples,
                 name: 'Refeição Simples',
                 weight: 0.8,
             },
-            [Itens?.RefeicaoCompleta]: {
-                id: Itens?.RefeicaoCompleta,
+            [Items?.RefeicaoCompleta]: {
+                id: Items?.RefeicaoCompleta,
                 name: 'Refeição Completa',
                 weight: 1,
             },
-            [Itens?.Wood]: {
-                id: Itens?.Wood,
+            [Items?.Wood]: {
+                id: Items?.Wood,
                 name: 'Madeira',
                 weight: 5,
             },
-            [Itens?.Stone]: {
-                id: Itens?.Stone,
+            [Items?.Stone]: {
+                id: Items?.Stone,
                 name: 'Pedra',
-                weight: 7,
+                weight: 8,
             },
         };
     }
@@ -43,7 +43,7 @@ export class ItemDatabase {
         return Object.values(ItemDatabase.items);
     }
 
-    static getItemById(id: Itens): IItemDatabase {
+    static getItemById(id: Items): IItemDatabase {
         return ItemDatabase.items[id];
     }
 }

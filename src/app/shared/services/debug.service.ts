@@ -13,7 +13,7 @@ import { Buildings } from '../interface/enums/buildings.enum';
 import { Job } from '../interface/enums/job.enum';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from './helpers.service';
-import { Itens } from '../interface/enums/item.enum';
+import { Items } from '../interface/enums/item.enum';
 import { Inventory } from '../model/game/base/settler/inventory.model';
 import { Biomes } from '../interface/enums/biomes.enum';
 
@@ -111,7 +111,7 @@ export class DebugService {
         this.storageBusiness.buildStorage(new Storage({ inventory: [] }));
     }
 
-    addItem(item: Itens, amount = 1): void {
+    addItem(item: Items, amount = 1): void {
         this.storageBusiness.addItem(
             new Item({
                 amount,

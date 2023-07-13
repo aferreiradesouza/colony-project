@@ -2,7 +2,7 @@
 import { BaseBusiness } from '../business/base.business';
 import { Biomes } from '../interface/enums/biomes.enum';
 import { Buildings } from '../interface/enums/buildings.enum';
-import { Itens } from '../interface/enums/item.enum';
+import { Items } from '../interface/enums/item.enum';
 import { Job } from '../interface/enums/job.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import {
@@ -22,6 +22,7 @@ export interface IBuildingDatabase {
     tasks?: ITaskDatabase[];
     resources?: BuildingResource[];
     biomesAllowed: Biomes[];
+    tasksAllowed?: Tasks[];
     requirements?: (
         baseBusiness: BaseBusiness,
         building: Building
@@ -53,8 +54,8 @@ export class BuildingDatabase {
                 biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [
-                    { id: Itens.Wood, amount: 200 },
-                    { id: Itens.Stone, amount: 200 },
+                    { id: Items.Wood, amount: 200 },
+                    { id: Items.Stone, amount: 200 },
                 ],
             },
             [Buildings?.Kitchen]: {
@@ -62,13 +63,14 @@ export class BuildingDatabase {
                 jobToCreateStructure: Job.Builder,
                 timeMs: 10000,
                 jobNecessary: Job.Kitchen,
+                tasksAllowed: [Tasks.RefeicaoCompleta, Tasks.RefeicaoSimples],
                 timeForWork: 1000,
                 name: 'Cozinha',
                 biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [
-                    { id: Itens.Wood, amount: 200 },
-                    { id: Itens.Stone, amount: 200 },
+                    { id: Items.Wood, amount: 200 },
+                    { id: Items.Stone, amount: 200 },
                 ],
             },
             [Buildings?.Farm]: {
@@ -80,7 +82,7 @@ export class BuildingDatabase {
                 name: 'Fazenda',
                 biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
-                resources: [{ id: Itens.Wood, amount: 100 }],
+                resources: [{ id: Items.Wood, amount: 100 }],
             },
             [Buildings?.Factory]: {
                 id: Buildings?.Factory,
@@ -91,13 +93,14 @@ export class BuildingDatabase {
                 name: 'Fábrica',
                 biomesAllowed: [Biomes.Normal],
                 requirements: BuildingValidation.requirementsHouse,
-                resources: [{ id: Itens.Wood, amount: 100 }],
+                resources: [{ id: Items.Wood, amount: 100 }],
             },
             [Buildings?.Camping]: {
                 id: Buildings?.Camping,
                 jobToCreateStructure: Job.Builder,
                 timeMs: 30000,
                 jobNecessary: Job.Cut,
+                tasksAllowed: [Tasks.ObterMadeira],
                 timeForWork: 1000,
                 name: 'Acampamento',
                 biomesAllowed: [Biomes.Forest],
@@ -108,6 +111,7 @@ export class BuildingDatabase {
                 jobToCreateStructure: Job.Builder,
                 timeMs: 30000,
                 jobNecessary: Job.Mining,
+                tasksAllowed: [Tasks.ObterPedra],
                 timeForWork: 1000,
                 name: 'Pedreira',
                 biomesAllowed: [Biomes.Forest],
@@ -118,6 +122,7 @@ export class BuildingDatabase {
                 jobToCreateStructure: Job.Builder,
                 timeMs: 30000,
                 jobNecessary: Job.Hunt,
+                tasksAllowed: [Tasks.ObterCarne],
                 timeForWork: 2000,
                 name: 'Casa do caçador',
                 biomesAllowed: [Biomes.Forest],

@@ -1,14 +1,25 @@
-import { Itens } from 'src/app/shared/interface/enums/item.enum';
+import {
+    IItemDatabase,
+    ItemDatabase,
+} from 'src/app/shared/database/item.database';
+import { Items } from 'src/app/shared/interface/enums/item.enum';
 
 export class Item {
     public id: string;
-    public type: Itens;
+    public type: Items;
     public amount: number;
+    public weight: number;
     public taskId?: string;
 
-    constructor(data: { id: string; type: Itens; amount: number }) {
+    constructor(data: { id: string; type: Items; amount: number }) {
+        const itemDatabase = this._getDatabase(data.type);
         this.id = data.id;
+        this.weight = itemDatabase.weight;
         this.type = data.type;
         this.amount = data?.amount ?? 0;
+    }
+
+    private _getDatabase(id: Items): IItemDatabase {
+        return ItemDatabase.getItemById(id);
     }
 }

@@ -56,10 +56,12 @@
                                 {{inventory.amount}}
                             </div>
                         </td>
-                        <td>
+                        <td class="flex flex-col gap-3 py-2">
+                            <ng-container *ngFor="let task of building.tasksAllowed">
+                                <app-button theme="secondary" [label]="'Add task - ' + (task | task)"
+                                    (click)="addTask(building, task)"></app-button>
+                            </ng-container>
                             <app-button theme="terciary" label="Log" (click)="log(building)"></app-button>
-                            <app-button class="ml-2" theme="secondary" label="Add task"
-                                (click)="addTask(building)"></app-button>
                         </td>
                     </tr>
                 </tbody>

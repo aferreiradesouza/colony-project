@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { StorageBusiness } from 'src/app/shared/business/storage.business';
-import { Itens } from 'src/app/shared/interface/enums/item.enum';
+import { Items } from 'src/app/shared/interface/enums/item.enum';
 import { Item } from 'src/app/shared/model/game/base/building/storage/item.model';
 import { Storage } from 'src/app/shared/model/game/base/building/storage/storage.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
@@ -21,15 +21,15 @@ export class StoragePage {
     }
 
     adicionarCarne(): void {
-        this.debugService.addItem(Itens.Meat, 100);
+        this.debugService.addItem(Items.Meat, 100);
     }
 
     adicionarPedra(): void {
-        this.debugService.addItem(Itens.Stone, 100);
+        this.debugService.addItem(Items.Stone, 100);
     }
 
     adicionarMadeira(): void {
-        this.debugService.addItem(Itens.Wood, 100);
+        this.debugService.addItem(Items.Wood, 100);
     }
 
     get inventory(): Item[] {
