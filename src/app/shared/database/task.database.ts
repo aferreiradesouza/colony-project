@@ -4,6 +4,7 @@ import { Buildings } from '../interface/enums/buildings.enum';
 import { Items } from '../interface/enums/item.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
+import { Building } from '../model/game/base/building/building.model';
 import { Task } from '../model/game/base/building/task.model';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { Skill } from '../model/game/base/settler/skill.model';
@@ -55,7 +56,7 @@ export class TaskDatabase {
                 buildings: [Buildings.Kitchen],
                 name: 'Refeição Completa',
                 assignedTo: null,
-                baseTimeMs: 1000,
+                baseTimeMs: 5000,
                 available: false,
                 mainSkill: Skill.Cook,
                 efficiencyFn: EfficiencyBusiness.Cook,

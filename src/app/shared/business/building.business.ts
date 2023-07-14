@@ -468,6 +468,13 @@ export class BuildingBusiness {
                         timeWithEfficienty,
                         canStart
                     );
+                } else {
+                    this.startTask(
+                        task,
+                        timeWithEfficienty,
+                        canStart,
+                        building
+                    );
                 }
             }
         }, 1000);
