@@ -45,6 +45,7 @@ export class NotificationService {
                 (vars as any)[key as any]
             );
         }
+        console.log('add');
         this.add({
             id: HelperService.guid,
             isNew: this.shortcutService.activeTab !== 'notifications',
@@ -54,6 +55,7 @@ export class NotificationService {
 
     private add(notification: NotificationItem): void {
         this.notifications.unshift(notification);
+        console.log(notification);
         this.onChangeNotificationList.emit(this.notifications);
     }
 

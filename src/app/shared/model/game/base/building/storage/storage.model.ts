@@ -4,7 +4,6 @@ import { Item } from './item.model';
 import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 
 export class Storage extends Building {
-    // public inventory: Item[];
     public level = 1;
     public maxStorage = 100;
 

@@ -11,6 +11,7 @@
     scrollbar-gutter: stable;
     max-height: 100%;
     overflow-y: hidden;
+    padding: 2px;
     @include transparentScroll;
 
     &:hover {

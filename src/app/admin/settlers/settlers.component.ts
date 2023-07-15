@@ -7,6 +7,7 @@ import { LogService } from 'src/app/shared/services/log.service';
 import { Job } from 'src/app/shared/interface/enums/job.enum';
 import { Skills } from 'src/app/shared/model/game/base/settler/skill.model';
 import { Skill } from 'src/app/shared/model/game/base/settler/skill.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
     selector: 'app-settlers',
@@ -17,8 +18,15 @@ export class SettlersComponent {
     constructor(
         private debugService: DebugService,
         private settlerService: SettlersBusiness,
-        private gameService: GameBusiness
+        private gameService: GameBusiness,
+        private notificationService: NotificationService
     ) {}
+
+    enviarNotificacao(): void {
+        this.notificationService.buildingSuccess({
+            title: 'oi',
+        });
+    }
 
     addSettler(): void {
         this.debugService.createSettlers(1);
