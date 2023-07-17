@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
 import { BuildingBusiness } from 'src/app/shared/business/building.business';
+import { TaskBusiness } from 'src/app/shared/business/task.business';
 import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 import { Buildings } from 'src/app/shared/interface/enums/buildings.enum';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
@@ -17,6 +18,7 @@ export class BiomesComponent {
     constructor(
         public debugService: DebugService,
         private buildingBusiness: BuildingBusiness,
+        private taskBusiness: TaskBusiness,
         private baseBusiness: BaseBusiness
     ) {}
 
@@ -46,11 +48,11 @@ export class BiomesComponent {
 
     addTask(building: Building): void {
         if (building.type === Buildings.Camping) {
-            this.buildingBusiness.addTask(building.id, Tasks.ObterMadeira);
+            this.taskBusiness.addTask(building.id, Tasks.ObterMadeira);
         } else if (building.type === Buildings.Quarry) {
-            this.buildingBusiness.addTask(building.id, Tasks.ObterPedra);
+            this.taskBusiness.addTask(building.id, Tasks.ObterPedra);
         } else if (building.type === Buildings.HunterHouse) {
-            this.buildingBusiness.addTask(building.id, Tasks.ObterCarne);
+            this.taskBusiness.addTask(building.id, Tasks.ObterCarne);
         }
     }
 }

@@ -42,6 +42,7 @@ import { TaskPipe } from './pipe/task.pipe';
 import { EfficiencyBusiness } from './business/efficiency.business';
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { InventoryShortcutTabComponent } from './components/shortcut-tabs/tabs/inventory-shortcut-tab/inventory-shortcut-tab.component';
+import { TaskBusiness } from './business/task.business';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -92,6 +93,7 @@ export const SERVICES_SHARED = [
     NotificationService,
     ShortcutService,
     EfficiencyBusiness,
+    TaskBusiness,
 ];
 
 @NgModule({

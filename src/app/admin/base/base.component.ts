@@ -6,6 +6,7 @@ import { Buildings } from 'src/app/shared/interface/enums/buildings.enum';
 import { Task } from 'src/app/shared/model/game/base/building/task.model';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
+import { TaskBusiness } from 'src/app/shared/business/task.business';
 
 @Component({
     selector: 'app-base',
@@ -15,6 +16,7 @@ import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 export class BaseComponent {
     constructor(
         private buildingBusiness: BuildingBusiness,
+        private taskBusiness: TaskBusiness,
         private baseBusiness: BaseBusiness,
         private debugService: DebugService
     ) {}
@@ -50,6 +52,6 @@ export class BaseComponent {
     }
 
     addTask(item: Building, task: Tasks): void {
-        this.buildingBusiness.addTask(item.id, task);
+        this.taskBusiness.addTask(item.id, task);
     }
 }

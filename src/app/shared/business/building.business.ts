@@ -8,16 +8,18 @@ import {
 import { Task } from '../model/game/base/building/task.model';
 import { NotificationService } from '../services/notification.service';
 import { GameBusiness } from './game.business';
-import { TaskDatabase } from '../database/task.database';
 import { Items } from '../interface/enums/item.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { EfficiencyBusiness } from './efficiency.business';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
 import { Skill } from '../model/game/base/settler/skill.model';
+import { TaskBusiness } from './task.business';
 
 @Injectable({ providedIn: 'root' })
 export class BuildingBusiness {
+    public taskBusiness!: TaskBusiness;
+
     public onDoneBuilding = new EventEmitter<{
         id: string;
         idSettler: string;
@@ -61,21 +63,6 @@ export class BuildingBusiness {
 
     getBuildingBySettler(id: string): Building | null {
         return this.buildings.find((e) => e.assignedTo === id) ?? null;
-    }
-
-    getBuildingByTaskAssignedToSettler(idSettler: string): Building | null {
-        return (
-            this.buildings.find((e) =>
-                e.tasks.find((f) => f.assignedTo === idSettler)
-            ) ?? null
-        );
-    }
-
-    getTaskBuildingBySettler(
-        building: Building,
-        idSettler: string
-    ): Task | null {
-        return building.tasks.find((e) => e.assignedTo === idSettler) ?? null;
     }
 
     assignSettler(settler: Settler, idContruction: string): void {
@@ -138,26 +125,6 @@ export class BuildingBusiness {
         }, time);
     }
 
-    private startGetItemFromStorageForTask(
-        building: Building,
-        task: Task,
-        timeWithEfficienty: number,
-        canStartTask: (task: Task) => boolean
-    ): void {
-        task.getItemFromStorageInterval = setInterval(() => {
-            this.whichItemWillPickUpForTask(building, task);
-            if (this.inventoryHasNecessaryMaterialsForTask(building, task)) {
-                this.startTask(
-                    task,
-                    timeWithEfficienty,
-                    canStartTask,
-                    building
-                );
-                clearInterval(task.getItemFromStorageInterval);
-            }
-        }, 200);
-    }
-
     private whichItemWillPickUp(building: Building): void {
         let itemToPickup:
             | {
@@ -203,53 +170,6 @@ export class BuildingBusiness {
         });
     }
 
-    private whichItemWillPickUpForTask(building: Building, task: Task): void {
-        let itemToPickup:
-            | {
-                  type: Items;
-                  amount: number;
-              }
-            | undefined;
-        for (const resourceNecessary of task.consumption) {
-            const hasItem = building.inventory.find(
-                (e) =>
-                    e.type === resourceNecessary.id &&
-                    e.amount >= resourceNecessary.amount &&
-                    e.taskId === task.guid
-            );
-            if (!hasItem) {
-                const itemInInventory = building.inventory.find(
-                    (e) =>
-                        e.type === resourceNecessary.id &&
-                        e.amount <= resourceNecessary.amount
-                );
-                if (!itemInInventory) {
-                    itemToPickup = {
-                        type: resourceNecessary.id,
-                        amount: 10,
-                    };
-                } else {
-                    itemToPickup = {
-                        type: itemInInventory!.type,
-                        amount:
-                            itemInInventory!.amount + 10 >
-                            resourceNecessary.amount
-                                ? itemInInventory!.amount -
-                                  resourceNecessary.amount
-                                : 10,
-                    };
-                }
-            }
-        }
-        if (!itemToPickup) return;
-        this.onGetMaterial.emit({
-            amount: 10,
-            building,
-            id: itemToPickup.type,
-            taskId: task.guid,
-        });
-    }
-
     private startBuildingInterval(building: Building, settler: Settler): void {
         const time = EfficiencyBusiness.calculateEfficiency(
             1000,
@@ -264,14 +184,7 @@ export class BuildingBusiness {
         }, 1000);
     }
 
-    /*
-        35000 = 100%
-        1000 = x
-        35000x = 100 * 1000
-        (100 * 1000) / 35000 = x
-    */
-
-    private useMaterialInInventory(
+    public useMaterialInInventory(
         building: Building,
         item: Items,
         amount: number,
@@ -285,27 +198,6 @@ export class BuildingBusiness {
         if (building.inventory[index].amount <= 0) {
             building.inventory.splice(index, 1);
         }
-    }
-
-    inventoryHasNecessaryMaterialsForTask(
-        building: Building,
-        task: Task
-    ): boolean {
-        let hasItem = true;
-        for (const resource of task.consumption) {
-            const itemInInventory = building.inventory.find(
-                (e) => e.type === resource.id && e.taskId === task.guid
-            );
-            if (
-                !itemInInventory ||
-                (building.inventory.find((e) => e.type === resource.id) &&
-                    itemInInventory.amount < resource.amount)
-            ) {
-                hasItem = false;
-                break;
-            }
-        }
-        return hasItem;
     }
 
     inventoryHasNecessaryMaterials(building: Building): boolean {
@@ -381,7 +273,7 @@ export class BuildingBusiness {
     ): void {
         const building = this.getBuildingById(idContruction) as Building;
         building.assignedTo = null;
-        const taskBuilding = this.getTaskByBuilding(
+        const taskBuilding = this.taskBusiness.getTaskByBuilding(
             building,
             task,
             uniqueIdTask
@@ -399,7 +291,7 @@ export class BuildingBusiness {
         canStartTask: (task: Task) => boolean;
     }): void {
         const building = this.getBuildingById(data.idBuilding) as Building;
-        const task = this.getTaskByBuilding(
+        const task = this.taskBusiness.getTaskByBuilding(
             building,
             data.task,
             data.uniqueIdTask
@@ -411,100 +303,25 @@ export class BuildingBusiness {
             data.settler
         );
         task.timeLeft = timeWithEfficienty;
-        if (!this.inventoryHasNecessaryMaterialsForTask(building, task)) {
-            this.startGetItemFromStorageForTask(
+        if (
+            !this.taskBusiness.inventoryHasNecessaryMaterialsForTask(
+                building,
+                task
+            )
+        ) {
+            this.taskBusiness.startGetItemFromStorageForTask(
                 building,
                 task,
                 timeWithEfficienty,
                 data.canStartTask
             );
         } else {
-            this.startTask(
+            this.taskBusiness.startTask(
                 task,
                 timeWithEfficienty,
                 data.canStartTask,
                 building
             );
         }
-    }
-
-    private startTask(
-        task: Task,
-        timeWithEfficienty: number,
-        canStart: (task: Task) => boolean,
-        building: Building
-    ): void {
-        task.startTaskInterval = setInterval(() => {
-            if (task.timeLeft > 0) {
-                task.timeLeft =
-                    task.timeLeft - 1000 < 0 ? 0 : task.timeLeft - 1000;
-                return;
-            }
-            task.timeLeft = timeWithEfficienty;
-            if (task.consumption.length) {
-                task.consumption.forEach((e) => {
-                    this.useMaterialInInventory(
-                        building,
-                        e.id,
-                        e.amount,
-                        task.guid
-                    );
-                });
-            }
-            this.onWorkAtStructure.emit(task);
-            if (canStart(task)) {
-                if (!task.consumption.length) return;
-                clearInterval(task.startTaskInterval);
-                if (
-                    !this.inventoryHasNecessaryMaterialsForTask(
-                        building,
-                        task
-                    ) &&
-                    !task.warnings?.length
-                ) {
-                    this.startGetItemFromStorageForTask(
-                        building,
-                        task,
-                        timeWithEfficienty,
-                        canStart
-                    );
-                } else {
-                    this.startTask(
-                        task,
-                        timeWithEfficienty,
-                        canStart,
-                        building
-                    );
-                }
-            }
-        }, 1000);
-    }
-
-    getTaskByBuilding(
-        building: Building,
-        task: Tasks,
-        uniqueIdTask: string
-    ): Task {
-        return building.tasks.find(
-            (e) => e.id === task && e.guid === uniqueIdTask
-        )!;
-    }
-
-    disableTaskOfBuilding(task: Task): void {
-        task.available = false;
-        task.assignedTo = null;
-        clearInterval(task.startTaskInterval);
-        clearInterval(task.getItemFromStorageInterval);
-        task.clearWarning();
-    }
-
-    enableTaskOfBuilding(task: Task): void {
-        task.available = true;
-    }
-
-    addTask(idBuilding: string, tasks: Tasks): void {
-        const building = this.getBuildingById(idBuilding);
-        const task = TaskDatabase.getTaskById(tasks);
-        building?.tasks.push(new Task(task));
     }
 }

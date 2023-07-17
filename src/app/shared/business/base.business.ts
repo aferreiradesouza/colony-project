@@ -10,23 +10,25 @@ import { StorageBusiness } from './storage.business';
 import { RequerimentsWarning } from '../database/task.database';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
+import { TaskBusiness } from './task.business';
 
 @Injectable({ providedIn: 'root' })
 export class BaseBusiness {
     constructor(
         public buildingBusiness: BuildingBusiness,
         public settlersBusiness: SettlersBusiness,
-        public storageBusiness: StorageBusiness
+        public storageBusiness: StorageBusiness,
+        public taskBusiness: TaskBusiness
     ) {
+        this.buildingBusiness.taskBusiness = this.taskBusiness;
+        this.taskBusiness.buildingBusiness = this.buildingBusiness;
         this.startEvents();
     }
 
     getBuildingAssignedTo(idSettler: string): Building | null {
         return (
             this.buildingBusiness.getBuildingBySettler(idSettler) ??
-            this.buildingBusiness.getBuildingByTaskAssignedToSettler(
-                idSettler
-            ) ??
+            this.taskBusiness.getBuildingByTaskAssignedToSettler(idSettler) ??
             null
         );
     }
@@ -35,10 +37,8 @@ export class BaseBusiness {
         const building = this.getBuildingAssignedTo(idSettler);
         if (!building) return null;
         return (
-            this.buildingBusiness.getTaskBuildingBySettler(
-                building,
-                idSettler
-            ) ?? null
+            this.taskBusiness.getTaskBuildingBySettler(building, idSettler) ??
+            null
         );
     }
 
@@ -131,11 +131,11 @@ export class BaseBusiness {
     disableTaskOfBuilding(task: Task): void {
         if (task.assignedTo)
             this.settlersBusiness.unassignWork(task.assignedTo);
-        this.buildingBusiness.disableTaskOfBuilding(task);
+        this.taskBusiness.disableTaskOfBuilding(task);
     }
 
     enableTaskOfBuilding(task: Task): void {
-        this.buildingBusiness.enableTaskOfBuilding(task);
+        this.taskBusiness.enableTaskOfBuilding(task);
     }
 
     addWarningTask(task: Task, errors: RequerimentsWarning): void {
