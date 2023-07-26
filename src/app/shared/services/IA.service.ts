@@ -7,6 +7,7 @@ import { SettlersBusiness } from '../business/settlers.business';
 import { BuildingBusiness } from '../business/building.business';
 import { Job } from '../interface/enums/job.enum';
 import { Task } from '../model/game/base/building/task.model';
+import { Business } from '../business/business';
 
 @Injectable({ providedIn: 'root' })
 export class IAService {
@@ -25,7 +26,7 @@ export class IAService {
     }
 
     private verifyBuildingsRequeriments(): void {
-        this.baseBusiness.buildingBusiness.buildings.forEach((building) => {
+        Business.buildingBusiness.buildings.forEach((building) => {
             if (
                 building.status !== 'done' &&
                 building.status !== 'building' &&

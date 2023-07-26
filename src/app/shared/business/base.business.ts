@@ -4,31 +4,22 @@ import { Tasks } from '../interface/enums/tasks.enum';
 import { Building } from '../model/game/base/building/building.model';
 import { Task } from '../model/game/base/building/task.model';
 import { LogService } from '../services/log.service';
-import { BuildingBusiness } from './building.business';
-import { SettlersBusiness } from './settlers.business';
-import { StorageBusiness } from './storage.business';
 import { RequerimentsWarning } from '../database/task.database';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
-import { TaskBusiness } from './task.business';
+import { Business } from './business';
+import { Items } from '../interface/enums/item.enum';
 
 @Injectable({ providedIn: 'root' })
 export class BaseBusiness {
-    constructor(
-        public buildingBusiness: BuildingBusiness,
-        public settlersBusiness: SettlersBusiness,
-        public storageBusiness: StorageBusiness,
-        public taskBusiness: TaskBusiness
-    ) {
-        this.buildingBusiness.taskBusiness = this.taskBusiness;
-        this.taskBusiness.buildingBusiness = this.buildingBusiness;
-        this.startEvents();
-    }
+    constructor() {}
 
     getBuildingAssignedTo(idSettler: string): Building | null {
         return (
-            this.buildingBusiness.getBuildingBySettler(idSettler) ??
-            this.taskBusiness.getBuildingByTaskAssignedToSettler(idSettler) ??
+            Business.buildingBusiness.getBuildingBySettler(idSettler) ??
+            Business.taskBusiness.getBuildingByTaskAssignedToSettler(
+                idSettler
+            ) ??
             null
         );
     }
@@ -37,8 +28,10 @@ export class BaseBusiness {
         const building = this.getBuildingAssignedTo(idSettler);
         if (!building) return null;
         return (
-            this.taskBusiness.getTaskBuildingBySettler(building, idSettler) ??
-            null
+            Business.taskBusiness.getTaskBuildingBySettler(
+                building,
+                idSettler
+            ) ?? null
         );
     }
 
@@ -49,7 +42,7 @@ export class BaseBusiness {
         task?: Tasks,
         uniqueIdTask?: string
     ): void {
-        const building = this.buildingBusiness.getBuildingById(idBuilding);
+        const building = Business.buildingBusiness.getBuildingById(idBuilding);
         if (building?.status === 'done' && task && uniqueIdTask) {
             this.assignDoneBuilding(
                 idSettler,
@@ -70,8 +63,8 @@ export class BaseBusiness {
         task: Tasks,
         uniqueIdTask: string
     ): void {
-        const settler = this.settlersBusiness.getSettlerById(idSettler)!;
-        this.buildingBusiness.work({
+        const settler = Business.settlersBusiness.getSettlerById(idSettler)!;
+        Business.buildingBusiness.work({
             settler,
             idBuilding,
             task,
@@ -88,7 +81,7 @@ export class BaseBusiness {
                 return true;
             },
         });
-        this.settlersBusiness.assignWork(
+        Business.settlersBusiness.assignWork(
             settler.id,
             idBuilding,
             job ?? Job.None
@@ -100,12 +93,12 @@ export class BaseBusiness {
         idBuilding: string,
         job: Job | null
     ): void {
-        const building = this.buildingBusiness.getBuildingById(idBuilding);
-        const settler = this.settlersBusiness.getSettlerById(idSettler);
+        const building = Business.buildingBusiness.getBuildingById(idBuilding);
+        const settler = Business.settlersBusiness.getSettlerById(idSettler);
         if (!settler) return;
         building?.clearWarning();
-        this.buildingBusiness.assignSettler(settler, idBuilding);
-        this.settlersBusiness.assignWork(
+        Business.buildingBusiness.assignSettler(settler, idBuilding);
+        Business.settlersBusiness.assignWork(
             idSettler,
             idBuilding,
             job ?? Job.None
@@ -113,98 +106,90 @@ export class BaseBusiness {
     }
 
     unassignSettler(idBuilding: string, idSettler: string): void {
-        const building = this.buildingBusiness.getBuildingById(idBuilding);
+        const building = Business.buildingBusiness.getBuildingById(idBuilding);
         const task = this.getTaskBuildingAssignedTo(idSettler);
         if (building?.status === 'done' && task) {
-            this.buildingBusiness.unassignSettlerAtDoneBuilding(
+            Business.buildingBusiness.unassignSettlerAtDoneBuilding(
                 idBuilding,
                 task.id,
                 task.guid
             );
-            this.settlersBusiness.unassignWork(idSettler);
+            Business.settlersBusiness.unassignWork(idSettler);
         } else {
-            this.buildingBusiness.unassignSettler(idBuilding);
-            this.settlersBusiness.unassignWork(idSettler);
+            Business.buildingBusiness.unassignSettler(idBuilding);
+            Business.settlersBusiness.unassignWork(idSettler);
         }
     }
 
     disableTaskOfBuilding(task: Task): void {
         if (task.assignedTo)
-            this.settlersBusiness.unassignWork(task.assignedTo);
-        this.taskBusiness.disableTaskOfBuilding(task);
+            Business.settlersBusiness.unassignWork(task.assignedTo);
+        Business.taskBusiness.disableTaskOfBuilding(task);
     }
 
     enableTaskOfBuilding(task: Task): void {
-        this.taskBusiness.enableTaskOfBuilding(task);
+        Business.taskBusiness.enableTaskOfBuilding(task);
     }
 
     addWarningTask(task: Task, errors: RequerimentsWarning): void {
         task.warnings = errors ?? [];
     }
 
-    private startEvents(): void {
-        this.startOnDoneBuilding();
-        this.startOnWorkAtStructure();
-        this.startOnUseMaterial();
-        this.startOnGetMaterial();
+    doneBuilding(data: { id: string; idSettler: string }): void {
+        LogService.add('Construção finalizada');
+        Business.settlersBusiness.unassignWork(data.idSettler);
     }
 
-    private startOnDoneBuilding(): void {
-        this.buildingBusiness.onDoneBuilding.subscribe((event) => {
-            LogService.add('Construção finalizada');
-            this.settlersBusiness.unassignWork(event.idSettler);
+    workAtStructure(data: Task): void {
+        LogService.add(`Criou: ${data.name}`);
+        data.resourceGenerated.forEach((e) => {
+            Business.storageBusiness.addItem(
+                new Item({
+                    amount: e.amount,
+                    id: HelperService.guid,
+                    type: e.id,
+                })
+            );
         });
     }
 
-    private startOnWorkAtStructure(): void {
-        this.buildingBusiness.onWorkAtStructure.subscribe((event) => {
-            LogService.add(`Criou: ${event.name}`);
-            event.resourceGenerated.forEach((e) => {
-                this.storageBusiness.addItem(
-                    new Item({
-                        amount: e.amount,
-                        id: HelperService.guid,
-                        type: e.id,
-                    })
+    useMaterial(
+        data: {
+            id: Items;
+            amount: number;
+        }[]
+    ): void {
+        data.forEach((e) => {
+            Business.storageBusiness.useResource(e.id, e.amount);
+        });
+    }
+
+    getMaterial(data: {
+        id: Items;
+        amount: number;
+        building: Building;
+        taskId?: string | undefined;
+    }): void {
+        const item = Business.storageBusiness.getResource(data.id, data.amount);
+        if (item && data.taskId) item.taskId = data.taskId;
+        if (!item) {
+            const errors =
+                (data.building.requirements &&
+                    data.building.requirements(this, data.building)) ??
+                [];
+            clearInterval(data.building.getItemFromStorageInterval);
+            if (data.building.assignedTo)
+                this.unassignSettler(
+                    data.building.id,
+                    data.building.assignedTo!
                 );
-            });
-        });
-    }
-
-    private startOnUseMaterial(): void {
-        this.buildingBusiness.onUseMaterial.subscribe((event) => {
-            event.forEach((e) => {
-                this.storageBusiness.useResource(e.id, e.amount);
-            });
-        });
-    }
-
-    private startOnGetMaterial(): void {
-        this.buildingBusiness.onGetMaterial.subscribe((event) => {
-            const item = this.storageBusiness.getResource(
-                event.id,
-                event.amount
-            );
-            if (item && event.taskId) item.taskId = event.taskId;
-            if (!item) {
-                const errors =
-                    (event.building.requirements &&
-                        event.building.requirements(this, event.building)) ??
-                    [];
-                clearInterval(event.building.getItemFromStorageInterval);
-                if (event.building.assignedTo)
-                    this.unassignSettler(
-                        event.building.id,
-                        event.building.assignedTo!
-                    );
-                event.building.addWarning(errors);
-                return;
-            }
-            this.buildingBusiness.addItemInInventory(
-                event.building.id,
-                item,
-                event.taskId
-            );
-        });
+            data.building.addWarning(errors);
+            return;
+        }
+        Business.buildingBusiness.addItemInInventory(
+            data.building.id,
+            item,
+            data.taskId
+        );
     }
 }

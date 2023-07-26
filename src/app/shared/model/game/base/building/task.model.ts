@@ -5,12 +5,14 @@ import {
     RequerimentsWarning,
     ITaskDatabase,
     TaskDatabase,
+    TaskProcessQueue,
 } from 'src/app/shared/database/task.database';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
 import { Settler } from '../settler/settler.model';
 import { Skill } from '../settler/skill.model';
 import { Items } from 'src/app/shared/interface/enums/item.enum';
+import { ProcessTask } from 'src/app/shared/interface/enums/process-task.enum';
 
 export class Task {
     public id: Tasks;
@@ -29,6 +31,8 @@ export class Task {
         task: Task
     ) => RequerimentsWarning;
     public warnings: RequerimentsWarning = [];
+    public currentProcess?: ProcessTask;
+    public processQueue: TaskProcessQueue[];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public startTaskInterval: any = null;
@@ -45,6 +49,7 @@ export class Task {
         available: boolean;
         consumption: TaskConsumption[];
         resourceGenerated: TaskResourceGenerated[];
+        currentProcess?: ProcessTask;
         efficiencyFn: (settler: Settler) => number;
         requirements?: (
             baseBusiness: BaseBusiness,
@@ -64,6 +69,8 @@ export class Task {
         this.requirements = task.requirements;
         this.efficiencyFn = task.efficiencyFn;
         this.resourceGenerated = task.resourceGenerated;
+        this.currentProcess = data.currentProcess;
+        this.processQueue = task.processQueue;
     }
 
     private _getDatabase(id: Tasks): ITaskDatabase {
@@ -80,5 +87,13 @@ export class Task {
 
     getTaskConsumption(id: Items): TaskConsumption | null {
         return this.consumption.find((e) => e.id === id) ?? null;
+    }
+
+    get hasWorkInProgress(): boolean {
+        return !!this.assignedTo;
+    }
+
+    get currentProcessData(): TaskProcessQueue | undefined {
+        return this.processQueue.find((e) => e.id === this.currentProcess);
     }
 }

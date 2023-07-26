@@ -3,21 +3,22 @@ import { Job } from '../interface/enums/job.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { GameBusiness } from './game.business';
 import { Hability, Skill } from '../model/game/base/settler/skill.model';
+import { Business } from './business';
 
 @Injectable({ providedIn: 'root' })
 export class SettlersBusiness {
-    constructor(private gameService: GameBusiness) {}
+    constructor() {}
 
     get settlers(): Settler[] {
-        return this.gameService.game.base.settlers;
+        return Business.gameBusiness.game.base.settlers;
     }
 
     public add(settler: Settler): void {
-        this.gameService.game.base.settlers.push(settler);
+        Business.gameBusiness.game.base.settlers.push(settler);
     }
 
     public replace(settler: Settler[]): void {
-        this.gameService.game.base.settlers = settler;
+        Business.gameBusiness.game.base.settlers = settler;
     }
 
     getSettlerById(id: string): Settler | null {

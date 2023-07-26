@@ -73,6 +73,8 @@ export class ButtonComponent {
 
     get sizeClass(): string {
         switch (ButtonSizeEnum[this.size]) {
+            case ButtonSizeEnum.xTiny:
+                return 'px-2 py-1 text-xxs';
             case ButtonSizeEnum.tiny:
                 return 'px-2.5 py-1.5 text-xs';
 

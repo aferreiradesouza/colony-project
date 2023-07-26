@@ -82,9 +82,9 @@ const PIPES = [
 ];
 
 export const SERVICES_SHARED = [
+    GameBusiness,
     SettlersBusiness,
     DebugService,
-    GameBusiness,
     BaseBusiness,
     IAService,
     StorageBusiness,

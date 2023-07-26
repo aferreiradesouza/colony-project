@@ -2,6 +2,7 @@ import { BaseBusiness } from '../business/base.business';
 import { EfficiencyBusiness } from '../business/efficiency.business';
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Items } from '../interface/enums/item.enum';
+import { ProcessTask } from '../interface/enums/process-task.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import { Building } from '../model/game/base/building/building.model';
@@ -25,6 +26,7 @@ export interface ITaskDatabase {
         baseBusiness: BaseBusiness,
         task: Task
     ) => RequerimentsWarning;
+    processQueue: TaskProcessQueue[];
 }
 
 export type RequerimentsWarning =
@@ -32,6 +34,11 @@ export type RequerimentsWarning =
     | null;
 export type TaskConsumption = { id: Items; amount: number };
 export type TaskResourceGenerated = { id: Items; amount: number };
+export type TaskProcessQueue = {
+    id: ProcessTask;
+    items: { item: Items; amount: number }[];
+    skill: Skill[];
+};
 
 export class TaskDatabase {
     constructor() {}
@@ -50,6 +57,23 @@ export class TaskDatabase {
                 resourceGenerated: [{ id: Items.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Items.Meat, amount: 5 }],
                 requirements: TaskValidation.requirementsSimpleMeal,
+                processQueue: [
+                    {
+                        id: ProcessTask.TransportarDoDeposito,
+                        skill: [Skill.Agility, Skill.Strong],
+                        items: [{ item: Items.Meat, amount: 5 }],
+                    },
+                    {
+                        id: ProcessTask.Produzir,
+                        skill: [Skill.Cook],
+                        items: [{ item: Items.RefeicaoSimples, amount: 1 }],
+                    },
+                    {
+                        id: ProcessTask.TransportarParaDeposito,
+                        skill: [Skill.Agility, Skill.Strong],
+                        items: [{ item: Items.RefeicaoSimples, amount: 1 }],
+                    },
+                ],
             },
             [Tasks?.RefeicaoCompleta]: {
                 id: Tasks.RefeicaoCompleta,
@@ -63,6 +87,23 @@ export class TaskDatabase {
                 resourceGenerated: [{ id: Items.RefeicaoCompleta, amount: 1 }],
                 consumption: [{ id: Items.Meat, amount: 10 }],
                 requirements: TaskValidation.requirementsCompleteMeal,
+                processQueue: [
+                    {
+                        id: ProcessTask.TransportarDoDeposito,
+                        skill: [Skill.Agility, Skill.Strong],
+                        items: [{ item: Items.Meat, amount: 10 }],
+                    },
+                    {
+                        id: ProcessTask.Produzir,
+                        skill: [Skill.Cook],
+                        items: [{ item: Items.RefeicaoCompleta, amount: 1 }],
+                    },
+                    {
+                        id: ProcessTask.TransportarParaDeposito,
+                        skill: [Skill.Agility, Skill.Strong],
+                        items: [{ item: Items.RefeicaoCompleta, amount: 1 }],
+                    },
+                ],
             },
             [Tasks?.ObterMadeira]: {
                 id: Tasks.ObterMadeira,
@@ -76,6 +117,7 @@ export class TaskDatabase {
                 resourceGenerated: [{ id: Items.Wood, amount: 10 }],
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
+                processQueue: [],
             },
             [Tasks?.ObterPedra]: {
                 id: Tasks.ObterPedra,
@@ -89,6 +131,7 @@ export class TaskDatabase {
                 resourceGenerated: [{ id: Items.Stone, amount: 10 }],
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
+                processQueue: [],
             },
             [Tasks?.ObterCarne]: {
                 id: Tasks.ObterCarne,
@@ -102,6 +145,7 @@ export class TaskDatabase {
                 resourceGenerated: [{ id: Items.Meat, amount: 7 }],
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
+                processQueue: [],
             },
         };
     }

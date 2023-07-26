@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BuildingDatabase } from '../database/building.database';
 import { Tasks } from '../interface/enums/tasks.enum';
 import {
@@ -7,54 +7,33 @@ import {
 } from '../model/game/base/building/building.model';
 import { Task } from '../model/game/base/building/task.model';
 import { NotificationService } from '../services/notification.service';
-import { GameBusiness } from './game.business';
 import { Items } from '../interface/enums/item.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { EfficiencyBusiness } from './efficiency.business';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
 import { Skill } from '../model/game/base/settler/skill.model';
-import { TaskBusiness } from './task.business';
+import { Business } from './business';
 
 @Injectable({ providedIn: 'root' })
-export class BuildingBusiness {
-    public taskBusiness!: TaskBusiness;
-
-    public onDoneBuilding = new EventEmitter<{
-        id: string;
-        idSettler: string;
-    }>();
-    public onChangeStatus = new EventEmitter<{
-        id: string;
-        status: BuildingStatus;
-    }>();
-    public onWorkAtStructure = new EventEmitter<Task>();
-    public onUseMaterial = new EventEmitter<{ id: Items; amount: number }[]>();
-    public onGetMaterial = new EventEmitter<{
-        id: Items;
-        amount: number;
-        building: Building;
-        taskId?: string;
-    }>();
-
-    constructor(
-        private gameService: GameBusiness,
-        private notificationService: NotificationService
-    ) {}
+export class BuildingBusiness extends Business {
+    constructor(private notificationService: NotificationService) {
+        super();
+    }
 
     get buildings(): Building[] {
-        const buildings = [...this.gameService.game.base.buildings];
-        if (this.gameService.game.base.storage)
-            buildings.push(this.gameService.game.base.storage);
+        const buildings = [...Business.gameBusiness.game.base.buildings];
+        if (Business.gameBusiness.game.base.storage)
+            buildings.push(Business.gameBusiness.game.base.storage);
         return buildings;
     }
 
     add(data: Building): void {
-        this.gameService.game.base.buildings.push(data);
+        Business.gameBusiness.game.base.buildings.push(data);
     }
 
     setBuilding(building: Building[]): void {
-        this.gameService.game.base.buildings = building;
+        Business.gameBusiness.game.base.buildings = building;
     }
 
     getBuildingById(id: string): Building | null {
@@ -163,7 +142,7 @@ export class BuildingBusiness {
             }
         }
         if (!itemToPickup) return;
-        this.onGetMaterial.emit({
+        Business.baseBusiness.getMaterial({
             amount: 10,
             building,
             id: itemToPickup.type,
@@ -232,7 +211,7 @@ export class BuildingBusiness {
         const building = this.getBuildingById(id) as Building;
         building.timeMs = 0;
         building.percent = 100;
-        this.onDoneBuilding.emit({
+        Business.baseBusiness.doneBuilding({
             id,
             idSettler: building.assignedTo!,
         });
@@ -251,7 +230,7 @@ export class BuildingBusiness {
     changeStatus(id: string, status: BuildingStatus): void {
         const building = this.getBuildingById(id) as Building;
         building.status = status;
-        this.onChangeStatus.emit({ id, status: building.status });
+        // this.onChangeStatus.emit({ id, status: building.status });
     }
 
     private calculatePercent(building: Building): number {
@@ -273,7 +252,7 @@ export class BuildingBusiness {
     ): void {
         const building = this.getBuildingById(idContruction) as Building;
         building.assignedTo = null;
-        const taskBuilding = this.taskBusiness.getTaskByBuilding(
+        const taskBuilding = Business.taskBusiness.getTaskByBuilding(
             building,
             task,
             uniqueIdTask
@@ -291,7 +270,7 @@ export class BuildingBusiness {
         canStartTask: (task: Task) => boolean;
     }): void {
         const building = this.getBuildingById(data.idBuilding) as Building;
-        const task = this.taskBusiness.getTaskByBuilding(
+        const task = Business.taskBusiness.getTaskByBuilding(
             building,
             data.task,
             data.uniqueIdTask
@@ -304,23 +283,25 @@ export class BuildingBusiness {
         );
         task.timeLeft = timeWithEfficienty;
         if (
-            !this.taskBusiness.inventoryHasNecessaryMaterialsForTask(
+            !Business.taskBusiness.inventoryHasNecessaryMaterialsForTask(
                 building,
                 task
             )
         ) {
-            this.taskBusiness.startGetItemFromStorageForTask(
+            Business.taskBusiness.startGetItemFromStorageForTask(
                 building,
                 task,
                 timeWithEfficienty,
-                data.canStartTask
+                data.canStartTask,
+                data.settler
             );
         } else {
-            this.taskBusiness.startTask(
+            Business.taskBusiness.startTask(
                 task,
                 timeWithEfficienty,
                 data.canStartTask,
-                building
+                building,
+                data.settler
             );
         }
     }

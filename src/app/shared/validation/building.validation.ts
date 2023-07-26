@@ -1,4 +1,5 @@
 import { BaseBusiness } from '../business/base.business';
+import { Business } from '../business/business';
 import { BuildingDatabase } from '../database/building.database';
 import { RequerimentsWarning } from '../database/task.database';
 import { Buildings } from '../interface/enums/buildings.enum';
@@ -18,19 +19,19 @@ export class BuildingValidation {
 
         if (!storage.resources || building.status === 'paused') return null;
 
-        if (!baseBusiness.storageBusiness.hasStorage)
+        if (!Business.storageBusiness.hasStorage)
             errors.push({
                 id: RequerimentsErrors.NoStorage,
                 message: 'Não há armazém disponível',
             });
-        if (!baseBusiness.storageBusiness.getItemByType(Items.Stone))
+        if (!Business.storageBusiness.getItemByType(Items.Stone))
             errors.push({
                 id: RequerimentsErrors.InsufficientResource,
                 message: 'Não tem pedra',
             });
         if (
-            baseBusiness.storageBusiness.getItemByType(Items.Stone) &&
-            baseBusiness.storageBusiness.getItemByType(Items.Stone)!.amount <
+            Business.storageBusiness.getItemByType(Items.Stone) &&
+            Business.storageBusiness.getItemByType(Items.Stone)!.amount <
                 storage.resources.find((e) => e.id === Items.Stone)!.amount!
         )
             errors.push({
@@ -59,13 +60,13 @@ export class BuildingValidation {
             (building.inventory.find((e) => e.type === Items.Stone)?.amount ??
                 0);
 
-        if (!baseBusiness.storageBusiness.hasStorage)
+        if (!Business.storageBusiness.hasStorage)
             errors.push({
                 id: RequerimentsErrors.NoStorage,
                 message: 'Não há armazém disponível',
             });
         if (
-            !baseBusiness.storageBusiness.getItemByType(Items.Wood) &&
+            !Business.storageBusiness.getItemByType(Items.Wood) &&
             woodNecessary > 0
         )
             errors.push({
@@ -73,7 +74,7 @@ export class BuildingValidation {
                 message: 'Não tem madeira',
             });
         if (
-            !baseBusiness.storageBusiness.getItemByType(Items.Stone) &&
+            !Business.storageBusiness.getItemByType(Items.Stone) &&
             stoneNecessary > 0
         )
             errors.push({
@@ -81,8 +82,8 @@ export class BuildingValidation {
                 message: 'Não tem pedra',
             });
         if (
-            baseBusiness.storageBusiness.getItemByType(Items.Wood) &&
-            baseBusiness.storageBusiness.getItemByType(Items.Wood)!.amount <
+            Business.storageBusiness.getItemByType(Items.Wood) &&
+            Business.storageBusiness.getItemByType(Items.Wood)!.amount <
                 woodNecessary
         )
             errors.push({
@@ -90,8 +91,8 @@ export class BuildingValidation {
                 message: 'Não tem madeira suficiente',
             });
         if (
-            baseBusiness.storageBusiness.getItemByType(Items.Stone) &&
-            baseBusiness.storageBusiness.getItemByType(Items.Stone)!.amount <
+            Business.storageBusiness.getItemByType(Items.Stone) &&
+            Business.storageBusiness.getItemByType(Items.Stone)!.amount <
                 stoneNecessary
         )
             errors.push({

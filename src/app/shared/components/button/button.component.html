@@ -1,10 +1,4 @@
-<button
-    type="button"
-    [class.disabled:opacity-40]="disabled || loading"
-    [attr.disabled]="disabled || loading || null"
-    class="btn"
-    [ngClass]="getClass()"
-    (click)="handlerEvent()"
->
+<button type="button" [class.disabled:opacity-40]="disabled || loading" [attr.disabled]="disabled || loading || null"
+    class="btn text-xs" [ngClass]="getClass()" (click)="handlerEvent()">
     {{ loading ? 'Carregando...' : label }}
 </button>

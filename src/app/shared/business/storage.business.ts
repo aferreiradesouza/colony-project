@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Item } from '../model/game/base/building/storage/item.model';
-import { GameBusiness } from './game.business';
 import { Storage } from './../model/game/base/building/storage/storage.model';
 import { Items } from '../interface/enums/item.enum';
+import { Business } from './business';
 
 @Injectable({
     providedIn: 'root',
 })
 export class StorageBusiness {
-    constructor(private gameService: GameBusiness) {}
+    constructor() {}
 
     get storage(): Storage | null {
-        return this.gameService.game.base.storage ?? null;
+        return Business.gameBusiness.game.base.storage ?? null;
     }
 
     buildStorage(storage: Storage): void {
-        this.gameService.game.base.storage = storage;
+        Business.gameBusiness.game.base.storage = storage;
     }
 
     get inventory(): Item[] {
-        return this.gameService.game.base.storage!.inventory;
+        return Business.gameBusiness.game.base.storage!.inventory;
     }
 
     get hasStorage(): boolean {
         return (
-            !!this.gameService.game.base.storage &&
-            this.gameService.game.base.storage.status === 'done'
+            !!Business.gameBusiness.game.base.storage &&
+            Business.gameBusiness.game.base.storage.status === 'done'
         );
     }
 

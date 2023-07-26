@@ -1,4 +1,5 @@
 import { BaseBusiness } from '../business/base.business';
+import { Business } from '../business/business';
 import { RequerimentsWarning } from '../database/task.database';
 import { Items } from '../interface/enums/item.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
@@ -12,16 +13,16 @@ export class TaskValidation {
         task: Task
     ): RequerimentsWarning {
         const errors: RequerimentsWarning = [];
-        if (!baseBusiness.storageBusiness.hasStorage)
+        if (!Business.storageBusiness.hasStorage)
             errors.push({
                 id: RequerimentsErrors.NoStorage,
                 message: 'Não há armazém disponível',
             });
         const meatRequired = task.getTaskConsumption(Items.Meat)!;
         if (
-            !baseBusiness.storageBusiness.getItemByType(Items.Meat) ||
-            (baseBusiness.storageBusiness.getItemByType(Items.Meat) &&
-                baseBusiness.storageBusiness.getItemByType(Items.Meat)!.amount <
+            !Business.storageBusiness.getItemByType(Items.Meat) ||
+            (Business.storageBusiness.getItemByType(Items.Meat) &&
+                Business.storageBusiness.getItemByType(Items.Meat)!.amount <
                     meatRequired.amount)
         )
             errors.push({
@@ -38,16 +39,16 @@ export class TaskValidation {
         task: Task
     ): RequerimentsWarning {
         const errors: RequerimentsWarning = [];
-        if (!baseBusiness.storageBusiness.hasStorage)
+        if (!Business.storageBusiness.hasStorage)
             errors.push({
                 id: RequerimentsErrors.NoStorage,
                 message: 'Não há armazém disponível',
             });
         const meatRequired = task.getTaskConsumption(Items.Meat)!;
         if (
-            !baseBusiness.storageBusiness.getItemByType(Items.Meat) ||
-            (baseBusiness.storageBusiness.getItemByType(Items.Meat) &&
-                baseBusiness.storageBusiness.getItemByType(Items.Meat)!.amount <
+            !Business.storageBusiness.getItemByType(Items.Meat) ||
+            (Business.storageBusiness.getItemByType(Items.Meat) &&
+                Business.storageBusiness.getItemByType(Items.Meat)!.amount <
                     meatRequired.amount)
         )
             errors.push({
@@ -64,7 +65,7 @@ export class TaskValidation {
         task: Task
     ): RequerimentsWarning {
         const errors: RequerimentsWarning = [];
-        if (!baseBusiness.storageBusiness.hasStorage)
+        if (!Business.storageBusiness.hasStorage)
             errors.push({
                 id: RequerimentsErrors.NoStorage,
                 message: 'Não há armazém disponível',

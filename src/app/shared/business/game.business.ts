@@ -4,13 +4,36 @@ import { Game } from '../model/game/game.model';
 import { CryptHandlerService } from '../services/crypt-handler.service';
 import { HelperService } from '../services/helpers.service';
 import { StorageHandler } from '../services/storage-handler.service';
+import { TaskBusiness } from './task.business';
+import { StorageBusiness } from './storage.business';
+import { SettlersBusiness } from './settlers.business';
+import { BuildingBusiness } from './building.business';
+import { Business } from './business';
+import { BaseBusiness } from './base.business';
 
 @Injectable({ providedIn: 'root' })
 export class GameBusiness {
     private _game: Game;
 
-    constructor(private cryptService: CryptHandlerService) {
+    constructor(
+        private cryptService: CryptHandlerService,
+        public baseBusiness: BaseBusiness,
+        public buildingBusiness: BuildingBusiness,
+        public settlersBusiness: SettlersBusiness,
+        public storageBusiness: StorageBusiness,
+        public taskBusiness: TaskBusiness
+    ) {
+        this.inject();
         this._game = this.loadGame;
+    }
+
+    inject(): void {
+        Business.gameBusiness = this;
+        Business.baseBusiness = this.baseBusiness;
+        Business.buildingBusiness = this.buildingBusiness;
+        Business.settlersBusiness = this.settlersBusiness;
+        Business.taskBusiness = this.taskBusiness;
+        Business.storageBusiness = this.storageBusiness;
     }
 
     get loadGame(): Game {

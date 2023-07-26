@@ -1,4 +1,5 @@
 export enum ButtonSizeEnum {
+    xTiny,
     tiny,
     small,
     medium,

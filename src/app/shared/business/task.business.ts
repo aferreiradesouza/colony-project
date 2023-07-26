@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BuildingBusiness } from './building.business';
-import { GameBusiness } from './game.business';
 import { Tasks } from '../interface/enums/tasks.enum';
 import { TaskDatabase } from '../database/task.database';
 import { Task } from '../model/game/base/building/task.model';
 import { Building } from '../model/game/base/building/building.model';
 import { Items } from '../interface/enums/item.enum';
+import { EfficiencyBusiness } from './efficiency.business';
+import { Skill } from '../model/game/base/settler/skill.model';
+import { Settler } from '../model/game/base/settler/settler.model';
+import { Business } from './business';
 
 @Injectable({ providedIn: 'root' })
 export class TaskBusiness {
-    public buildingBusiness!: BuildingBusiness;
-
-    constructor(private gameService: GameBusiness) {}
+    constructor() {}
 
     addTask(idBuilding: string, tasks: Tasks): void {
-        const building = this.buildingBusiness.getBuildingById(idBuilding);
+        const building = Business.buildingBusiness.getBuildingById(idBuilding);
         const task = TaskDatabase.getTaskById(tasks);
         building?.tasks.push(new Task(task));
     }
@@ -23,53 +24,72 @@ export class TaskBusiness {
         task: Task,
         timeWithEfficienty: number,
         canStart: (task: Task) => boolean,
-        building: Building
+        building: Building,
+        settler: Settler
     ): void {
-        task.startTaskInterval = setInterval(() => {
-            if (task.timeLeft > 0) {
-                task.timeLeft =
-                    task.timeLeft - 1000 < 0 ? 0 : task.timeLeft - 1000;
-                return;
-            }
-            task.timeLeft = timeWithEfficienty;
-            if (task.consumption.length) {
-                task.consumption.forEach((e) => {
-                    this.buildingBusiness.useMaterialInInventory(
-                        building,
-                        e.id,
-                        e.amount,
-                        task.guid
-                    );
-                });
-            }
-            this.buildingBusiness.onWorkAtStructure.emit(task);
-            if (canStart(task)) {
-                if (!task.consumption.length) return;
-                clearInterval(task.startTaskInterval);
-                if (
-                    !this.inventoryHasNecessaryMaterialsForTask(
-                        building,
-                        task
-                    ) &&
-                    !task.warnings?.length
-                ) {
-                    this.buildingBusiness.taskBusiness.startGetItemFromStorageForTask(
-                        building,
-                        task,
-                        timeWithEfficienty,
-                        canStart
-                    );
-                } else {
-                    this.startTask(
-                        task,
-                        timeWithEfficienty,
-                        canStart,
-                        building
-                    );
-                }
-            }
-        }, 1000);
+        console.log(Business);
+        // if (task.currentProcess) {
+        // } else {
+        // }
+        // console.log('oi');
+        // task.startTaskInterval = setInterval(() => {
+        //     if (task.timeLeft > 0) {
+        //         task.timeLeft =
+        //             task.timeLeft - 1000 < 0 ? 0 : task.timeLeft - 1000;
+        //         return;
+        //     }
+        //     task.timeLeft = timeWithEfficienty;
+        //     if (task.consumption.length) {
+        //         task.consumption.forEach((e) => {
+        //             this.buildingBusiness.useMaterialInInventory(
+        //                 building,
+        //                 e.id,
+        //                 e.amount,
+        //                 task.guid
+        //             );
+        //         });
+        //     }
+        //     this.buildingBusiness.onWorkAtStructure.emit(task);
+        //     if (canStart(task)) {
+        //         if (!task.consumption.length) return;
+        //         clearInterval(task.startTaskInterval);
+        //         if (
+        //             !this.inventoryHasNecessaryMaterialsForTask(
+        //                 building,
+        //                 task
+        //             ) &&
+        //             !task.warnings?.length
+        //         ) {
+        //             this.buildingBusiness.taskBusiness.startGetItemFromStorageForTask(
+        //                 building,
+        //                 task,
+        //                 timeWithEfficienty,
+        //                 canStart,
+        //                 settler
+        //             );
+        //         } else {
+        //             this.startTask(
+        //                 task,
+        //                 timeWithEfficienty,
+        //                 canStart,
+        //                 building,
+        //                 settler
+        //             );
+        //         }
+        //     }
+        // }, 1000);
     }
+
+    // canStartTaskWithExistingProcess(task: Task, building: Building): boolean {
+    //     let canStart = true;
+    //     if (!task.currentProcess) {
+    //         canStart = false;
+    //         return canStart;
+    //     } else {
+    //         const currentProcess = task.currentProcessData;
+
+    //     }
+    // }
 
     getTaskByBuilding(
         building: Building,
@@ -153,7 +173,7 @@ export class TaskBusiness {
             }
         }
         if (!itemToPickup) return;
-        this.buildingBusiness.onGetMaterial.emit({
+        Business.baseBusiness.getMaterial({
             amount: 10,
             building,
             id: itemToPickup.type,
@@ -165,8 +185,14 @@ export class TaskBusiness {
         building: Building,
         task: Task,
         timeWithEfficienty: number,
-        canStartTask: (task: Task) => boolean
+        canStartTask: (task: Task) => boolean,
+        settler: Settler
     ): void {
+        const time = EfficiencyBusiness.calculateEfficiency(
+            500,
+            Skill.Agility,
+            settler
+        );
         task.getItemFromStorageInterval = setInterval(() => {
             this.whichItemWillPickUpForTask(building, task);
             if (this.inventoryHasNecessaryMaterialsForTask(building, task)) {
@@ -174,11 +200,12 @@ export class TaskBusiness {
                     task,
                     timeWithEfficienty,
                     canStartTask,
-                    building
+                    building,
+                    settler
                 );
                 clearInterval(task.getItemFromStorageInterval);
             }
-        }, 200);
+        }, time);
     }
 
     getTaskBuildingBySettler(
@@ -190,9 +217,13 @@ export class TaskBusiness {
 
     getBuildingByTaskAssignedToSettler(idSettler: string): Building | null {
         return (
-            this.buildingBusiness.buildings.find((e) =>
+            Business.buildingBusiness.buildings.find((e) =>
                 e.tasks.find((f) => f.assignedTo === idSettler)
             ) ?? null
         );
+    }
+
+    hasTasksInProgress(building: Building): boolean {
+        return !!building.tasks.filter((e) => e.hasWorkInProgress).length;
     }
 }
