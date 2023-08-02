@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BuildingBusiness } from './building.business';
 import { Tasks } from '../interface/enums/tasks.enum';
-import { TaskDatabase } from '../database/task.database';
+import { TaskDatabase, TaskProcessQueue } from '../database/task.database';
 import { Task } from '../model/game/base/building/task.model';
 import { Building } from '../model/game/base/building/building.model';
 import { Items } from '../interface/enums/item.enum';
@@ -9,6 +8,8 @@ import { EfficiencyBusiness } from './efficiency.business';
 import { Skill } from '../model/game/base/settler/skill.model';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { Business } from './business';
+import { ProcessTask } from '../interface/enums/process-task.enum';
+import { Item } from '../model/game/base/building/storage/item.model';
 
 @Injectable({ providedIn: 'root' })
 export class TaskBusiness {
@@ -20,17 +21,19 @@ export class TaskBusiness {
         building?.tasks.push(new Task(task));
     }
 
-    startTask(
-        task: Task,
-        timeWithEfficienty: number,
-        canStart: (task: Task) => boolean,
-        building: Building,
-        settler: Settler
-    ): void {
-        console.log(Business);
-        // if (task.currentProcess) {
-        // } else {
-        // }
+    startTask(task: Task, building: Building, settler: Settler): void {
+        if (!this.canStartTask(task, building, settler)) return;
+        if (
+            this.canStartTaskWithExistingProcess({
+                task,
+                building,
+                settler,
+            })
+        ) {
+            this.startStepProcess(building, task, settler);
+        } else {
+            this.startProcess(building, task, settler);
+        }
         // console.log('oi');
         // task.startTaskInterval = setInterval(() => {
         //     if (task.timeLeft > 0) {
@@ -80,16 +83,136 @@ export class TaskBusiness {
         // }, 1000);
     }
 
-    // canStartTaskWithExistingProcess(task: Task, building: Building): boolean {
-    //     let canStart = true;
-    //     if (!task.currentProcess) {
-    //         canStart = false;
-    //         return canStart;
-    //     } else {
-    //         const currentProcess = task.currentProcessData;
+    canStartTaskWithExistingProcess(data: {
+        task: Task;
+        building: Building;
+        settler: Settler;
+    }): boolean {
+        let canStart = true;
+        if (!data.task.currentProcess) {
+            canStart = false;
+            return canStart;
+        }
+        return canStart;
+    }
 
-    //     }
-    // }
+    canStartTask(task: Task, building: Building, settler: Settler): boolean {
+        const warnings = task.requirements && task.requirements(task);
+        if (warnings?.length) {
+            task.addWarning(warnings);
+            Business.baseBusiness.unassignSettler(building.id, settler.id);
+            this.stop(task);
+            return false;
+        }
+        return true;
+    }
+
+    startProcess(building: Building, task: Task, settler: Settler): void {
+        task.changeCurrentProcess(task.processQueue[0].id);
+        this.startStepProcess(building, task, settler);
+    }
+
+    nextProcess(task: Task, building: Building, settler: Settler): void {
+        const index = task.processQueue.findIndex(
+            (e) => e.id === task.currentProcess
+        );
+        if (index > -1 && index < task.processQueue.length - 1) {
+            const newProcess = task.processQueue[index + 1];
+            task.changeCurrentProcess(newProcess.id);
+            this.startStepProcess(building, task, settler);
+        } else {
+            this.restartProcess(task, building, settler);
+        }
+    }
+
+    restartProcess(task: Task, building: Building, settler: Settler): void {
+        task.changeCurrentProcess(task.processQueue[0].id);
+        this.startTask(task, building, settler);
+        console.log('restartProcess');
+    }
+
+    startStepProcess(building: Building, task: Task, settler: Settler): void {
+        switch (task.currentProcess) {
+            case ProcessTask.TransportarDoDeposito:
+                this.startGetItemFromStorageForTask(building, task, settler);
+                break;
+
+            case ProcessTask.Produzir:
+                this.produce(building, task, settler);
+                break;
+
+            case ProcessTask.TransportarParaDeposito:
+                this.startGetItemFromTaskToStorage(building, task, settler);
+                break;
+
+            default:
+                console.log('default');
+                break;
+        }
+    }
+
+    stop(task: Task): void {
+        clearInterval(task.startTaskInterval);
+        clearInterval(task.getItemFromTaskInterval);
+        clearInterval(task.getItemFromStorageInterval);
+    }
+
+    produce(building: Building, task: Task, settler: Settler): void {
+        const timeWithEfficienty = EfficiencyBusiness.calculateEfficiency(
+            task.baseTimeMs,
+            task.currentProcessData!.skill,
+            settler
+        );
+        task.timeLeft = timeWithEfficienty;
+        task.startTaskInterval = setInterval(() => {
+            if (task.timeLeft > 0) {
+                task.timeLeft =
+                    task.timeLeft - 1000 < 0 ? 0 : task.timeLeft - 1000;
+                return;
+            }
+            task.timeLeft = timeWithEfficienty;
+            if (task.consumption.length) {
+                task.consumption.forEach((e) => {
+                    Business.buildingBusiness.useMaterialInInventory(
+                        building,
+                        e.id,
+                        e.amount,
+                        task.guid
+                    );
+                });
+            }
+            Business.buildingBusiness.generateResource(task, building);
+            clearInterval(task.startTaskInterval);
+            this.nextProcess(task, building, settler);
+            // if (canStart(task)) {
+            //     if (!task.consumption.length) return;
+            //     clearInterval(task.startTaskInterval);
+            //     if (
+            //         !this.inventoryHasNecessaryMaterialsForTask(
+            //             building,
+            //             task
+            //         ) &&
+            //         !task.warnings?.length
+            //     ) {
+            //         this.buildingBusiness.taskBusiness.startGetItemFromStorageForTask(
+            //             building,
+            //             task,
+            //             timeWithEfficienty,
+            //             canStart,
+            //             settler
+            //         );
+            //     } else {
+            //         this.startTask(
+            //             task,
+            //             timeWithEfficienty,
+            //             canStart,
+            //             building,
+            //             settler
+            //         );
+            //     }
+            // }
+        }, 1000);
+    }
 
     getTaskByBuilding(
         building: Building,
@@ -184,8 +307,6 @@ export class TaskBusiness {
     public startGetItemFromStorageForTask(
         building: Building,
         task: Task,
-        timeWithEfficienty: number,
-        canStartTask: (task: Task) => boolean,
         settler: Settler
     ): void {
         const time = EfficiencyBusiness.calculateEfficiency(
@@ -196,14 +317,9 @@ export class TaskBusiness {
         task.getItemFromStorageInterval = setInterval(() => {
             this.whichItemWillPickUpForTask(building, task);
             if (this.inventoryHasNecessaryMaterialsForTask(building, task)) {
-                this.startTask(
-                    task,
-                    timeWithEfficienty,
-                    canStartTask,
-                    building,
-                    settler
-                );
+                // this.startTask(task, building, settler);
                 clearInterval(task.getItemFromStorageInterval);
+                this.nextProcess(task, building, settler);
             }
         }, time);
     }
@@ -225,5 +341,59 @@ export class TaskBusiness {
 
     hasTasksInProgress(building: Building): boolean {
         return !!building.tasks.filter((e) => e.hasWorkInProgress).length;
+    }
+
+    startGetItemFromTaskToStorage(
+        building: Building,
+        task: Task,
+        settler: Settler
+    ): void {
+        const time = EfficiencyBusiness.calculateEfficiency(
+            500,
+            Skill.Agility,
+            settler
+        );
+        task.getItemFromTaskInterval = setInterval(() => {
+            if (
+                this.inventoryHasNecessaryMaterialsToTakeToStorage(
+                    task,
+                    building
+                )
+            ) {
+                task.resourceGenerated.forEach((e) => {
+                    Business.buildingBusiness.useMaterialInInventory(
+                        building,
+                        e.id,
+                        e.amount,
+                        task.guid
+                    );
+                    Business.storageBusiness.addItem(
+                        new Item({
+                            amount: e.amount,
+                            type: e.id,
+                        })
+                    );
+                });
+                this.nextProcess(task, building, settler);
+            }
+            clearInterval(task.getItemFromTaskInterval);
+        }, time);
+    }
+
+    inventoryHasNecessaryMaterialsToTakeToStorage(
+        task: Task,
+        building: Building
+    ): boolean {
+        let hasItem = true;
+        for (const item of task.resourceGenerated) {
+            const itemInInventory = building.inventory.filter((e) => {
+                e.type === item.id && e.taskId === task.guid;
+            });
+            if (!itemInInventory) {
+                hasItem = false;
+                break;
+            }
+        }
+        return hasItem;
     }
 }

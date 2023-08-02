@@ -22,10 +22,7 @@ export interface ITaskDatabase {
     consumption: TaskConsumption[];
     resourceGenerated: TaskResourceGenerated[];
     efficiencyFn: (settler: Settler) => number;
-    requirements?: (
-        baseBusiness: BaseBusiness,
-        task: Task
-    ) => RequerimentsWarning;
+    requirements?: (task: Task) => RequerimentsWarning;
     processQueue: TaskProcessQueue[];
 }
 
@@ -36,8 +33,8 @@ export type TaskConsumption = { id: Items; amount: number };
 export type TaskResourceGenerated = { id: Items; amount: number };
 export type TaskProcessQueue = {
     id: ProcessTask;
-    items: { item: Items; amount: number }[];
-    skill: Skill[];
+    items?: { item: Items; amount: number }[];
+    skill: Skill;
 };
 
 export class TaskDatabase {
@@ -60,18 +57,18 @@ export class TaskDatabase {
                 processQueue: [
                     {
                         id: ProcessTask.TransportarDoDeposito,
-                        skill: [Skill.Agility, Skill.Strong],
-                        items: [{ item: Items.Meat, amount: 5 }],
+                        skill: Skill.Strong,
+                        // items: [{ item: Items.Meat, amount: 5 }],
                     },
                     {
                         id: ProcessTask.Produzir,
-                        skill: [Skill.Cook],
-                        items: [{ item: Items.RefeicaoSimples, amount: 1 }],
+                        skill: Skill.Cook,
+                        // items: [{ item: Items.RefeicaoSimples, amount: 1 }],
                     },
                     {
                         id: ProcessTask.TransportarParaDeposito,
-                        skill: [Skill.Agility, Skill.Strong],
-                        items: [{ item: Items.RefeicaoSimples, amount: 1 }],
+                        skill: Skill.Strong,
+                        // items: [{ item: Items.RefeicaoSimples, amount: 1 }],
                     },
                 ],
             },
@@ -90,17 +87,17 @@ export class TaskDatabase {
                 processQueue: [
                     {
                         id: ProcessTask.TransportarDoDeposito,
-                        skill: [Skill.Agility, Skill.Strong],
+                        skill: Skill.Strong,
                         items: [{ item: Items.Meat, amount: 10 }],
                     },
                     {
                         id: ProcessTask.Produzir,
-                        skill: [Skill.Cook],
+                        skill: Skill.Cook,
                         items: [{ item: Items.RefeicaoCompleta, amount: 1 }],
                     },
                     {
                         id: ProcessTask.TransportarParaDeposito,
-                        skill: [Skill.Agility, Skill.Strong],
+                        skill: Skill.Strong,
                         items: [{ item: Items.RefeicaoCompleta, amount: 1 }],
                     },
                 ],

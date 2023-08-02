@@ -45,6 +45,10 @@ export class BaseComponent {
         console.log(item);
     }
 
+    logTask(task: Task): void {
+        console.log(task);
+    }
+
     toggleAvailableTask(task: Task): void {
         task.available
             ? this.baseBusiness.disableTaskOfBuilding(task)

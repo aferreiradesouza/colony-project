@@ -8,10 +8,7 @@ import { Task } from '../model/game/base/building/task.model';
 export class TaskValidation {
     constructor() {}
 
-    static requirementsSimpleMeal(
-        baseBusiness: BaseBusiness,
-        task: Task
-    ): RequerimentsWarning {
+    static requirementsSimpleMeal(task: Task): RequerimentsWarning {
         const errors: RequerimentsWarning = [];
         if (!Business.storageBusiness.hasStorage)
             errors.push({
@@ -34,10 +31,7 @@ export class TaskValidation {
         return errors.length ? errors : null;
     }
 
-    static requirementsCompleteMeal(
-        baseBusiness: BaseBusiness,
-        task: Task
-    ): RequerimentsWarning {
+    static requirementsCompleteMeal(task: Task): RequerimentsWarning {
         const errors: RequerimentsWarning = [];
         if (!Business.storageBusiness.hasStorage)
             errors.push({
@@ -60,10 +54,7 @@ export class TaskValidation {
         return errors.length ? errors : null;
     }
 
-    static requirementStorage(
-        baseBusiness: BaseBusiness,
-        task: Task
-    ): RequerimentsWarning {
+    static requirementStorage(task: Task): RequerimentsWarning {
         const errors: RequerimentsWarning = [];
         if (!Business.storageBusiness.hasStorage)
             errors.push({

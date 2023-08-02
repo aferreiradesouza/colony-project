@@ -69,17 +69,6 @@ export class BaseBusiness {
             idBuilding,
             task,
             uniqueIdTask,
-            canStartTask: (task: Task): boolean => {
-                const warnings =
-                    task.requirements && task.requirements(this, task);
-                if (warnings?.length) {
-                    task.addWarning(warnings);
-                    this.unassignSettler(idBuilding, idSettler);
-                    clearInterval(task.startTaskInterval);
-                    return false;
-                }
-                return true;
-            },
         });
         Business.settlersBusiness.assignWork(
             settler.id,
@@ -186,10 +175,10 @@ export class BaseBusiness {
             data.building.addWarning(errors);
             return;
         }
-        Business.buildingBusiness.addItemInInventory(
-            data.building.id,
+        Business.buildingBusiness.addItemInInventory({
+            id: data.building.id,
             item,
-            data.taskId
-        );
+            taskId: data.taskId,
+        });
     }
 }

@@ -6,6 +6,14 @@
     <div class="cards" *ngFor="let building of buildings">
         <span class="h2">{{building.type | structure}}</span>
         <hr>
+        <div class="item">
+            <div class="label">Atribuído há</div>
+            <div>{{building.assignedTo | settler}}</div>
+        </div>
+        <div class="item">
+            <div class="label">Tempo</div>
+            <div>{{building.timeMs}}</div>
+        </div>
         <div class="paragraph">Tasks:</div>
         <div class="add-task">
             <ng-container *ngFor="let task of building.tasksAllowed">
@@ -13,23 +21,30 @@
                     (clickEvent)="addTask(building, task)"></app-button>
             </ng-container>
         </div>
-        <div class="task mt-2 paragraph-small" *ngFor="let item of building.tasks">
+
+        <div class="task mt-2 paragraph-small" *ngFor="let task of building.tasks">
             <div class="main-info">
-                <div class="task-name">{{item.id | task}}</div>
-                <div class="time-left">{{item.timeLeft}}</div>
+                <div class="task-name">{{task.id | task}}</div>
+                <div class="time-left">{{task.timeLeft}}</div>
             </div>
             <div class="secondary-info">
-                <div class="status">{{item.available ? 'Disponível' : 'Indisponível'}}</div>
-                <div class="assignedTo">{{item.assignedTo ? (item.assignedTo | settler) : 'Ninguém'}}</div>
+                <div class="status">{{task.available ? 'Disponível' : 'Indisponível'}}</div>
+                <div class="assignedTo">{{task.assignedTo ? (task.assignedTo | settler) : 'Ninguém'}}</div>
+            </div>
+            <div class="secondary-info">
+                <div class="status">Processo</div>
+                <div class="assignedTo">{{task.currentProcess | taskProcess}}</div>
             </div>
             <div class="button-area">
                 <app-button [fullWidth]="true" label="Alternar" theme="info"
-                    (clickEvent)="toggleAvailableTask(item)"></app-button>
+                    (clickEvent)="toggleAvailableTask(task)"></app-button>
+                <app-button [fullWidth]="true" label="Log" theme="warning" (clickEvent)="logTask(task)"></app-button>
             </div>
-            <div class="warning-area" *ngIf="item.warnings?.length">
-                <div *ngFor="let warning of item.warnings">- {{warning.message}}</div>
+            <div class="warning-area" *ngIf="task.warnings?.length">
+                <div *ngFor="let warning of task.warnings">- {{warning.message}}</div>
             </div>
         </div>
+
         <div class="paragraph-small" *ngIf="!building.tasks.length">Não há nenhuma task</div>
         <hr>
         <div class="paragraph">Inventário:</div>

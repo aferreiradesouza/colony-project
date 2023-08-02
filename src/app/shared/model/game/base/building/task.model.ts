@@ -1,4 +1,3 @@
-import { BaseBusiness } from 'src/app/shared/business/base.business';
 import {
     TaskConsumption,
     TaskResourceGenerated,
@@ -26,18 +25,17 @@ export class Task {
     public timeLeft: number;
     public resourceGenerated: TaskResourceGenerated[];
     public efficiencyFn: (settler: Settler) => number;
-    public requirements?: (
-        baseBusiness: BaseBusiness,
-        task: Task
-    ) => RequerimentsWarning;
+    public requirements?: (task: Task) => RequerimentsWarning;
     public warnings: RequerimentsWarning = [];
-    public currentProcess?: ProcessTask;
+    public currentProcess: ProcessTask = ProcessTask.None;
     public processQueue: TaskProcessQueue[];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public startTaskInterval: any = null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public getItemFromStorageInterval: any = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public getItemFromTaskInterval: any = null;
 
     constructor(data: {
         id: Tasks;
@@ -51,10 +49,7 @@ export class Task {
         resourceGenerated: TaskResourceGenerated[];
         currentProcess?: ProcessTask;
         efficiencyFn: (settler: Settler) => number;
-        requirements?: (
-            baseBusiness: BaseBusiness,
-            task: Task
-        ) => RequerimentsWarning;
+        requirements?: (task: Task) => RequerimentsWarning;
     }) {
         const task = this._getDatabase(data.id);
         this.id = data.id;
@@ -69,7 +64,7 @@ export class Task {
         this.requirements = task.requirements;
         this.efficiencyFn = task.efficiencyFn;
         this.resourceGenerated = task.resourceGenerated;
-        this.currentProcess = data.currentProcess;
+        this.currentProcess = data.currentProcess ?? ProcessTask.None;
         this.processQueue = task.processQueue;
     }
 
@@ -95,5 +90,9 @@ export class Task {
 
     get currentProcessData(): TaskProcessQueue | undefined {
         return this.processQueue.find((e) => e.id === this.currentProcess);
+    }
+
+    changeCurrentProcess(newProcess: ProcessTask): void {
+        this.currentProcess = newProcess;
     }
 }

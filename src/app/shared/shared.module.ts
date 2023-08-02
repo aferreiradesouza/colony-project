@@ -43,6 +43,7 @@ import { EfficiencyBusiness } from './business/efficiency.business';
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { InventoryShortcutTabComponent } from './components/shortcut-tabs/tabs/inventory-shortcut-tab/inventory-shortcut-tab.component';
 import { TaskBusiness } from './business/task.business';
+import { TaskProcessPipe } from './pipe/task-process.pipe';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -79,6 +80,7 @@ const PIPES = [
     SettlerPipe,
     ItemPipe,
     TaskPipe,
+    TaskProcessPipe,
 ];
 
 export const SERVICES_SHARED = [

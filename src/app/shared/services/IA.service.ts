@@ -149,11 +149,11 @@ export class IAService {
                 (e) =>
                     e.status === 'done' &&
                     e.tasks.filter(
-                        (f) =>
-                            !f.assignedTo &&
-                            f.available &&
-                            (f.requirements
-                                ? !f.requirements(this.baseBusiness, f)
+                        (task) =>
+                            !task.assignedTo &&
+                            task.available &&
+                            (task.requirements
+                                ? !task.requirements(task)
                                 : true)
                     ).length &&
                     e.jobNecessary === job

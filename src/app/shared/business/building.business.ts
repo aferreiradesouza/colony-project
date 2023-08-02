@@ -5,7 +5,6 @@ import {
     Building,
     BuildingStatus,
 } from '../model/game/base/building/building.model';
-import { Task } from '../model/game/base/building/task.model';
 import { NotificationService } from '../services/notification.service';
 import { Items } from '../interface/enums/item.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
@@ -14,6 +13,7 @@ import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
 import { Skill } from '../model/game/base/settler/skill.model';
 import { Business } from './business';
+import { Task } from '../model/game/base/building/task.model';
 
 @Injectable({ providedIn: 'root' })
 export class BuildingBusiness extends Business {
@@ -63,15 +63,26 @@ export class BuildingBusiness extends Business {
         this.changeStatus(id, 'building');
     }
 
-    addItemInInventory(id: string, item: Item, taskId?: string): void {
-        const building = this.getBuildingById(id) as Building;
-        const ItemOfStorage = this.getItemByType(item.type, building, taskId);
-        if (ItemOfStorage) ItemOfStorage.amount += item.amount;
-        else
+    addItemInInventory(data: {
+        id: string;
+        item: Item;
+        taskId?: string;
+    }): void {
+        const building = this.getBuildingById(data.id) as Building;
+        const ItemOfStorage = this.getItemByType(
+            data.item.type,
+            building,
+            data.taskId
+        );
+        if (ItemOfStorage) {
+            ItemOfStorage.amount += data.item.amount;
+        } else {
             building.inventory.push({
-                ...item,
+                ...data.item,
                 id: HelperService.guid,
+                taskId: data.taskId,
             } as Item);
+        }
     }
 
     private getItemByType(
@@ -267,7 +278,6 @@ export class BuildingBusiness extends Business {
         idBuilding: string;
         task: Tasks;
         uniqueIdTask: string;
-        canStartTask: (task: Task) => boolean;
     }): void {
         const building = this.getBuildingById(data.idBuilding) as Building;
         const task = Business.taskBusiness.getTaskByBuilding(
@@ -276,33 +286,26 @@ export class BuildingBusiness extends Business {
             data.uniqueIdTask
         );
         task.assignedTo = data.settler.id;
-        const timeWithEfficienty = EfficiencyBusiness.calculateEfficiency(
-            task.baseTimeMs,
-            task.mainSkill,
-            data.settler
-        );
-        task.timeLeft = timeWithEfficienty;
-        if (
-            !Business.taskBusiness.inventoryHasNecessaryMaterialsForTask(
-                building,
-                task
-            )
-        ) {
-            Business.taskBusiness.startGetItemFromStorageForTask(
-                building,
-                task,
-                timeWithEfficienty,
-                data.canStartTask,
-                data.settler
-            );
-        } else {
-            Business.taskBusiness.startTask(
-                task,
-                timeWithEfficienty,
-                data.canStartTask,
-                building,
-                data.settler
-            );
-        }
+        // const timeWithEfficienty = EfficiencyBusiness.calculateEfficiency(
+        //     task.baseTimeMs,
+        //     task.mainSkill,
+        //     data.settler
+        // );
+        // task.timeLeft = timeWithEfficienty;
+        Business.taskBusiness.startTask(task, building, data.settler);
+    }
+
+    generateResource(task: Task, building: Building): void {
+        task.resourceGenerated.forEach((e) => {
+            this.addItemInInventory({
+                id: building.id,
+                item: new Item({
+                    amount: e.amount,
+                    id: HelperService.guid,
+                    type: e.id,
+                }),
+                taskId: task.guid,
+            });
+        });
     }
 }
