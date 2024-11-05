@@ -128,7 +128,18 @@ export class TaskDatabase {
                 resourceGenerated: [{ id: Items.Stone, amount: 10 }],
                 consumption: [],
                 requirements: TaskValidation.requirementStorage,
-                processQueue: [],
+                processQueue: [
+                    {
+                        id: ProcessTask.Produzir,
+                        skill: Skill.Strong,
+                        items: [{ item: Items.Stone, amount: 10 }],
+                    },
+                    {
+                        id: ProcessTask.TransportarParaDeposito,
+                        skill: Skill.Strong,
+                        items: [{ item: Items.Stone, amount: 10 }],
+                    },
+                ],
             },
             [Tasks?.ObterCarne]: {
                 id: Tasks.ObterCarne,

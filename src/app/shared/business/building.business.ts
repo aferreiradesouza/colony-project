@@ -161,17 +161,9 @@ export class BuildingBusiness extends Business {
     }
 
     private startBuildingInterval(building: Building, settler: Settler): void {
-        const time = EfficiencyBusiness.calculateEfficiency(
-            1000,
-            Skill.Building,
-            settler,
-            true
+        building.build(settler, (buildingFinished) =>
+            this.done(buildingFinished.id)
         );
-        building.buildStorageInterval = setInterval(() => {
-            building.timeMs -= time;
-            building.percent = this.calculatePercent(building);
-            if (building.timeMs <= 0) this.done(building.id);
-        }, 1000);
     }
 
     public useMaterialInInventory(
@@ -242,11 +234,6 @@ export class BuildingBusiness extends Business {
         const building = this.getBuildingById(id) as Building;
         building.status = status;
         // this.onChangeStatus.emit({ id, status: building.status });
-    }
-
-    private calculatePercent(building: Building): number {
-        const fullTime = BuildingDatabase.getBuildingById(building.type).timeMs;
-        return Number((100 - (100 * building.timeMs) / fullTime).toFixed(2));
     }
 
     unassignSettler(idContruction: string): void {

@@ -12,6 +12,10 @@ import { BaseBusiness } from 'src/app/shared/business/base.business';
 import { Item } from './storage/item.model';
 import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
+import { Settler } from '../settler/settler.model';
+import { EfficiencyBusiness } from 'src/app/shared/business/efficiency.business';
+import { Skill } from '../settler/skill.model';
+import { EventEmitter } from '@angular/core';
 
 export type BuildingStatus = 'not-started' | 'building' | 'paused' | 'done';
 export type BuildingResource = { id: Items; amount: number };
@@ -46,6 +50,8 @@ export class Building {
         baseBusiness: BaseBusiness,
         building: Building
     ) => RequerimentsWarning;
+
+    public buildingDone = new EventEmitter<Building>();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public buildStorageInterval: any = null;
@@ -83,11 +89,30 @@ export class Building {
         return BuildingDatabase.getBuildingById(id);
     }
 
-    addWarning(errors: RequerimentsWarning): void {
+    public addWarning(errors: RequerimentsWarning): void {
         this.warnings = errors ?? [];
     }
 
-    clearWarning(): void {
+    public clearWarning(): void {
         this.warnings = [];
+    }
+
+    public build(settler: Settler, onDone: (building: Building) => void): void {
+        const time = EfficiencyBusiness.calculateEfficiency(
+            1000,
+            Skill.Building,
+            settler,
+            true
+        );
+        this.buildStorageInterval = setInterval(() => {
+            this.timeMs -= time;
+            this.percent = this.calculatePercent();
+            if (this.timeMs <= 0) onDone(this);
+        }, 1000);
+    }
+
+    private calculatePercent(): number {
+        const fullTime = BuildingDatabase.getBuildingById(this.type).timeMs;
+        return Number((100 - (100 * this.timeMs) / fullTime).toFixed(2));
     }
 }
