@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Settler } from '../model/game/base/settler/settler.model';
-import { Hability } from '../model/game/base/settler/skill.model';
+import { Ability } from '../model/game/base/settler/skill.model';
 import { Skill } from '../interface/enums/skill.enum';
 
 @Injectable({ providedIn: 'root' })
@@ -39,7 +39,7 @@ export class EfficiencyBusiness {
         return EfficiencyBusiness.calculate(skill);
     }
 
-    static calculate(skill: Hability | undefined): number {
+    static calculate(skill: Ability | undefined): number {
         if (skill && skill.level) {
             if (skill.level === EfficiencyBusiness.defaultLevelSkill) {
                 return EfficiencyBusiness.defaultEfficiency;

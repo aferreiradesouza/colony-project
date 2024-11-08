@@ -13,14 +13,14 @@ export class Item {
     public taskId?: string;
 
     constructor(data: { id?: string; type: Items; amount: number }) {
-        const itemDatabase = this._getDatabase(data.type);
+        const itemDatabase = this.getDatabase(data.type);
         this.id = data.id ?? HelperService.guid;
         this.weight = itemDatabase.weight;
         this.type = data.type;
         this.amount = data?.amount ?? 0;
     }
 
-    private _getDatabase(id: Items): IItemDatabase {
+    private getDatabase(id: Items): IItemDatabase {
         return ItemDatabase.getItemById(id);
     }
 }

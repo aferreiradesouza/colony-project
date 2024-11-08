@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Job } from '../interface/enums/job.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { GameBusiness } from './game.business';
-import { Hability } from '../model/game/base/settler/skill.model';
+import { Ability } from '../model/game/base/settler/skill.model';
 import { Business } from './business';
 import { Skill } from '../interface/enums/skill.enum';
 
@@ -53,7 +53,7 @@ export class SettlersBusiness {
         settler.work.changePriority(job, newWorkValue);
     }
 
-    getSkillBySettler(idSettler: string, skill: Skill): Hability | null {
+    getSkillBySettler(idSettler: string, skill: Skill): Ability | null {
         const settler = this.getSettlerById(idSettler);
         if (!settler) return null;
         return settler.skills.abilities.find((e) => e.id === skill) ?? null;
