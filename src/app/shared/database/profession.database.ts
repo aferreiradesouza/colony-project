@@ -1,32 +1,32 @@
-interface Profession {
+export interface ProfessionConstant {
     title: string;
-    profession: string;
+    name: string;
 }
 
-const PROFESSION: Profession[] = [
-    { title: 'Médico', profession: 'Clínico geral' },
-    { title: 'Engenheiro', profession: 'Civil' },
-    { title: 'Advogado', profession: 'Criminalista' },
-    { title: 'Professor', profession: 'Ensino Fundamental' },
-    { title: 'Enfermeiro', profession: 'Pediátrico' },
-    { title: 'Veterinário', profession: 'Cirurgião' },
-    { title: 'Psicólogo', profession: 'Clínico' },
-    { title: 'Dentista', profession: 'Ortodontista' },
-    { title: 'Arquiteto', profession: 'Urbanista' },
-    { title: 'Jornalista', profession: 'Repórter' },
-    { title: 'Programador', profession: 'Web' },
-    { title: 'Analista de sistemas', profession: 'Sistemas' },
-    { title: 'Designer gráfico', profession: 'UI/UX' },
-    { title: 'Administrador', profession: 'Financeiro' },
-    { title: 'Contador', profession: 'Fiscal' },
-    { title: 'Consultor', profession: 'Empresarial' },
-    { title: 'Chef de cozinha', profession: 'Gourmet' },
-    { title: 'Cientista', profession: 'Pesquisa' },
-    { title: 'Economista', profession: 'Financeiro' },
-    { title: 'Farmacêutico', profession: 'Hospitalar' },
+const PROFESSION: ProfessionConstant[] = [
+    { title: 'Médico', name: 'Clínico geral' },
+    { title: 'Engenheiro', name: 'Civil' },
+    { title: 'Advogado', name: 'Criminalista' },
+    { title: 'Professor', name: 'Ensino Fundamental' },
+    { title: 'Enfermeiro', name: 'Pediátrico' },
+    { title: 'Veterinário', name: 'Cirurgião' },
+    { title: 'Psicólogo', name: 'Clínico' },
+    { title: 'Dentista', name: 'Ortodontista' },
+    { title: 'Arquiteto', name: 'Urbanista' },
+    { title: 'Jornalista', name: 'Repórter' },
+    { title: 'Programador', name: 'Web' },
+    { title: 'Analista de sistemas', name: 'Sistemas' },
+    { title: 'Designer gráfico', name: 'UI/UX' },
+    { title: 'Administrador', name: 'Financeiro' },
+    { title: 'Contador', name: 'Fiscal' },
+    { title: 'Consultor', name: 'Empresarial' },
+    { title: 'Chef de cozinha', name: 'Gourmet' },
+    { title: 'Cientista', name: 'Pesquisa' },
+    { title: 'Economista', name: 'Financeiro' },
+    { title: 'Farmacêutico', name: 'Hospitalar' },
 ];
 
-export const GET_ALEATORY_PROFESSION = (): Profession => {
+export const GET_ALEATORY_PROFESSION = (): ProfessionConstant => {
     const random = Math.floor(Math.random() * PROFESSION.length);
     return PROFESSION[random];
 };

@@ -6,8 +6,8 @@ import { SettlersBusiness } from 'src/app/shared/business/settlers.business';
 import { LogService } from 'src/app/shared/services/log.service';
 import { Job } from 'src/app/shared/interface/enums/job.enum';
 import { Skills } from 'src/app/shared/model/game/base/settler/skill.model';
-import { Skill } from 'src/app/shared/model/game/base/settler/skill.model';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { Skill } from 'src/app/shared/interface/enums/skill.enum';
 
 @Component({
     selector: 'app-settlers',
@@ -41,7 +41,7 @@ export class SettlersComponent {
             1,
             this.debugService.builder,
             new Skills({
-                habilities: [{ id: Skill.Building, level: 15 }],
+                abilities: [{ id: Skill.Building, level: 15 }],
             })
         );
     }
@@ -73,7 +73,7 @@ export class SettlersComponent {
             1,
             this.debugService.cook,
             new Skills({
-                habilities: [{ id: Skill.Cook, level: 2 }],
+                abilities: [{ id: Skill.Cook, level: 2 }],
             })
         );
     }

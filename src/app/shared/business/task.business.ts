@@ -5,11 +5,11 @@ import { Task } from '../model/game/base/building/task.model';
 import { Building } from '../model/game/base/building/building.model';
 import { Items } from '../interface/enums/item.enum';
 import { EfficiencyBusiness } from './efficiency.business';
-import { Skill } from '../model/game/base/settler/skill.model';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { Business } from './business';
 import { ProcessTask } from '../interface/enums/process-task.enum';
 import { Item } from '../model/game/base/building/storage/item.model';
+import { Skill } from '../interface/enums/skill.enum';
 
 @Injectable({ providedIn: 'root' })
 export class TaskBusiness {

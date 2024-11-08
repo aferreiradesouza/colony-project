@@ -11,9 +11,9 @@ import { Settler } from '../model/game/base/settler/settler.model';
 import { EfficiencyBusiness } from './efficiency.business';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
-import { Skill } from '../model/game/base/settler/skill.model';
 import { Business } from './business';
 import { Task } from '../model/game/base/building/task.model';
+import { Skill } from '../interface/enums/skill.enum';
 
 @Injectable({ providedIn: 'root' })
 export class BuildingBusiness extends Business {

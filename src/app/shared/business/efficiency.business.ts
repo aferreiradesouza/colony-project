@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Settler } from '../model/game/base/settler/settler.model';
-import { Hability, Skill } from '../model/game/base/settler/skill.model';
+import { Hability } from '../model/game/base/settler/skill.model';
+import { Skill } from '../interface/enums/skill.enum';
 
 @Injectable({ providedIn: 'root' })
 export class EfficiencyBusiness {

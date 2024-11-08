@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Job } from '../interface/enums/job.enum';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { GameBusiness } from './game.business';
-import { Hability, Skill } from '../model/game/base/settler/skill.model';
+import { Hability } from '../model/game/base/settler/skill.model';
 import { Business } from './business';
+import { Skill } from '../interface/enums/skill.enum';
 
 @Injectable({ providedIn: 'root' })
 export class SettlersBusiness {
@@ -28,13 +29,13 @@ export class SettlersBusiness {
     assignWork(id: string, idContruction: string, job: Job): void {
         const settler = this.getSettlerById(id) as Settler;
         settler.work.workInProgressId = job;
-        settler.work.buildingId = idContruction;
+        settler.work.taskId = idContruction;
     }
 
     unassignWork(id: string): void {
         const settler = this.getSettlerById(id) as Settler;
         settler.work.workInProgressId = Job.None;
-        settler.work.buildingId = null;
+        settler.work.taskId = null;
     }
 
     getWorkValue(id: string, job: Job): number {
@@ -55,6 +56,6 @@ export class SettlersBusiness {
     getSkillBySettler(idSettler: string, skill: Skill): Hability | null {
         const settler = this.getSettlerById(idSettler);
         if (!settler) return null;
-        return settler.skills.habilities.find((e) => e.id === skill) ?? null;
+        return settler.skills.abilities.find((e) => e.id === skill) ?? null;
     }
 }

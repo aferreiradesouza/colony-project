@@ -14,8 +14,8 @@ import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { Settler } from '../settler/settler.model';
 import { EfficiencyBusiness } from 'src/app/shared/business/efficiency.business';
-import { Skill } from '../settler/skill.model';
 import { EventEmitter } from '@angular/core';
+import { Skill } from 'src/app/shared/interface/enums/skill.enum';
 
 export type BuildingStatus = 'not-started' | 'building' | 'paused' | 'done';
 export type BuildingResource = { id: Items; amount: number };

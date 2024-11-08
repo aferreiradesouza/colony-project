@@ -5,11 +5,12 @@ import { Job } from '../interface/enums/job.enum';
     name: 'work',
 })
 export class WorkPipe implements PipeTransform {
-    transform(value: Job): string {
+    transform(value: Job | undefined): string {
         return this._getJob(value);
     }
 
-    private _getJob(job: Job): string {
+    private _getJob(job: Job | undefined): string {
+        if (!job) return '';
         const jobs: { [key in Job]: string } = {
             [Job.Agriculture]: 'Agricultura',
             [Job.Builder]: 'Construção',

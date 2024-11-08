@@ -1,16 +1,16 @@
 interface INecessity {
-    hungry: number;
+    hunger: number;
     fun: number;
     rest: number;
 }
 
 export class Necessity {
-    public hungry: number;
+    public hunger: number;
     public fun: number;
     public rest: number;
 
     constructor(necessity: INecessity) {
-        this.hungry = necessity.hungry;
+        this.hunger = necessity.hunger;
         this.fun = necessity.fun;
         this.rest = necessity.rest;
     }

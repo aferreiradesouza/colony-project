@@ -4,11 +4,11 @@ import { Buildings } from '../interface/enums/buildings.enum';
 import { Items } from '../interface/enums/item.enum';
 import { ProcessTask } from '../interface/enums/process-task.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
+import { Skill } from '../interface/enums/skill.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import { Building } from '../model/game/base/building/building.model';
 import { Task } from '../model/game/base/building/task.model';
 import { Settler } from '../model/game/base/settler/settler.model';
-import { Skill } from '../model/game/base/settler/skill.model';
 import { TaskValidation } from '../validation/task.validation';
 
 export interface ITaskDatabase {

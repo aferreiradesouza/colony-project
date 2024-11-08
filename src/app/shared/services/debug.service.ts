@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GET_ALEATORY_NAME } from 'src/app/shared/database/names.database';
 import { Building } from '../model/game/base/building/building.model';
 import { Settler } from '../model/game/base/settler/settler.model';
-import { Skill, Skills } from '../model/game/base/settler/skill.model';
+import { Skills } from '../model/game/base/settler/skill.model';
 import { Work } from '../model/game/base/settler/work.model';
 import { GameBusiness } from '../business/game.business';
 import { SettlersBusiness } from '../business/settlers.business';
@@ -16,6 +16,7 @@ import { HelperService } from './helpers.service';
 import { Items } from '../interface/enums/item.enum';
 import { Inventory } from '../model/game/base/settler/inventory.model';
 import { Biomes } from '../interface/enums/biomes.enum';
+import { Skill } from '../interface/enums/skill.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -40,7 +41,7 @@ export class DebugService {
                     skills:
                         skills ??
                         new Skills({
-                            habilities: [
+                            abilities: [
                                 { id: Skill.Shoot, level: 9 },
                                 { id: Skill.Animals, level: null },
                                 { id: Skill.Cook, level: 7 },

@@ -9,9 +9,9 @@ import {
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
 import { Settler } from '../settler/settler.model';
-import { Skill } from '../settler/skill.model';
 import { Items } from 'src/app/shared/interface/enums/item.enum';
 import { ProcessTask } from 'src/app/shared/interface/enums/process-task.enum';
+import { Skill } from 'src/app/shared/interface/enums/skill.enum';
 
 export class Task {
     public id: Tasks;

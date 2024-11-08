@@ -1,7 +1,8 @@
+import { Skill } from 'src/app/shared/interface/enums/skill.enum';
 import { HelperService } from '../../../../services/helpers.service';
 
-interface ISkills {
-    habilities: Array<Hability>;
+interface SkillsData {
+    abilities: Array<Hability>;
 }
 
 export interface Hability {
@@ -10,13 +11,13 @@ export interface Hability {
 }
 
 export class Skills {
-    public habilities: Array<Hability>;
+    public abilities: Array<Hability>;
 
-    constructor(skills: ISkills) {
-        this.habilities = this._createSkillList(skills.habilities);
+    constructor(skills: SkillsData) {
+        this.abilities = this.createSkillList(skills.abilities);
     }
 
-    private _createSkillList(habilities: Array<Hability>): Array<Hability> {
+    private createSkillList(habilities: Array<Hability>): Array<Hability> {
         return HelperService.enumToArray(Skill).map((e) => {
             const level = habilities.find(
                 (hability) => hability.id === Skill[e]
@@ -29,20 +30,6 @@ export class Skills {
     }
 
     getSkill(skill: Skill): Hability {
-        return this.habilities.find((e) => e.id === skill)!;
+        return this.abilities.find((e) => e.id === skill)!;
     }
-}
-
-export enum Skill {
-    Building,
-    Social,
-    Manufacture,
-    Animals,
-    Shoot,
-    Fight,
-    Medicine,
-    Agriculture,
-    Cook,
-    Agility,
-    Strong,
 }

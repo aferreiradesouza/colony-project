@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Skill } from '../model/game/base/settler/skill.model';
+import { Skill } from '../interface/enums/skill.enum';
 
 @Pipe({
     name: 'skill',
