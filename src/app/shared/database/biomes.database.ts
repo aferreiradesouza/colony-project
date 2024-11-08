@@ -34,6 +34,15 @@ export class BiomesDatabase {
                 wood: 2500,
                 water: 8000,
             },
+            [Biomes?.Desert]: {
+                id: Biomes?.Desert,
+                name: 'Deserto',
+                animals: 5,
+                cultivableLand: 10,
+                stone: 20,
+                wood: 500,
+                water: 100,
+            },
         };
     }
 

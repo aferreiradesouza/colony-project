@@ -21,6 +21,16 @@ export class NotificationService {
             message: '{{title}} finalizado(a) com sucesso!',
             type: 'success',
         },
+        [NotificationEnum.ItemAdded]: {
+            title: '{{title}} adicionado(a)',
+            message: '{{title}} adicionado(a) com sucesso!',
+            type: 'success',
+        },
+        [NotificationEnum.ItemRemoved]: {
+            title: '{{title}} removido(a)',
+            message: '{{title}} removido(a) com sucesso!',
+            type: 'success',
+        }
     };
     public onChangeNotificationList = new EventEmitter<NotificationItem[]>();
 
@@ -28,11 +38,46 @@ export class NotificationService {
         this.startSubscriptionShortcutTab();
     }
 
-    buildingSuccess(vars: { [key in 'title']: string }): void {
+    buildingSuccess(vars: { [key: string]: string }): void {
         const notificationModel = Object.assign(
             {},
             this.notificationModel[NotificationEnum.BuildingSuccess]
         );
+        this.replaceVars(notificationModel, vars);
+        this.add({
+            id: HelperService.guid,
+            isNew: this.shortcutService.activeTab !== 'notifications',
+            ...notificationModel,
+        });
+    }
+
+    itemAddedSuccess(vars: { [key: string]: string }): void {
+        const notificationModel = Object.assign(
+            {},
+            this.notificationModel[NotificationEnum.ItemAdded]
+        );
+        this.replaceVars(notificationModel, vars);
+        this.add({
+            id: HelperService.guid,
+            isNew: this.shortcutService.activeTab !== 'notifications',
+            ...notificationModel,
+        });
+    }
+
+    itemRemovedSuccess(vars: { [key: string]: string }): void {
+        const notificationModel = Object.assign(
+            {},
+            this.notificationModel[NotificationEnum.ItemRemoved]
+        );
+        this.replaceVars(notificationModel, vars);
+        this.add({
+            id: HelperService.guid,
+            isNew: this.shortcutService.activeTab !== 'notifications',
+            ...notificationModel,
+        });
+    }
+
+    private replaceVars(notificationModel: NotificationModel, vars: { [key: string]: string }): void {
         for (const key in vars) {
             notificationModel.title = notificationModel.title.replace(
                 `{{${key}}}`,
@@ -45,17 +90,10 @@ export class NotificationService {
                 (vars as any)[key as any]
             );
         }
-        console.log('add');
-        this.add({
-            id: HelperService.guid,
-            isNew: this.shortcutService.activeTab !== 'notifications',
-            ...notificationModel,
-        });
     }
 
     private add(notification: NotificationItem): void {
         this.notifications.unshift(notification);
-        console.log(notification);
         this.onChangeNotificationList.emit(this.notifications);
     }
 

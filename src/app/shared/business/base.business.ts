@@ -142,17 +142,6 @@ export class BaseBusiness {
         });
     }
 
-    useMaterial(
-        data: {
-            id: Items;
-            amount: number;
-        }[]
-    ): void {
-        data.forEach((e) => {
-            Business.storageBusiness.useResource(e.id, e.amount);
-        });
-    }
-
     getMaterial(data: {
         id: Items;
         amount: number;

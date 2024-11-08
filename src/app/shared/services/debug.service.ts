@@ -108,7 +108,7 @@ export class DebugService {
     }
 
     createStorage(): void {
-        this.storageBusiness.buildStorage(new Storage({ inventory: [] }));
+        this.storageBusiness.build(new Storage({ inventory: [] }));
     }
 
     addItem(item: Items, amount = 1): void {
