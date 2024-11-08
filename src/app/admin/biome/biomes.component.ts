@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { BaseBusiness } from 'src/app/shared/business/base.business';
 import { BuildingBusiness } from 'src/app/shared/business/building.business';
 import { TaskBusiness } from 'src/app/shared/business/task.business';
-import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
+import { Biome } from 'src/app/shared/model/game/biome/biome.model';
 import { Buildings } from 'src/app/shared/interface/enums/buildings.enum';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { Building } from 'src/app/shared/model/game/base/building/building.model';
 import { Task } from 'src/app/shared/model/game/base/building/task.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
+import { Business } from 'src/app/shared/business/business';
 
 @Component({
     selector: 'app-biomes',
@@ -15,44 +16,9 @@ import { DebugService } from 'src/app/shared/services/debug.service';
     styleUrls: ['./biomes.component.scss'],
 })
 export class BiomesComponent {
-    constructor(
-        public debugService: DebugService,
-        private buildingBusiness: BuildingBusiness,
-        private taskBusiness: TaskBusiness,
-        private baseBusiness: BaseBusiness
-    ) {}
+    constructor(public debugService: DebugService) {}
 
-    get buildings(): Building[] {
-        return this.buildingBusiness.buildings.filter(
-            (e) => e.biome === Biomes.Forest
-        );
-    }
-
-    addCamping(): void {
-        this.debugService.createBuilding(Buildings.Camping, Biomes.Forest);
-    }
-
-    addQuarry(): void {
-        this.debugService.createBuilding(Buildings.Quarry, Biomes.Forest);
-    }
-
-    addHunterHouse(): void {
-        this.debugService.createBuilding(Buildings.HunterHouse, Biomes.Forest);
-    }
-
-    toggleAvailableTask(task: Task): void {
-        task.available
-            ? this.baseBusiness.disableTaskOfBuilding(task)
-            : this.baseBusiness.enableTaskOfBuilding(task);
-    }
-
-    addTask(building: Building): void {
-        if (building.type === Buildings.Camping) {
-            this.taskBusiness.addTask(building.id, Tasks.ObterMadeira);
-        } else if (building.type === Buildings.Quarry) {
-            this.taskBusiness.addTask(building.id, Tasks.ObterPedra);
-        } else if (building.type === Buildings.HunterHouse) {
-            this.taskBusiness.addTask(building.id, Tasks.ObterCarne);
-        }
+    get biomes(): Biome[] {
+        return Business.biomesBusiness.biomes ?? [];
     }
 }

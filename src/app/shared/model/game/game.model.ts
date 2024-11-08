@@ -7,12 +7,11 @@ export class Game {
     public base: Base;
     public biomes: Biome[];
 
-    constructor(game: { id: string; base: Base }) {
+    constructor(game: { id: string; base: Base; biomes: Biome[] }) {
         this.id = game.id;
         this.base = new Base(game.base);
-        this.biomes = [
-            new Biome({ type: Biomes.Forest }),
-            new Biome({ type: Biomes.Lake }),
-        ];
+        this.biomes = game.biomes.map((e) => {
+            return new Biome(e);
+        });
     }
 }

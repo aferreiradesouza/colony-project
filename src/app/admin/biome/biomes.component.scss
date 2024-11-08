@@ -1,0 +1,70 @@
+@import 'styles/variables';
+@import 'mixins/media.mixin';
+@import 'mixins/typography.mixin';
+
+.wrapper {
+    padding: 10px;
+    display: grid;
+    grid-column: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    grid-template-columns: 1fr;
+
+    @include md {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @include lg {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    > .cards {
+        @apply rounded-md bg-white p-3 shadow-sm;
+
+        border: 1px solid $terciary;
+    }
+}
+
+.add-task {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.task {
+    @apply rounded-md p-2 shadow-sm;
+    border: 1px solid $terciary;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > .main-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    > .secondary-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.inventory {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.inventory-item {
+    display: flex;
+    border: 1px solid $terciary;
+    justify-content: space-between;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include paragraph-tiny;
+}

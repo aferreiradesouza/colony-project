@@ -3,6 +3,12 @@ import { Biomes } from '../interface/enums/biomes.enum';
 
 export interface IBiomesDatabase {
     id: Biomes;
+    name: string;
+    animals: number;
+    wood: number;
+    stone: number;
+    cultivableLand: number;
+    water: number;
 }
 
 export class BiomesDatabase {
@@ -12,12 +18,21 @@ export class BiomesDatabase {
         return {
             [Biomes?.Forest]: {
                 id: Biomes?.Forest,
+                name: 'Floresta',
+                animals: 20,
+                cultivableLand: 80,
+                stone: 400,
+                wood: 2500,
+                water: 500,
             },
             [Biomes?.Lake]: {
                 id: Biomes?.Lake,
-            },
-            [Biomes?.Normal]: {
-                id: Biomes?.Normal,
+                name: 'Lago',
+                animals: 20,
+                cultivableLand: 80,
+                stone: 400,
+                wood: 2500,
+                water: 8000,
             },
         };
     }
@@ -26,7 +41,7 @@ export class BiomesDatabase {
         return Object.values(BiomesDatabase.biomes);
     }
 
-    static getBuildingById(id: Biomes): IBiomesDatabase {
+    static getBiomeById(id: Biomes): IBiomesDatabase {
         return BiomesDatabase.biomes[id];
     }
 }

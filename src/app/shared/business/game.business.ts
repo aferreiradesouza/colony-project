@@ -10,6 +10,9 @@ import { SettlersBusiness } from './settlers.business';
 import { BuildingBusiness } from './building.business';
 import { Business } from './business';
 import { BaseBusiness } from './base.business';
+import { BiomesBusiness } from './biomes.business';
+import { Biome } from '../model/game/biome/biome.model';
+import { Biomes } from '../interface/enums/biomes.enum';
 
 @Injectable({ providedIn: 'root' })
 export class GameBusiness {
@@ -21,7 +24,8 @@ export class GameBusiness {
         public buildingBusiness: BuildingBusiness,
         public settlersBusiness: SettlersBusiness,
         public storageBusiness: StorageBusiness,
-        public taskBusiness: TaskBusiness
+        public taskBusiness: TaskBusiness,
+        public biomesBusiness: BiomesBusiness
     ) {
         this.inject();
         this._game = this.loadGame;
@@ -34,6 +38,7 @@ export class GameBusiness {
         Business.settlersBusiness = this.settlersBusiness;
         Business.taskBusiness = this.taskBusiness;
         Business.storageBusiness = this.storageBusiness;
+        Business.biomesBusiness = this.biomesBusiness;
     }
 
     get loadGame(): Game {
@@ -53,6 +58,10 @@ export class GameBusiness {
                 storage: null,
                 settlers: [],
             }),
+            biomes: [
+                new Biome({ type: Biomes.Forest }),
+                new Biome({ type: Biomes.Lake }),
+            ],
         });
     }
 

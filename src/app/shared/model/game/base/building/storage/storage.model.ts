@@ -17,7 +17,7 @@ export class Storage extends Building {
                 : {
                       type: Buildings.Storage,
                       status: 'not-started',
-                      biome: Biomes.Normal,
+                      biome: Biomes.Lake,
                   }
         );
         this.inventory = data.inventory.map((e) => new Item(e));

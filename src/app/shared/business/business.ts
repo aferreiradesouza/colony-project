@@ -1,4 +1,5 @@
 import { BaseBusiness } from './base.business';
+import { BiomesBusiness } from './biomes.business';
 import { BuildingBusiness } from './building.business';
 import { GameBusiness } from './game.business';
 import { SettlersBusiness } from './settlers.business';
@@ -12,4 +13,5 @@ export class Business {
     static settlersBusiness: SettlersBusiness;
     static buildingBusiness: BuildingBusiness;
     static storageBusiness: StorageBusiness;
+    static biomesBusiness: BiomesBusiness;
 }

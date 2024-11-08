@@ -121,7 +121,7 @@ export class DebugService {
         );
     }
 
-    createBuilding(id: Buildings, biome: Biomes = Biomes.Normal): void {
+    createBuilding(id: Buildings, biome: Biomes = Biomes.Lake): void {
         this.buildingBusiness.add(
             new Building({
                 type: id,
@@ -136,7 +136,7 @@ export class DebugService {
             new Building({
                 type: id,
                 status: 'done',
-                biome: Biomes.Normal,
+                biome: Biomes.Lake,
             })
         );
     }

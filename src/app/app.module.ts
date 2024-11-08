@@ -6,18 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SERVICES_SHARED, SharedModule } from './shared/shared.module';
 import { TranslateStore } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
+@NgModule({ declarations: [AppComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
         SharedModule,
         AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-    ],
-    providers: [TranslateStore, ...SERVICES_SHARED],
-    bootstrap: [AppComponent],
-})
+        BrowserAnimationsModule], providers: [TranslateStore, ...SERVICES_SHARED, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}

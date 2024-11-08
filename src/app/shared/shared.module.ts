@@ -4,7 +4,12 @@ import { ButtonComponent } from './components/button/button.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SvgComponent } from './components/svg/svg.component';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import {
+    TranslateDirective,
+    TranslateLoader,
+    TranslateModule,
+    TranslatePipe,
+} from '@ngx-translate/core';
 
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
@@ -44,6 +49,7 @@ import { CountdownComponent } from './components/countdown/countdown.component';
 import { InventoryShortcutTabComponent } from './components/shortcut-tabs/tabs/inventory-shortcut-tab/inventory-shortcut-tab.component';
 import { TaskBusiness } from './business/task.business';
 import { TaskProcessPipe } from './pipe/task-process.pipe';
+import { BiomePipe } from './pipe/biomes.pipe';
 
 function countdownConfigFactory(): CountdownConfig {
     return { format: 'mm:ss', demand: true };
@@ -81,6 +87,7 @@ const PIPES = [
     ItemPipe,
     TaskPipe,
     TaskProcessPipe,
+    BiomePipe,
 ];
 
 export const SERVICES_SHARED = [
@@ -102,7 +109,6 @@ export const SERVICES_SHARED = [
     imports: [
         RouterModule,
         CommonModule,
-        CountdownModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -112,8 +118,9 @@ export const SERVICES_SHARED = [
             defaultLanguage: 'pt_br',
             extend: true,
         }),
+        // CountdownModule,
     ],
-    exports: [...COMPONENTS, ...PIPES, TranslateModule],
+    exports: [...COMPONENTS, ...PIPES, TranslatePipe, TranslateDirective],
     declarations: [...COMPONENTS, ...PIPES],
     providers: [
         HelperService,
