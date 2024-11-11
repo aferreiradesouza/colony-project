@@ -7,7 +7,7 @@ interface WorkData {
     buildingId?: string | null;
 }
 
-interface Priority {
+export interface Priority {
     id: Job;
     weight?: number;
     value: number;
@@ -52,7 +52,16 @@ export class Work {
      * Sets the task ID to the provided building ID.
      * @param buildingId - The ID of the building to set as the task ID.
      */
-    setTaskId(buildingId: string): void {
+    setTaskId(buildingId: string | null): void {
         this.taskId = buildingId;
+    }
+
+    /**
+     * Sets the work in progress ID to the given job.
+     *
+     * @param job - The job to set as the current work in progress.
+     */
+    setWorkInProgressId(job: Job): void {
+        this.workInProgressId = job;
     }
 }

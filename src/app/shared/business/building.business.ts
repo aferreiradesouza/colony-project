@@ -32,10 +32,6 @@ export class BuildingBusiness extends Business {
         Business.gameBusiness.game.base.buildings.push(data);
     }
 
-    setBuilding(building: Building[]): void {
-        Business.gameBusiness.game.base.buildings = building;
-    }
-
     getBuildingById(id: string): Building | null {
         return this.buildings.find((e) => e.id === id) ?? null;
     }
@@ -55,6 +51,7 @@ export class BuildingBusiness extends Business {
 
     build(id: string, settler: Settler): void {
         const building = this.getBuildingById(id) as Building;
+        if(!building.isValid()) return;
         if (!this.inventoryHasNecessaryMaterials(building)) {
             this.startGetItemFromStorage(building, settler);
         } else {

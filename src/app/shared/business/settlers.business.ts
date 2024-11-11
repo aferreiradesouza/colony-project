@@ -28,14 +28,14 @@ export class SettlersBusiness {
 
     assignWork(id: string, idContruction: string, job: Job): void {
         const settler = this.getSettlerById(id) as Settler;
-        settler.work.workInProgressId = job;
-        settler.work.taskId = idContruction;
+        settler.work.setWorkInProgressId(job);
+        settler.work.setTaskId(idContruction);
     }
 
     unassignWork(id: string): void {
         const settler = this.getSettlerById(id) as Settler;
-        settler.work.workInProgressId = Job.None;
-        settler.work.taskId = null;
+        settler.work.setWorkInProgressId(Job.None);
+        settler.work.setTaskId(null);
     }
 
     getWorkValue(id: string, job: Job): number {

@@ -11,7 +11,6 @@ export class BuildingValidation {
     constructor() {}
 
     static requirementsStorage(
-        baseBusiness: BaseBusiness,
         building: Building
     ): RequerimentsWarning {
         const errors: RequerimentsWarning = [];
@@ -43,7 +42,6 @@ export class BuildingValidation {
     }
 
     static requirementsHouse(
-        baseBusiness: BaseBusiness,
         building: Building
     ): RequerimentsWarning {
         const errors: RequerimentsWarning = [];

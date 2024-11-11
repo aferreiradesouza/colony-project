@@ -24,7 +24,6 @@ export interface IBuildingDatabase {
     biomesAllowed: Biomes[];
     tasksAllowed?: Tasks[];
     requirements?: (
-        baseBusiness: BaseBusiness,
         building: Building
     ) => RequerimentsWarning;
 }

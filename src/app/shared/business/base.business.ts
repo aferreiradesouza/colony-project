@@ -153,7 +153,7 @@ export class BaseBusiness {
         if (!item) {
             const errors =
                 (data.building.requirements &&
-                    data.building.requirements(this, data.building)) ??
+                    data.building.requirements(data.building)) ??
                 [];
             clearInterval(data.building.getItemFromStorageInterval);
             if (data.building.assignedTo)

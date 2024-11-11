@@ -47,7 +47,6 @@ export class Building {
     public warnings: RequerimentsWarning = [];
     public resources: BuildingResource[] = [];
     public requirements?: (
-        baseBusiness: BaseBusiness,
         building: Building
     ) => RequerimentsWarning;
 
@@ -114,5 +113,9 @@ export class Building {
     private calculatePercent(): number {
         const fullTime = BuildingDatabase.getBuildingById(this.type).timeMs;
         return Number((100 - (100 * this.timeMs) / fullTime).toFixed(2));
+    }
+
+    isValid(): boolean {
+        return this.requirements ? !!this.requirements(this)?.length : true;
     }
 }

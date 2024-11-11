@@ -8,6 +8,7 @@ import { BuildingBusiness } from '../business/building.business';
 import { Job } from '../interface/enums/job.enum';
 import { Task } from '../model/game/base/building/task.model';
 import { Business } from '../business/business';
+import { Priority } from '../model/game/base/settler/work.model';
 
 @Injectable({ providedIn: 'root' })
 export class IAService {
@@ -33,7 +34,6 @@ export class IAService {
                 building.requirements
             ) {
                 const errors = building.requirements(
-                    this.baseBusiness,
                     building
                 );
                 if (errors?.length) building.addWarning(errors);
@@ -44,23 +44,7 @@ export class IAService {
 
     private checkSettlersPriorities(): void {
         this.settlersBusiness.settlers.forEach((settler) => {
-            const priorities = settler.work.priorities
-                .filter((priority) => priority.value && priority.id)
-                .sort((a, b) => {
-                    if (a.value < b.value && a.weight! >= b.weight!) return -3;
-                    else if (a.value < b.value && a.weight! <= b.weight!)
-                        return -2;
-                    else if (a.value === b.value && a.weight! >= b.weight!)
-                        return -1;
-                    else if (a.value === b.value && a.weight! === b.weight!)
-                        return 0;
-                    else if (a.value >= b.value && a.weight! <= b.weight!)
-                        return 1;
-                    else if (a.value >= b.value && a.weight! >= b.weight!)
-                        return 2;
-                    else return 3;
-                });
-
+            const priorities = this.sortPriorities(settler.work.priorities);
             if (
                 settler.work.workInProgressId &&
                 !priorities.find((p) => p.id === settler.work.workInProgressId)
@@ -72,7 +56,7 @@ export class IAService {
                 if (job === settler.work.workInProgressId) break;
                 if (
                     job === Job.Builder &&
-                    !!this.checkStructuresWaitingBuild()
+                    !!this.hasStructuresWaitingBuild
                 ) {
                     if (settler.work.workInProgressId)
                         this.unassignSettler(settler);
@@ -119,28 +103,60 @@ export class IAService {
         });
     }
 
+    private sortPriorities(priorities: Priority[]): Priority[] {
+        return priorities
+            .filter((priority) => priority.value && priority.id)
+            .sort((a, b) => {
+                if (a.value < b.value && a.weight! >= b.weight!) return -3;
+                else if (a.value < b.value && a.weight! <= b.weight!)
+                    return -2;
+                else if (a.value === b.value && a.weight! >= b.weight!)
+                    return -1;
+                else if (a.value === b.value && a.weight! === b.weight!)
+                    return 0;
+                else if (a.value >= b.value && a.weight! <= b.weight!)
+                    return 1;
+                else if (a.value >= b.value && a.weight! >= b.weight!)
+                    return 2;
+                else return 3;
+            });
+    }
+
     private unassignSettler(settler: Settler): void {
         const building = this.baseBusiness.getBuildingAssignedTo(settler.id);
         this.baseBusiness.unassignSettler(building!.id, settler.id);
     }
 
-    private checkStructuresWaitingBuild(): Building | null {
+    private get hasStructuresWaitingBuild(): boolean {
+        return Business.buildingBusiness.buildings.some(
+                (e) =>
+                    e.status !== 'done' &&
+                    !e.assignedTo &&
+                    e.jobToCreateStructure === Job.Builder
+                    // (e.requirements
+                    //     ? !e.requirements(this.baseBusiness, e)
+                    //     : true)
+            );
+    }
+
+    private getStructureWaitingBuild(): Building | null {
         return (
             this.buildingBusiness.buildings.find(
                 (e) =>
                     e.status !== 'done' &&
                     !e.assignedTo &&
-                    e.jobToCreateStructure === Job.Builder &&
-                    (e.requirements
-                        ? !e.requirements(this.baseBusiness, e)
-                        : true)
+                    e.jobToCreateStructure === Job.Builder
+                    // (e.requirements
+                    //     ? !e.requirements(this.baseBusiness, e)
+                    //     : true)
             ) ?? null
         );
     }
 
     private jobBuilding(settler: Settler): void {
-        const building = this.checkStructuresWaitingBuild();
-        this.baseBusiness.assingSettler(settler.id, building!.id, Job.Builder);
+        const building = this.getStructureWaitingBuild();
+        Business.settlersBusiness.assignWork(settler.id, building!.id, Job.Builder);
+        Business.buildingBusiness.assignSettler(settler, building!.id);
     }
 
     private checkStructuresHasJobWithTaskAvaible(job: Job): Building | null {
