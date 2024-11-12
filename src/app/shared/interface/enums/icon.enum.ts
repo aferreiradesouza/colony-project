@@ -15,4 +15,5 @@ export enum IconEnum {
     cog,
     sun,
     archiveBox,
+    play
 }

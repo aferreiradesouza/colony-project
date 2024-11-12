@@ -42,4 +42,22 @@
             </table>
         </div>
     </div>
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300 bg-white">
+                <thead>
+                    <tr>
+                        <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
+                            Nome</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr *ngFor="let settler of queue">
+                        <td class="whitespace-nowrap py-3.5 px-3 text-sm font-medium text-gray-900">
+                            {{settler.settler.completeName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

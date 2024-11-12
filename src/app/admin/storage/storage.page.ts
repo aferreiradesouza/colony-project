@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { StorageBusiness } from 'src/app/shared/business/storage.business';
 import { Items } from 'src/app/shared/interface/enums/item.enum';
 import { Item } from 'src/app/shared/model/game/base/building/storage/item.model';
-import { Storage } from 'src/app/shared/model/game/base/building/storage/storage.model';
+import { SettlersQueue, Storage } from 'src/app/shared/model/game/base/building/storage/storage.model';
 import { DebugService } from 'src/app/shared/services/debug.service';
 
 @Component({
@@ -34,6 +34,10 @@ export class StoragePage {
 
     get inventory(): Item[] {
         return this.storageBusiness.inventory;
+    }
+
+    get queue(): SettlersQueue[] {
+        return this.storageBusiness.queue;
     }
 
     get storage(): Storage | null {

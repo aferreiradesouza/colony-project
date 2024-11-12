@@ -58,4 +58,12 @@ export class BaseComponent {
     addTask(item: Building, task: Tasks): void {
         this.taskBusiness.addTask(item.id, task);
     }
+
+    pauseBuilding(building: Building): void {
+        this.buildingBusiness.pause(building);
+    }
+    
+    resume(building: Building) {
+        this.buildingBusiness.resume(building);
+    }
 }

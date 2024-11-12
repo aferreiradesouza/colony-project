@@ -4,13 +4,15 @@ import { Biomes } from '../interface/enums/biomes.enum';
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Items } from '../interface/enums/item.enum';
 import { Job } from '../interface/enums/job.enum';
+import { Process } from '../interface/enums/process.enum';
+import { Skill } from '../interface/enums/skill.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import {
     Building,
     BuildingResource,
 } from '../model/game/base/building/building.model';
 import { BuildingValidation } from '../validation/building.validation';
-import { ITaskDatabase, RequerimentsWarning } from './task.database';
+import { ITaskDatabase, RequerimentsWarning, ProcessQueue } from './task.database';
 
 export interface IBuildingDatabase {
     id: Buildings;
@@ -23,6 +25,8 @@ export interface IBuildingDatabase {
     resources?: BuildingResource[];
     biomesAllowed: Biomes[];
     tasksAllowed?: Tasks[];
+    processQueue: ProcessQueue[];
+    currentProcess?: Process;
     requirements?: (
         building: Building
     ) => RequerimentsWarning;
@@ -36,12 +40,18 @@ export class BuildingDatabase {
             [Buildings?.Storage]: {
                 id: Buildings?.Storage,
                 jobToCreateStructure: Job.Builder,
-                timeMs: 5000,
+                timeMs: 10000,
                 jobNecessary: null,
                 timeForWork: 1000,
                 name: 'Armazém',
                 biomesAllowed: [Biomes.Lake],
                 resources: [],
+                processQueue: [
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    },
+                ],
             },
             [Buildings?.House]: {
                 id: Buildings?.House,
@@ -55,6 +65,16 @@ export class BuildingDatabase {
                 resources: [
                     { id: Items.Wood, amount: 200 },
                     { id: Items.Stone, amount: 200 },
+                ],
+                processQueue: [
+                    {
+                        id: Process.TransportarDoDeposito,
+                        skill: Skill.Strong,
+                    },
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    }
                 ],
             },
             [Buildings?.Kitchen]: {
@@ -71,6 +91,16 @@ export class BuildingDatabase {
                     { id: Items.Wood, amount: 200 },
                     { id: Items.Stone, amount: 200 },
                 ],
+                processQueue: [
+                    {
+                        id: Process.TransportarDoDeposito,
+                        skill: Skill.Strong,
+                    },
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    }
+                ],
             },
             [Buildings?.Farm]: {
                 id: Buildings?.Farm,
@@ -82,6 +112,16 @@ export class BuildingDatabase {
                 biomesAllowed: [Biomes.Lake],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [{ id: Items.Wood, amount: 100 }],
+                processQueue: [
+                    {
+                        id: Process.TransportarDoDeposito,
+                        skill: Skill.Strong,
+                    },
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    }
+                ],
             },
             [Buildings?.Factory]: {
                 id: Buildings?.Factory,
@@ -93,6 +133,16 @@ export class BuildingDatabase {
                 biomesAllowed: [Biomes.Lake],
                 requirements: BuildingValidation.requirementsHouse,
                 resources: [{ id: Items.Wood, amount: 100 }],
+                processQueue: [
+                    {
+                        id: Process.TransportarDoDeposito,
+                        skill: Skill.Strong,
+                    },
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    }
+                ],
             },
             [Buildings?.Camping]: {
                 id: Buildings?.Camping,
@@ -104,6 +154,16 @@ export class BuildingDatabase {
                 name: 'Acampamento',
                 biomesAllowed: [Biomes.Forest],
                 resources: [],
+                processQueue: [
+                    {
+                        id: Process.TransportarDoDeposito,
+                        skill: Skill.Strong,
+                    },
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    }
+                ],
             },
             [Buildings?.Quarry]: {
                 id: Buildings?.Quarry,
@@ -115,6 +175,16 @@ export class BuildingDatabase {
                 name: 'Pedreira',
                 biomesAllowed: [Biomes.Forest],
                 resources: [],
+                processQueue: [
+                    {
+                        id: Process.TransportarDoDeposito,
+                        skill: Skill.Strong,
+                    },
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    }
+                ],
             },
             [Buildings?.HunterHouse]: {
                 id: Buildings?.HunterHouse,
@@ -126,6 +196,16 @@ export class BuildingDatabase {
                 name: 'Casa do caçador',
                 biomesAllowed: [Biomes.Forest],
                 resources: [],
+                processQueue: [
+                    {
+                        id: Process.TransportarDoDeposito,
+                        skill: Skill.Strong,
+                    },
+                    {
+                        id: Process.Construir,
+                        skill: Skill.Building,
+                    }
+                ],
             },
         };
     }

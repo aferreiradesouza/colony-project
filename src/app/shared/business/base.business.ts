@@ -86,7 +86,7 @@ export class BaseBusiness {
         const settler = Business.settlersBusiness.getSettlerById(idSettler);
         if (!settler) return;
         building?.clearWarning();
-        Business.buildingBusiness.assignSettler(settler, idBuilding);
+        // Business.buildingBusiness.assignSettler(settler, idBuilding);
         Business.settlersBusiness.assignWork(
             idSettler,
             idBuilding,
@@ -96,16 +96,17 @@ export class BaseBusiness {
 
     unassignSettler(idBuilding: string, idSettler: string): void {
         const building = Business.buildingBusiness.getBuildingById(idBuilding);
+        if (!building) return;
         const task = this.getTaskBuildingAssignedTo(idSettler);
         if (building?.status === 'done' && task) {
             Business.buildingBusiness.unassignSettlerAtDoneBuilding(
-                idBuilding,
+                building,
                 task.id,
                 task.guid
             );
             Business.settlersBusiness.unassignWork(idSettler);
         } else {
-            Business.buildingBusiness.unassignSettler(idBuilding);
+            Business.buildingBusiness.unassignSettlerToBuilding(building);
             Business.settlersBusiness.unassignWork(idSettler);
         }
     }
@@ -164,7 +165,7 @@ export class BaseBusiness {
             data.building.addWarning(errors);
             return;
         }
-        Business.buildingBusiness.addItemInInventory({
+        data.building.addItemInInventory({
             id: data.building.id,
             item,
             taskId: data.taskId,

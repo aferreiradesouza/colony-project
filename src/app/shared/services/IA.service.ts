@@ -58,8 +58,8 @@ export class IAService {
                     job === Job.Builder &&
                     !!this.hasStructuresWaitingBuild
                 ) {
-                    if (settler.work.workInProgressId)
-                        this.unassignSettler(settler);
+                    // if (settler.work.workInProgressId)
+                    //     this.unassignSettler(settler);
                     this.jobBuilding(settler);
                     break;
                 }
@@ -129,34 +129,34 @@ export class IAService {
 
     private get hasStructuresWaitingBuild(): boolean {
         return Business.buildingBusiness.buildings.some(
-                (e) =>
-                    e.status !== 'done' &&
-                    !e.assignedTo &&
-                    e.jobToCreateStructure === Job.Builder
-                    // (e.requirements
-                    //     ? !e.requirements(this.baseBusiness, e)
-                    //     : true)
+                (building) =>
+                    building.status !== 'done' &&
+                    building.status !== 'paused' &&
+                    !building.assignedTo &&
+                    building.jobToCreateStructure === Job.Builder &&
+                    building.isValid
             );
     }
 
     private getStructureWaitingBuild(): Building | null {
         return (
             this.buildingBusiness.buildings.find(
-                (e) =>
-                    e.status !== 'done' &&
-                    !e.assignedTo &&
-                    e.jobToCreateStructure === Job.Builder
-                    // (e.requirements
-                    //     ? !e.requirements(this.baseBusiness, e)
-                    //     : true)
+                (building) =>
+                    building.status !== 'done' &&
+                    building.status !== 'paused' &&
+                    !building.assignedTo &&
+                    building.jobToCreateStructure === Job.Builder &&
+                    building.isValid
             ) ?? null
         );
     }
 
     private jobBuilding(settler: Settler): void {
         const building = this.getStructureWaitingBuild();
-        Business.settlersBusiness.assignWork(settler.id, building!.id, Job.Builder);
-        Business.buildingBusiness.assignSettler(settler, building!.id);
+        if (!building) return;
+        Business.settlersBusiness.assignWork(settler.id, building.id, Job.Builder);
+        Business.buildingBusiness.assignSettlerBuilding(settler, building);
+        Business.buildingBusiness.build(building, settler);
     }
 
     private checkStructuresHasJobWithTaskAvaible(job: Job): Building | null {

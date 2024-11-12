@@ -51,11 +51,11 @@ export class BuildingValidation {
 
         const woodNecessary =
             house.resources.find((e) => e.id === Items.Wood)!.amount -
-            (building.inventory.find((e) => e.type === Items.Wood)?.amount ??
+            (building.getItemInInventory(Items.Wood)?.amount ??
                 0);
         const stoneNecessary =
             house.resources.find((e) => e.id === Items.Stone)!.amount -
-            (building.inventory.find((e) => e.type === Items.Stone)?.amount ??
+            (building.getItemInInventory(Items.Stone)?.amount ??
                 0);
 
         if (!Business.storageBusiness.hasStorage)

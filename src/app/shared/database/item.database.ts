@@ -29,12 +29,12 @@ export class ItemDatabase {
             [Items?.Wood]: {
                 id: Items?.Wood,
                 name: 'Madeira',
-                weight: 5,
+                weight: 1.5,
             },
             [Items?.Stone]: {
                 id: Items?.Stone,
                 name: 'Pedra',
-                weight: 8,
+                weight: 2,
             },
         };
     }

@@ -5,12 +5,13 @@ import { Skill } from '../interface/enums/skill.enum';
 
 @Injectable({ providedIn: 'root' })
 export class EfficiencyBusiness {
-    static maxEfficiency = 150;
-    static minEfficiency = 50;
+    static maxEfficiency = 200;
+    static minEfficiency = 15;
     static defaultEfficiency = 100;
     static maxLevelSkill = 20;
     static defaultLevelSkill = 7;
     static minLevelSkill = 1;
+    static minMsCap = 100;
 
     constructor() {}
 
@@ -68,37 +69,14 @@ export class EfficiencyBusiness {
     }
 
     static calculateEfficiency(
-        baseTimeMs: number,
+        baseNumber: number,
         skill: Skill,
         settler: Settler,
-        invertLogicFromFaster = false
+        invertLogic = true
     ): number {
-        const hability = settler.skills.getSkill(skill);
-        const efficiency = EfficiencyBusiness.calculateEfficiencyWithPercent(
-            EfficiencyBusiness.calculate(hability),
-            invertLogicFromFaster
-        );
-        return baseTimeMs * efficiency;
-    }
-
-    static calculateEfficiencyWithPercent(
-        value: number,
-        invertLogicFromFaster: boolean
-    ): number {
-        if (invertLogicFromFaster) return value / 100;
-        if (value < EfficiencyBusiness.defaultEfficiency) {
-            return (
-                (EfficiencyBusiness.defaultEfficiency -
-                    value +
-                    EfficiencyBusiness.defaultEfficiency) /
-                100
-            );
-        } else {
-            return (
-                (EfficiencyBusiness.defaultEfficiency -
-                    (value - EfficiencyBusiness.defaultEfficiency)) /
-                100
-            );
-        }
+        const ability = settler.skills.getSkill(skill);
+        const efficiency = EfficiencyBusiness.calculate(ability) / 100;
+        const maxEfficiency = EfficiencyBusiness.maxEfficiency / 100;
+        return baseNumber * (invertLogic ? (maxEfficiency - efficiency) : efficiency);
     }
 }

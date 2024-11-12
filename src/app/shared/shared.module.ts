@@ -48,7 +48,7 @@ import { EfficiencyBusiness } from './business/efficiency.business';
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { InventoryShortcutTabComponent } from './components/shortcut-tabs/tabs/inventory-shortcut-tab/inventory-shortcut-tab.component';
 import { TaskBusiness } from './business/task.business';
-import { TaskProcessPipe } from './pipe/task-process.pipe';
+import { TaskProcessPipe } from './pipe/process.pipe';
 import { BiomePipe } from './pipe/biomes.pipe';
 
 function countdownConfigFactory(): CountdownConfig {

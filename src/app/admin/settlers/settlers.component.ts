@@ -33,7 +33,18 @@ export class SettlersComponent {
     }
 
     addCook(): void {
-        this.debugService.createSettlers(1, this.debugService.cook);
+        this.debugService.createSettlers(
+            1,
+            this.debugService.cook,
+            new Skills({
+                abilities: [
+                    { id: Skill.Cook, level: 15 },
+                    { id: Skill.Building, level: 9 },
+                    { id: Skill.Agility, level: 5 },
+                    { id: Skill.Strong, level: 15 }
+                ],
+            })
+        );
     }
 
     addBuilder(): void {
@@ -41,7 +52,11 @@ export class SettlersComponent {
             1,
             this.debugService.builder,
             new Skills({
-                abilities: [{ id: Skill.Building, level: 15 }],
+                abilities: [
+                    { id: Skill.Building, level: 15 },
+                    { id: Skill.Agility, level: 18 },
+                    { id: Skill.Strong, level: 10 }
+                ],
             })
         );
     }

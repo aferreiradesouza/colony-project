@@ -2,23 +2,36 @@ import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 import { Buildings } from 'src/app/shared/interface/enums/buildings.enum';
 import { Items } from 'src/app/shared/interface/enums/item.enum';
 import { Settler } from '../../settler/settler.model';
-import { Building, IBuilding } from '../building.model';
+import { Building, BuildingData } from '../building.model';
 import { Item } from './item.model';
+import { EfficiencyBusiness } from 'src/app/shared/business/efficiency.business';
+import { Skill } from 'src/app/shared/interface/enums/skill.enum';
 
 interface StorageData {
     inventory: Item[];
-    building?: IBuilding;
+    building?: BuildingData;
 }
 
-interface SettlersQueue {
+export interface SettlersQueue {
     settler: Settler;
-    dateTimeOrder: Date;
+    dateTimeOrder: number;
+    buildingOrder: Building;
+    order: Order;
+}
+
+export interface Order {
+    item: Items,
+    amount: number,
+    building: Building,
+    onDone: (success: boolean) => void,
 }
 
 export class Storage extends Building {
     public level = 1;
     public maxStorage = 100;
     public settlersQueue: SettlersQueue[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public executeOrderInterval: any;
 
     constructor(data: StorageData) {
         super(Storage.initializeBuildingData(data));
@@ -32,7 +45,7 @@ export class Storage extends Building {
      * @param data - The storage data.
      * @returns The initialized building data.
      */
-    private static initializeBuildingData(data: StorageData): IBuilding {
+    private static initializeBuildingData(data: StorageData): BuildingData {
         return data.building
             ? {
                   ...data.building,

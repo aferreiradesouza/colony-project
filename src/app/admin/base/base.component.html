@@ -14,6 +14,10 @@
             <div class="label">Tempo</div>
             <div>{{building.timeMs}}</div>
         </div>
+        <div class="item">
+            <div class="label">Processo</div>
+            <div>{{building.currentProcess | process}}</div>
+        </div>
         <div class="paragraph">Tasks:</div>
         <div class="add-task">
             <ng-container *ngFor="let task of building.tasksAllowed">
@@ -33,7 +37,7 @@
             </div>
             <div class="secondary-info">
                 <div class="status">Processo</div>
-                <div class="assignedTo">{{task.currentProcess | taskProcess}}</div>
+                <div class="assignedTo">{{task.currentProcess | process}}</div>
             </div>
             <div class="button-area">
                 <app-button [fullWidth]="true" label="Alternar" theme="info"
@@ -54,6 +58,18 @@
                 <div>{{inventory.type | item}}</div>
                 <div>{{inventory.amount}}</div>
             </div>
+        </div>
+        <div class="paragraph">Warnings:</div>
+        <div class="warning-area">
+            <div *ngFor="let warnings of building.warnings">
+                - {{warnings.message}}
+            </div>
+        </div>
+        <div class="add-task">
+            <app-button [fullWidth]="true" label="Pausar" theme="primary"
+                (clickEvent)="pauseBuilding(building)"></app-button>
+            <app-button [fullWidth]="true" label="Continuar" theme="success"
+                (clickEvent)="resume(building)"></app-button>
         </div>
     </div>
 </div>

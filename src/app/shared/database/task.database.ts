@@ -2,7 +2,7 @@ import { BaseBusiness } from '../business/base.business';
 import { EfficiencyBusiness } from '../business/efficiency.business';
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Items } from '../interface/enums/item.enum';
-import { ProcessTask } from '../interface/enums/process-task.enum';
+import { Process } from '../interface/enums/process.enum';
 import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Skill } from '../interface/enums/skill.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
@@ -23,7 +23,7 @@ export interface ITaskDatabase {
     resourceGenerated: TaskResourceGenerated[];
     efficiencyFn: (settler: Settler) => number;
     requirements?: (task: Task) => RequerimentsWarning;
-    processQueue: TaskProcessQueue[];
+    processQueue: ProcessQueue[];
 }
 
 export type RequerimentsWarning =
@@ -31,8 +31,8 @@ export type RequerimentsWarning =
     | null;
 export type TaskConsumption = { id: Items; amount: number };
 export type TaskResourceGenerated = { id: Items; amount: number };
-export type TaskProcessQueue = {
-    id: ProcessTask;
+export type ProcessQueue = {
+    id: Process;
     items?: { item: Items; amount: number }[];
     skill: Skill;
 };
@@ -56,17 +56,17 @@ export class TaskDatabase {
                 requirements: TaskValidation.requirementsSimpleMeal,
                 processQueue: [
                     {
-                        id: ProcessTask.TransportarDoDeposito,
+                        id: Process.TransportarDoDeposito,
                         skill: Skill.Strong,
                         // items: [{ item: Items.Meat, amount: 5 }],
                     },
                     {
-                        id: ProcessTask.Produzir,
+                        id: Process.Produzir,
                         skill: Skill.Cook,
                         // items: [{ item: Items.RefeicaoSimples, amount: 1 }],
                     },
                     {
-                        id: ProcessTask.TransportarParaDeposito,
+                        id: Process.TransportarParaDeposito,
                         skill: Skill.Strong,
                         // items: [{ item: Items.RefeicaoSimples, amount: 1 }],
                     },
@@ -86,17 +86,17 @@ export class TaskDatabase {
                 requirements: TaskValidation.requirementsCompleteMeal,
                 processQueue: [
                     {
-                        id: ProcessTask.TransportarDoDeposito,
+                        id: Process.TransportarDoDeposito,
                         skill: Skill.Strong,
                         items: [{ item: Items.Meat, amount: 10 }],
                     },
                     {
-                        id: ProcessTask.Produzir,
+                        id: Process.Produzir,
                         skill: Skill.Cook,
                         items: [{ item: Items.RefeicaoCompleta, amount: 1 }],
                     },
                     {
-                        id: ProcessTask.TransportarParaDeposito,
+                        id: Process.TransportarParaDeposito,
                         skill: Skill.Strong,
                         items: [{ item: Items.RefeicaoCompleta, amount: 1 }],
                     },
@@ -130,12 +130,12 @@ export class TaskDatabase {
                 requirements: TaskValidation.requirementStorage,
                 processQueue: [
                     {
-                        id: ProcessTask.Produzir,
+                        id: Process.Produzir,
                         skill: Skill.Strong,
                         items: [{ item: Items.Stone, amount: 10 }],
                     },
                     {
-                        id: ProcessTask.TransportarParaDeposito,
+                        id: Process.TransportarParaDeposito,
                         skill: Skill.Strong,
                         items: [{ item: Items.Stone, amount: 10 }],
                     },

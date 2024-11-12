@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Tasks } from '../interface/enums/tasks.enum';
-import { TaskDatabase, TaskProcessQueue } from '../database/task.database';
+import { TaskDatabase, ProcessQueue } from '../database/task.database';
 import { Task } from '../model/game/base/building/task.model';
 import { Building } from '../model/game/base/building/building.model';
 import { Items } from '../interface/enums/item.enum';
 import { EfficiencyBusiness } from './efficiency.business';
 import { Settler } from '../model/game/base/settler/settler.model';
 import { Business } from './business';
-import { ProcessTask } from '../interface/enums/process-task.enum';
+import { Process } from '../interface/enums/process.enum';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { Skill } from '../interface/enums/skill.enum';
 
@@ -133,15 +133,15 @@ export class TaskBusiness {
 
     startStepProcess(building: Building, task: Task, settler: Settler): void {
         switch (task.currentProcess) {
-            case ProcessTask.TransportarDoDeposito:
+            case Process.TransportarDoDeposito:
                 this.startGetItemFromStorageForTask(building, task, settler);
                 break;
 
-            case ProcessTask.Produzir:
+            case Process.Produzir:
                 this.produce(building, task, settler);
                 break;
 
-            case ProcessTask.TransportarParaDeposito:
+            case Process.TransportarParaDeposito:
                 this.startGetItemFromTaskToStorage(building, task, settler);
                 break;
 
@@ -173,8 +173,7 @@ export class TaskBusiness {
             task.timeLeft = timeWithEfficienty;
             if (task.consumption.length) {
                 task.consumption.forEach((e) => {
-                    Business.buildingBusiness.useMaterialInInventory(
-                        building,
+                    building.useMaterialInInventory(
                         e.id,
                         e.amount,
                         task.guid
@@ -361,8 +360,7 @@ export class TaskBusiness {
                 )
             ) {
                 task.resourceGenerated.forEach((e) => {
-                    Business.buildingBusiness.useMaterialInInventory(
-                        building,
+                    building.useMaterialInInventory(
                         e.id,
                         e.amount,
                         task.guid

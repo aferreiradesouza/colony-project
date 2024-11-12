@@ -4,13 +4,13 @@ import {
     RequerimentsWarning,
     ITaskDatabase,
     TaskDatabase,
-    TaskProcessQueue,
+    ProcessQueue,
 } from 'src/app/shared/database/task.database';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
 import { HelperService } from 'src/app/shared/services/helpers.service';
 import { Settler } from '../settler/settler.model';
 import { Items } from 'src/app/shared/interface/enums/item.enum';
-import { ProcessTask } from 'src/app/shared/interface/enums/process-task.enum';
+import { Process } from 'src/app/shared/interface/enums/process.enum';
 import { Skill } from 'src/app/shared/interface/enums/skill.enum';
 
 export class Task {
@@ -27,8 +27,8 @@ export class Task {
     public efficiencyFn: (settler: Settler) => number;
     public requirements?: (task: Task) => RequerimentsWarning;
     public warnings: RequerimentsWarning = [];
-    public currentProcess: ProcessTask = ProcessTask.None;
-    public processQueue: TaskProcessQueue[];
+    public currentProcess: Process = Process.None;
+    public processQueue: ProcessQueue[];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public startTaskInterval: any = null;
@@ -47,7 +47,7 @@ export class Task {
         available: boolean;
         consumption: TaskConsumption[];
         resourceGenerated: TaskResourceGenerated[];
-        currentProcess?: ProcessTask;
+        currentProcess?: Process;
         efficiencyFn: (settler: Settler) => number;
         requirements?: (task: Task) => RequerimentsWarning;
     }) {
@@ -64,7 +64,7 @@ export class Task {
         this.requirements = task.requirements;
         this.efficiencyFn = task.efficiencyFn;
         this.resourceGenerated = task.resourceGenerated;
-        this.currentProcess = data.currentProcess ?? ProcessTask.None;
+        this.currentProcess = data.currentProcess ?? Process.None;
         this.processQueue = task.processQueue;
     }
 
@@ -88,11 +88,11 @@ export class Task {
         return !!this.assignedTo;
     }
 
-    get currentProcessData(): TaskProcessQueue | undefined {
+    get currentProcessData(): ProcessQueue | undefined {
         return this.processQueue.find((e) => e.id === this.currentProcess);
     }
 
-    changeCurrentProcess(newProcess: ProcessTask): void {
+    changeCurrentProcess(newProcess: Process): void {
         this.currentProcess = newProcess;
     }
 }
