@@ -97,13 +97,13 @@ export class TaskBusiness {
     }
 
     canStartTask(task: Task, building: Building, settler: Settler): boolean {
-        const warnings = task.requirements && task.requirements(task);
-        if (warnings?.length) {
-            task.addWarning(warnings);
-            Business.baseBusiness.unassignSettler(building.id, settler.id);
-            this.stop(task);
-            return false;
-        }
+        // const warnings = task.requirements && task.requirements(task);
+        // if (warnings?.length) {
+        //     task.addWarning(warnings);
+        //     Business.baseBusiness.unassignSettler(building.id, settler.id);
+        //     this.stop(task);
+        //     return false;
+        // }
         return true;
     }
 

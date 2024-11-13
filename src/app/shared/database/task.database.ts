@@ -3,7 +3,7 @@ import { EfficiencyBusiness } from '../business/efficiency.business';
 import { Buildings } from '../interface/enums/buildings.enum';
 import { Items } from '../interface/enums/item.enum';
 import { Process } from '../interface/enums/process.enum';
-import { RequerimentsErrors } from '../interface/enums/requeriments-errors.enum';
+import { RequirimentsErrors } from '../interface/enums/requeriments-errors.enum';
 import { Skill } from '../interface/enums/skill.enum';
 import { Tasks } from '../interface/enums/tasks.enum';
 import { Building } from '../model/game/base/building/building.model';
@@ -22,13 +22,16 @@ export interface ITaskDatabase {
     consumption: TaskConsumption[];
     resourceGenerated: TaskResourceGenerated[];
     efficiencyFn: (settler: Settler) => number;
-    requirements?: (task: Task) => RequerimentsWarning;
+    requirements?: ((task: Task) => RequirimentsWarning)[];
     processQueue: ProcessQueue[];
 }
 
-export type RequerimentsWarning =
-    | { id: RequerimentsErrors; message: string }[]
-    | null;
+export interface Warning {
+    id: RequirimentsErrors;
+    message: string;
+}
+
+export type RequirimentsWarning = { [key in number]: string } | null;
 export type TaskConsumption = { id: Items; amount: number };
 export type TaskResourceGenerated = { id: Items; amount: number };
 export type ProcessQueue = {
@@ -53,22 +56,19 @@ export class TaskDatabase {
                 efficiencyFn: EfficiencyBusiness.Cook,
                 resourceGenerated: [{ id: Items.RefeicaoSimples, amount: 1 }],
                 consumption: [{ id: Items.Meat, amount: 5 }],
-                requirements: TaskValidation.requirementsSimpleMeal,
+                requirements: [TaskValidation.validateMeatRequirement, TaskValidation.storage],
                 processQueue: [
                     {
                         id: Process.TransportarDoDeposito,
                         skill: Skill.Strong,
-                        // items: [{ item: Items.Meat, amount: 5 }],
                     },
                     {
                         id: Process.Produzir,
                         skill: Skill.Cook,
-                        // items: [{ item: Items.RefeicaoSimples, amount: 1 }],
                     },
                     {
                         id: Process.TransportarParaDeposito,
                         skill: Skill.Strong,
-                        // items: [{ item: Items.RefeicaoSimples, amount: 1 }],
                     },
                 ],
             },
@@ -83,7 +83,7 @@ export class TaskDatabase {
                 efficiencyFn: EfficiencyBusiness.Cook,
                 resourceGenerated: [{ id: Items.RefeicaoCompleta, amount: 1 }],
                 consumption: [{ id: Items.Meat, amount: 10 }],
-                requirements: TaskValidation.requirementsCompleteMeal,
+                requirements: [TaskValidation.validateMeatRequirement, TaskValidation.storage],
                 processQueue: [
                     {
                         id: Process.TransportarDoDeposito,
@@ -113,7 +113,7 @@ export class TaskDatabase {
                 efficiencyFn: EfficiencyBusiness.Strong,
                 resourceGenerated: [{ id: Items.Wood, amount: 10 }],
                 consumption: [],
-                requirements: TaskValidation.requirementStorage,
+                requirements: [TaskValidation.storage],
                 processQueue: [],
             },
             [Tasks?.ObterPedra]: {
@@ -127,7 +127,7 @@ export class TaskDatabase {
                 efficiencyFn: EfficiencyBusiness.Strong,
                 resourceGenerated: [{ id: Items.Stone, amount: 10 }],
                 consumption: [],
-                requirements: TaskValidation.requirementStorage,
+                requirements: [TaskValidation.storage],
                 processQueue: [
                     {
                         id: Process.Produzir,
@@ -152,7 +152,7 @@ export class TaskDatabase {
                 efficiencyFn: EfficiencyBusiness.Shoot,
                 resourceGenerated: [{ id: Items.Meat, amount: 7 }],
                 consumption: [],
-                requirements: TaskValidation.requirementStorage,
+                requirements: [TaskValidation.storage],
                 processQueue: [],
             },
         };

@@ -7,8 +7,7 @@ import {
 import { HelperService } from '../../../../services/helpers.service';
 import { Task } from './task.model';
 import { Items } from 'src/app/shared/interface/enums/item.enum';
-import { RequerimentsWarning, ProcessQueue } from 'src/app/shared/database/task.database';
-import { BaseBusiness } from 'src/app/shared/business/base.business';
+import { RequirimentsWarning, ProcessQueue, Warning } from 'src/app/shared/database/task.database';
 import { Item } from './storage/item.model';
 import { Biomes } from 'src/app/shared/interface/enums/biomes.enum';
 import { Tasks } from 'src/app/shared/interface/enums/tasks.enum';
@@ -46,18 +45,19 @@ export class Building {
     public biome: Biomes;
     public tasks: Task[] = [];
     public inventory: Array<Item>;
-    public warnings: RequerimentsWarning = [];
+    public warnings: Warning[] = [];
     public resources: BuildingResource[] = [];
     public currentProcess?: Process;
     public processQueue: ProcessQueue[] = [];
-    public requirements?: (
+    public requirements?: ((
         building: Building
-    ) => RequerimentsWarning;
+    ) => RequirimentsWarning)[] = [];
+    private errors: RequirimentsWarning = null;
 
     public buildingDone = new EventEmitter<Building>();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public getItemFromStorageInterval: any = null;
+    public getItemFromStorageTimeout: any = null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public buildInterval: any = null;
 
@@ -85,7 +85,7 @@ export class Building {
                     new Task({
                         ...e,
                         consumption: e.consumption ?? [],
-                        assignedTo: null,
+                        assignedTo: null
                     })
             ) ?? [];
     }
@@ -100,13 +100,33 @@ export class Building {
         return BuildingDatabase.getBuildingById(id);
     }
 
+    public get hasRequirements(): boolean {
+        return !!(this.requirements && this.requirements.length > 0);
+    }
+
     /**
      * Adds a warning to the building model.
-     *
-     * @param errors - The warning(s) to be added. If null or undefined, an empty array will be assigned.
+     * 
+     * @param errors - The warning to be added, represented by a `RequirimentsWarning` object.
      */
-    public addWarning(errors: RequerimentsWarning): void {
-        this.warnings = errors ?? [];
+    public addWarning(errors: RequirimentsWarning): void {
+        this.warnings = this.warningsToArray(errors);
+    }
+
+    /**
+     * Converts a `RequirimentsWarning` object to an array of `Warning` objects.
+     * Each entry in the `RequirimentsWarning` object is transformed into a `Warning` object
+     * with `id` and `message` properties.
+     *
+     * @param errors - The `RequirimentsWarning` object containing warning messages.
+     * @returns An array of `Warning` objects. If the input is null or undefined, returns an empty array.
+     */
+    private warningsToArray(errors: RequirimentsWarning): Warning[] {
+        if (!errors) return [];
+        return Object.entries(errors).map(([id, message]) => ({
+            id: parseInt(id),
+            message,
+        }));
     }
 
     /**
@@ -133,21 +153,39 @@ export class Building {
      * @returns {boolean} - Returns `true` if there are no requirements or if all requirements are met, otherwise returns `false`.
      */
     get isValid(): boolean {
-        return this.requirements ? !this.requirements(this)?.length : true;
+        return !this.errors;
     }
 
     /**
-     * Executes the necessary validations for the building model.
-     * It adds warnings based on the requirements of the building.
-     * 
+     * Executes the validation functions defined in the `requirements` array.
+     * If there are no requirements or the requirements array is empty, it adds a warning with `null`.
+     * Otherwise, it iterates through each validation function, collects any errors, and adds them as warnings.
+     *
      * @remarks
-     * This method checks if there are any requirements for the building.
-     * If requirements are present, it evaluates them and adds the resulting warnings.
-     * 
-     * @returns {void}
+     * - The `requirements` property is expected to be an array of functions that take the current instance as an argument and return an error object if validation fails.
+     * - The `addWarning` method is called with the collected errors or `null` if no requirements are present.
      */
     executeValidations(): void {
-        this.addWarning(this.requirements ? this.requirements(this) : []);
+        if(!this.requirements || (this.requirements && !this.requirements?.length)) {
+            this.addWarning(null);
+            return;
+        }
+        let errors: RequirimentsWarning = null;
+        this.requirements.forEach(fn => {
+            const currentError = fn(this);
+            if (currentError) {
+                errors = {
+                    ...(errors ?? {}),
+                    ...currentError,
+                };
+            }
+        });
+        this.errors = errors;
+        if (errors) {
+            this.addWarning(errors);
+        } else {
+            this.clearWarning();
+        }
     }
 
     /**

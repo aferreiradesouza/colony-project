@@ -12,7 +12,7 @@ import {
     BuildingResource,
 } from '../model/game/base/building/building.model';
 import { BuildingValidation } from '../validation/building.validation';
-import { ITaskDatabase, RequerimentsWarning, ProcessQueue } from './task.database';
+import { ITaskDatabase, RequirimentsWarning, ProcessQueue } from './task.database';
 
 export interface IBuildingDatabase {
     id: Buildings;
@@ -27,9 +27,9 @@ export interface IBuildingDatabase {
     tasksAllowed?: Tasks[];
     processQueue: ProcessQueue[];
     currentProcess?: Process;
-    requirements?: (
+    requirements?: ((
         building: Building
-    ) => RequerimentsWarning;
+    ) => RequirimentsWarning)[];
 }
 
 export class BuildingDatabase {
@@ -61,7 +61,7 @@ export class BuildingDatabase {
                 timeForWork: 1000,
                 name: 'Casa',
                 biomesAllowed: [Biomes.Lake],
-                requirements: BuildingValidation.requirementsHouse,
+                requirements: [BuildingValidation.storage, BuildingValidation.stone, BuildingValidation.wood],
                 resources: [
                     { id: Items.Wood, amount: 200 },
                     { id: Items.Stone, amount: 200 },
@@ -86,7 +86,7 @@ export class BuildingDatabase {
                 timeForWork: 1000,
                 name: 'Cozinha',
                 biomesAllowed: [Biomes.Lake],
-                requirements: BuildingValidation.requirementsHouse,
+                requirements: [BuildingValidation.storage, BuildingValidation.stone, BuildingValidation.wood],
                 resources: [
                     { id: Items.Wood, amount: 200 },
                     { id: Items.Stone, amount: 200 },
@@ -110,7 +110,7 @@ export class BuildingDatabase {
                 timeForWork: 1000,
                 name: 'Fazenda',
                 biomesAllowed: [Biomes.Lake],
-                requirements: BuildingValidation.requirementsHouse,
+                requirements: [BuildingValidation.storage, BuildingValidation.wood],
                 resources: [{ id: Items.Wood, amount: 100 }],
                 processQueue: [
                     {
@@ -131,7 +131,7 @@ export class BuildingDatabase {
                 timeForWork: 1000,
                 name: 'Fábrica',
                 biomesAllowed: [Biomes.Lake],
-                requirements: BuildingValidation.requirementsHouse,
+                requirements: [BuildingValidation.storage, BuildingValidation.wood],
                 resources: [{ id: Items.Wood, amount: 100 }],
                 processQueue: [
                     {

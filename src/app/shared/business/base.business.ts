@@ -4,7 +4,7 @@ import { Tasks } from '../interface/enums/tasks.enum';
 import { Building } from '../model/game/base/building/building.model';
 import { Task } from '../model/game/base/building/task.model';
 import { LogService } from '../services/log.service';
-import { RequerimentsWarning } from '../database/task.database';
+import { RequirimentsWarning } from '../database/task.database';
 import { Item } from '../model/game/base/building/storage/item.model';
 import { HelperService } from '../services/helpers.service';
 import { Business } from './business';
@@ -121,10 +121,6 @@ export class BaseBusiness {
         Business.taskBusiness.enableTaskOfBuilding(task);
     }
 
-    addWarningTask(task: Task, errors: RequerimentsWarning): void {
-        task.warnings = errors ?? [];
-    }
-
     doneBuilding(data: { id: string; idSettler: string }): void {
         LogService.add('Construção finalizada');
         Business.settlersBusiness.unassignWork(data.idSettler);
@@ -152,17 +148,12 @@ export class BaseBusiness {
         const item = Business.storageBusiness.getResource(data.id, data.amount);
         if (item && data.taskId) item.taskId = data.taskId;
         if (!item) {
-            const errors =
-                (data.building.requirements &&
-                    data.building.requirements(data.building)) ??
-                [];
-            clearInterval(data.building.getItemFromStorageInterval);
+            data.building.executeValidations();
             if (data.building.assignedTo)
                 this.unassignSettler(
                     data.building.id,
                     data.building.assignedTo!
                 );
-            data.building.addWarning(errors);
             return;
         }
         data.building.addItemInInventory({

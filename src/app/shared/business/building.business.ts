@@ -163,12 +163,12 @@ export class BuildingBusiness extends Business {
     private startOrderFromStorage(building: Building, settler: Settler, time: number): void {
         let onResolveOrder: (() => void) | undefined = undefined;
         let onRejectOrder: (() => void) | undefined = undefined;
-        const promiseOfOrder = new Promise((resolve, reject) => {
+        const orderPromise = new Promise((resolve, reject) => {
             onResolveOrder = resolve as (() => void);
             onRejectOrder = reject as (() => void);
         });
         this.createOrder(building, settler, time, onResolveOrder, onRejectOrder);
-        promiseOfOrder.then(() => {
+        orderPromise.then(() => {
             if (this.inventoryHasNecessaryMaterials(building)) {
                 building.changeCurrentProcess(Process.Construir);
                 this.startStepProcess(building, settler);
@@ -178,7 +178,7 @@ export class BuildingBusiness extends Business {
                 }
             }
         }).catch(() => {
-            LogService.add(`Error getting item from storage for building ${building.id} and settler ${settler.id}`);
+            LogService.add(`Error: Failed to retrieve item from storage for building ID: ${building.id}, Settler ID: ${settler.id}`);
         });
     }
 
@@ -192,7 +192,7 @@ export class BuildingBusiness extends Business {
      * @param rejectOrder - An optional callback function to be called if the order is rejected or fails.
      */
     private createOrder(building: Building, settler: Settler, time: number, resolveOrder: (() => void) | undefined, rejectOrder: (() => void) | undefined): void {
-        setTimeout(() => {
+        building.getItemFromStorageTimeout = setTimeout(() => {
             this.whichItemWillPickUp(building, settler, resolveOrder, rejectOrder );
         }, time);
     }
@@ -232,7 +232,7 @@ export class BuildingBusiness extends Business {
      * @returns {void}
      */
     done(building: Building): void {
-        building.currentProcess = Process.None;
+        building.changeCurrentProcess(Process.None);
         building.timeMs = 0;
         building.percent = 100;
         this.changeStatus(building, 'done');
@@ -272,7 +272,10 @@ export class BuildingBusiness extends Business {
      * @returns {void}
      */
     stop(building: Building): void {
-        if (building.status !== 'done') this.changeStatus(building, 'stopped');
+        if (building.status !== 'done') {
+            clearTimeout(building.getItemFromStorageTimeout);
+            this.changeStatus(building, 'stopped');
+        }
     }
 
     /**
@@ -286,6 +289,7 @@ export class BuildingBusiness extends Business {
         }
         building.assignedTo = null;
         if (building.status !== 'done') this.changeStatus(building, 'paused');
+        clearTimeout(building.getItemFromStorageTimeout);
         clearInterval(building.buildInterval);
     }
 

@@ -1,4 +1,6 @@
-export enum RequerimentsErrors {
-    NoStorage,
-    InsufficientResource,
+export enum RequirimentsErrors {
+    NoStorageAvailable,
+    InsufficientStones,
+    InsufficientWoods,
+    InsufficientMeats,
 }

@@ -21,8 +21,8 @@ export class IAService {
 
     public start(): void {
         setInterval(() => {
-            this.checkSettlersPriorities();
             this.verifyBuildingsRequeriments();
+            this.checkSettlersPriorities();
         }, 500);
     }
 
@@ -30,14 +30,11 @@ export class IAService {
         Business.buildingBusiness.buildings.forEach((building) => {
             if (
                 building.status !== 'done' &&
+                building.status !== 'paused' &&
                 building.status !== 'building' &&
-                building.requirements
+                building.hasRequirements
             ) {
-                const errors = building.requirements(
-                    building
-                );
-                if (errors?.length) building.addWarning(errors);
-                else building.clearWarning();
+                building.executeValidations();
             }
         });
     }
@@ -154,9 +151,16 @@ export class IAService {
     private jobBuilding(settler: Settler): void {
         const building = this.getStructureWaitingBuild();
         if (!building) return;
+        building.executeValidations();
+        if (!building.isValid) return;
         Business.settlersBusiness.assignWork(settler.id, building.id, Job.Builder);
         Business.buildingBusiness.assignSettlerBuilding(settler, building);
         Business.buildingBusiness.build(building, settler);
+    }
+
+    private unassignSettlerBuilding(settler: Settler, building: Building): void {
+        Business.settlersBusiness.unassignWork(settler.id);
+        Business.buildingBusiness.unassignSettlerToBuilding(building);
     }
 
     private checkStructuresHasJobWithTaskAvaible(job: Job): Building | null {
@@ -167,10 +171,10 @@ export class IAService {
                     e.tasks.filter(
                         (task) =>
                             !task.assignedTo &&
-                            task.available &&
-                            (task.requirements
-                                ? !task.requirements(task)
-                                : true)
+                            task.available
+                            // (task.requirements
+                            //     ? !task.requirements(task)
+                            //     : true)
                     ).length &&
                     e.jobNecessary === job
             ) ?? null

@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
+import { List } from 'lodash';
 
 @Injectable({ providedIn: 'root' })
 export class HelperService {
@@ -19,5 +21,9 @@ export class HelperService {
                 [s: string]: unknown;
             }
         ).filter((v) => isNaN(Number(v))) as Array<keyof T>;
+    }
+
+    public static uniqBy<T>(data: T, property: string): T {
+        return _.uniqBy((data as List<T> | null | undefined), property) as T;
     }
 }
